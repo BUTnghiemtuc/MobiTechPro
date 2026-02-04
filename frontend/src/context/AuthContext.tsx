@@ -6,7 +6,7 @@ interface User {
   id: string;
   username: string;
   email?: string;
-  role?: string;
+  role: 'Customer' | 'Staff' | 'Admin'; // Explicitly define roles
 }
 
 interface AuthContextType {
@@ -49,9 +49,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const response = await api.post('/auth/login', { username, password });
       // Assuming response.data contains { accessToken: string, user: User }
       // Adjust based on your actual API response structure
-      const { accessToken, user } = response.data; // Change 'accessToken' to 'token' if backend uses that
+      const { token, user } = response.data; 
 
-      localStorage.setItem('token', accessToken);
+      localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
       
       setIsAuthenticated(true);

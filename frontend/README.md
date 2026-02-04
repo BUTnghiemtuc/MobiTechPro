@@ -35,7 +35,14 @@ Trước khi bắt đầu, hãy đảm bảo máy tính của bạn đã cài đ
     npm install
     ```
 
-3.  **Khởi chạy môi trường phát triển (Development):**
+3.  **Cấu hình biến môi trường:**
+    *   Tạo file `.env` tại thư mục gốc `frontend` (bạn có thể copy từ `.env.example`).
+    *   Thêm nội dung sau (nếu chưa có):
+        ```env
+        VITE_API_BASE_URL=http://localhost:3000/api
+        ```
+
+4.  **Khởi chạy môi trường phát triển (Development):**
 
     ```bash
     npm run dev

@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
+import multer from "multer";
 
 export interface AuthRequest extends Request {
   user?: any;
+  file?: Express.Multer.File;
 }
 
 export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): void => { // Explicitly return void

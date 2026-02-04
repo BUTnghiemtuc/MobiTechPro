@@ -29,4 +29,8 @@ export const cartService = {
     const response = await api.post<Order>('/orders', { address });
     return response.data;
   },
+
+  removeFromCart: async (cartItemId: number) => {
+    return await api.delete(`/cart/${cartItemId}`);
+  }
 };

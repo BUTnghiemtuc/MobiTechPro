@@ -15,10 +15,13 @@ const HomePage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [searchInput, setSearchInput] = useState('');
 
+  // 👇 Hằng số URL Backend (Nên đưa vào file config chung sau này)
+  const API_BASE_URL = 'http://localhost:3000';
+
   const fetchProducts = async (currentPage: number, search: string) => {
     setLoading(true);
     try {
-      const response = await productService.getProducts(currentPage, 12, search); // Limit 12 for grid
+      const response = await productService.getProducts(currentPage, 12, search); 
       setProducts(response.data);
       setTotalPages(response.pagination.totalPages);
     } catch (error) {
@@ -36,7 +39,7 @@ const HomePage = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setKeyword(searchInput);
-    setPage(1); // Reset to page 1 on new search
+    setPage(1); 
   };
 
   const handleAddToCart = async (product: Product) => {
@@ -56,14 +59,23 @@ const HomePage = () => {
   };
 
   const handleCreateProduct = () => {
-    // TODO: Implement create product navigation or modal
-    toast.info('Create Product clicked');
+    // ✅ FIX: Chuyển hướng sang trang tạo mới thay vì chỉ hiện Toast
+    navigate('/admin/products/new');
   };
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
+      // Scroll lên đầu trang cho trải nghiệm tốt hơn
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  };
+
+  // ✅ Helper để lấy URL ảnh an toàn
+  const getImageUrl = (url?: string) => {
+    if (!url) return '';
+    if (url.startsWith('http')) return url; // Nếu là ảnh online
+    return `${API_BASE_URL}${url}`; // Nếu là ảnh từ server mình
   };
 
   return (
@@ -86,7 +98,8 @@ const HomePage = () => {
           </button>
         </form>
 
-        {user?.role === 'Staff' && (
+        {/* ✅ FIX: Kiểm tra quyền Admin/Staff */}
+        {(user?.role === 'Staff' || user?.role === 'Admin') && (
           <button
             onClick={handleCreateProduct}
             className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
@@ -103,17 +116,23 @@ const HomePage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product) => (
             <div key={product.id} className="bg-white border rounded-xl shadow-sm hover:shadow-md transition overflow-hidden flex flex-col">
-              <div className="h-48 bg-gray-200 w-full object-cover">
+              <div className="h-48 bg-gray-200 w-full relative group">
                 {product.image_url ? (
                   <img
-                    src={product.image_url}
+                    // ✅ FIX: Dùng hàm getImageUrl để nối domain Backend
+                    src={getImageUrl(product.image_url)}
                     alt={product.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    onError={(e) => {
+                        // Fallback nếu ảnh lỗi
+                        e.currentTarget.src = 'https://via.placeholder.com/300?text=No+Image';
+                    }}
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full text-gray-500">No Image</div>
                 )}
               </div>
+              
               <div className="p-4 flex flex-col flex-grow">
                 <h3 className="font-semibold text-lg mb-2 truncate" title={product.title}>
                   {product.title}
@@ -121,19 +140,30 @@ const HomePage = () => {
                 <p className="text-gray-600 font-bold mb-4">
                   ${typeof product.price === 'string' ? parseFloat(product.price).toFixed(2) : product.price.toFixed(2)}
                 </p>
-                <button
-                  onClick={() => handleAddToCart(product)}
-                  className="mt-auto w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-                >
-                  Add to Cart
-                </button>
+                <div className="mt-auto space-y-2">
+                    <button
+                    onClick={() => handleAddToCart(product)}
+                    className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+                    >
+                    Add to Cart
+                    </button>
+                    {/* Nếu là Staff/Admin thì hiện nút Edit nhanh */}
+                    {(user?.role === 'Staff' || user?.role === 'Admin') && (
+                        <button
+                            onClick={() => navigate(`/admin/products/${product.id}`)}
+                            className="w-full border border-gray-300 text-gray-700 py-1 rounded-lg hover:bg-gray-50 text-sm"
+                        >
+                            Edit Product
+                        </button>
+                    )}
+                </div>
               </div>
             </div>
           ))}
         </div>
       )}
 
-      {/* Pagination */}
+      {/* Pagination (Giữ nguyên logic của bạn) */}
       {!loading && products.length > 0 && (
         <div className="flex justify-center items-center mt-8 gap-4">
           <button
