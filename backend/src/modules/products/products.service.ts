@@ -36,4 +36,17 @@ export class ProductsService {
     });
     return await productRepository.save(product);
   }
+
+  static async update(id: number, data: Partial<Product>) {
+    await productRepository.update(id, data);
+    return await productRepository.findOneBy({ id });
+  }
+
+  static async findOne(id: number) {
+    return await productRepository.findOne({ where: { id }, relations: ["tags"] });
+  }
+
+  static async delete(id: number) {
+    return await productRepository.delete(id);
+  }
 }

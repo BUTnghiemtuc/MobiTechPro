@@ -6,6 +6,7 @@ import { Order } from "../orders/orders.entity";
 export enum UserRole {
   CUSTOMER = "Customer",
   STAFF = "Staff",
+  ADMIN = "Admin",
 }
 
 @Entity({ name: 'Users' })
