@@ -9,20 +9,31 @@ export interface AuthRequest extends Request {
 
 export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): void => { // Explicitly return void
   const authHeader = req.headers.authorization;
+  // console.log("Auth Header:", authHeader);
 
   if (!authHeader) {
-    res.status(401).json({ message: "No token provided" });
+    console.log("No auth header");
+    res.status(401).json({ message: "No token provided in header" });
     return;
   }
 
-  const token = authHeader.split(" ")[1];
+  // Handle both "Bearer <token>" and just "<token>"
+  const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : authHeader;
+
+  if (!token) {
+    console.log("Token is empty");
+    res.status(401).json({ message: "Token format invalid" });
+    return;
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "mobi_tech_secret");
     req.user = decoded;
     next();
-  } catch (error) {
-    res.status(401).json({ message: "Invalid token" });
+  } catch (error: any) {
+    console.error("verify error:", error.message);
+    // Return specific error message to help debugging
+    res.status(401).json({ message: `Invalid token: ${error.message}` });
     return;
   }
 };

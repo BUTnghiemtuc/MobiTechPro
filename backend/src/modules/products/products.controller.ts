@@ -8,8 +8,9 @@ export class ProductsController {
       const page = parseInt(req.query.page as string) || 1;
       const limit = parseInt(req.query.limit as string) || 10;
       const title = req.query.title ? String(req.query.title) : undefined;
+      const tag = req.query.tag ? String(req.query.tag) : undefined;
 
-      const result = await ProductsService.findAll(page, limit, title);
+      const result = await ProductsService.findAll(page, limit, title, tag);
       res.json(result);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
@@ -35,7 +36,8 @@ export class ProductsController {
       
       const productData = req.body;
       if (req.file) {
-        productData.image_url = `/uploads/${req.file.filename}`;
+        // Cloudinary returns the full URL in req.file.path
+        productData.image_url = req.file.path;
       }
 
       const product = await ProductsService.create(productData, req.user.userId);
@@ -51,7 +53,8 @@ export class ProductsController {
       
       const productData = req.body;
       if (req.file) {
-        productData.image_url = `/uploads/${req.file.filename}`;
+        // Cloudinary returns the full URL in req.file.path
+        productData.image_url = req.file.path;
       }
 
       const product = await ProductsService.update(id, productData);
