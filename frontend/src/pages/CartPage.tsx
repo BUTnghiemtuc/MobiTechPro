@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { cartService, type CartItem } from '../services/cart.service';
+import { orderService } from '../services/order.service';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -76,18 +77,14 @@ const CartPage = () => {
         
         setRemovingId(cartItemId);
         try {
-            // Giả sử cartService có hàm remove. Nếu chưa có bạn cần thêm vào service nhé!
-            // await cartService.removeFromCart(cartItemId); 
-            
-            // Tạm thời mình lọc ở client để demo hiệu ứng
-            const newItems = cartItems.filter(item => item.id !== cartItemId);
-            setCartItems(newItems);
-            
-            toast.success("Item removed");
-            
             // TODO: Gọi API backend thực tế ở đây
-             await cartService.removeFromCart(cartItemId); // Mở comment này khi service đã có hàm
-             fetchCart(); // Load lại cho chắc
+             await cartService.removeFromCart(cartItemId); 
+             // Tạm thời mình lọc ở client để demo hiệu ứng
+             const newItems = cartItems.filter(item => item.id !== cartItemId);
+             setCartItems(newItems);
+             
+             toast.success("Item removed");
+             // fetchCart(); // Load lại cho chắc
              
         } catch (error) {
             toast.error("Failed to remove item");
@@ -105,10 +102,11 @@ const CartPage = () => {
         setCheckingOut(true);
         try {
             const address = "Hanoi, Vietnam"; 
-            await cartService.checkout(address);
+            await orderService.createOrder(address);
+            
             toast.success('Order placed successfully!');
-            setCartItems([]); // Clear giỏ hàng local
-            navigate('/orders'); // Nên chuyển hướng sang trang lịch sử đơn hàng
+            setCartItems([]); // Clear giỏ hàng local (Backend đã clear rồi)
+            navigate('/my-orders'); // Chuyển hướng sang trang My Orders
         } catch (error: any) {
             console.error('Checkout failed', error);
             toast.error(error.response?.data?.message || 'Checkout failed');

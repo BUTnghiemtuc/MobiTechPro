@@ -23,4 +23,15 @@ export class CartController {
       res.status(500).json({ message: error.message });
     }
   }
+
+  static async removeFromCart(req: AuthRequest, res: Response) {
+    try {
+      const userId = req.user!.userId;
+      const { id } = req.params;
+      await CartService.deleteCartItem(Number(id), userId);
+      res.json({ message: "Item removed from cart" });
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 }

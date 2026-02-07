@@ -33,4 +33,4 @@ export const cartService = {
   removeFromCart: async (cartItemId: number) => {
     return await api.delete(`/cart/${cartItemId}`);
   }
-};
+};      

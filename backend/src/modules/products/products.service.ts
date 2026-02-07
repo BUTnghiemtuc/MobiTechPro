@@ -6,17 +6,28 @@ import { User } from "../users/users.entity";
 const productRepository = AppDataSource.getRepository(Product);
 
 export class ProductsService {
-  static async findAll(page: number = 1, limit: number = 10, title?: string) {
+  static async findAll(page: number = 1, limit: number = 10, title?: string, tagName?: string) {
     const skip = (page - 1) * limit;
-    const whereCondition = title ? { title: Like(`%${title}%`) } : {};
+    
+    // Start building the query builder
+    const queryBuilder = productRepository.createQueryBuilder("product")
+      .leftJoinAndSelect("product.tags", "tag") // Load tags relation
+      .orderBy("product.created_at", "DESC")       
+      .skip(skip)
+      .take(limit);
 
-    const [products, total] = await productRepository.findAndCount({
-      where: whereCondition,
-      relations: ["tags"], // Load tags if needed
-      skip,
-      take: limit,
-      order: { created_at: "DESC" },
-    });
+    if (title) {
+        queryBuilder.andWhere(
+            "(LOWER(product.title) LIKE LOWER(:title) OR LOWER(tag.name) LIKE LOWER(:title))",
+            { title: `%${title}%` }
+        );
+    }
+
+    if (tagName) {
+        queryBuilder.andWhere("tag.name = :tagName", { tagName });
+    }
+
+    const [products, total] = await queryBuilder.getManyAndCount();
 
     return {
       data: products,

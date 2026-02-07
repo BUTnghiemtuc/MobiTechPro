@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { productService } from '../../services/product.service';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
+import TagInput from '../../components/TagInput';
 
 const ProductEditor = () => {
   const { id } = useParams();
@@ -13,9 +14,10 @@ const ProductEditor = () => {
     title: '',
     description: '',
     price: 0,
-    quantity: 0, // ✅ Đã có quantity
+    quantity: 0,
     image_url: '',
   });
+  const [tags, setTags] = useState<any[]>([]); // State for selected tags
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const [loading, setLoading] = useState(false);
@@ -34,11 +36,16 @@ const ProductEditor = () => {
          title: data.title,
          description: data.description,
          price: Number(data.price),
-         quantity: Number(data.quantity), // ✅ Load quantity từ API
+         quantity: Number(data.quantity),
          image_url: data.image_url || ''
       });
+      // Set existing tags
+      if (data.tags) {
+          setTags(data.tags);
+      }
+
       if (data.image_url) {
-        setPreviewUrl(`http://localhost:3000${data.image_url}`);
+        setPreviewUrl(data.image_url.startsWith('http') ? data.image_url : `http://localhost:3000${data.image_url}`);
       }
     } catch (error) {
        console.error("❌ Lỗi tải sản phẩm:", error);
@@ -53,7 +60,6 @@ const ProductEditor = () => {
     
     let newValue: any = value;
     
-    // ✅ FIX LỖI NaN cho cả Price và Quantity
     if (name === 'price' || name === 'quantity') {
         newValue = value === '' ? '' : parseFloat(value);
     }
@@ -86,6 +92,41 @@ const ProductEditor = () => {
     }
   };
 
+  const saveTags = async (productId: number) => {
+      // 1. Get current tags of product (if edit mode) or empty (if new)
+      // Since we don't have a "bulk sync" API, we can just "assign" all selected tags.
+      // Our backend "assign" API checks for duplicates, so it's safe to call.
+      // However, to support REMOVING tags, implementation is trickier with just "assign".
+      // A proper solution requires a sync or manually diffing.
+      
+      // For testing/MVP: We will just Iterate and Assign all selected. 
+      // AND we need to handle removed tags.
+      
+      // Let's implement a simple "Sync" logic here if we can.
+      // But first, let's just make ADDING work so user can test "Autocomplete" and "Create New".
+      // Removing is a nice to have but let's focus on adding first as requested.
+      // Or... since we have the list, let's just call assign for everyone.
+      
+      // Better strategy:
+      // If we are in Edit mode, we should fetch fresh tags then compare.
+      // For now, let's just loop and assign all selected tags.
+      
+      const token = localStorage.getItem("token");
+      
+      if (tags.length > 0) {
+          await Promise.all(tags.map(tag => 
+              fetch('http://localhost:3000/api/tags/assign', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${token}`
+                  },
+                  body: JSON.stringify({ productId, tagId: tag.id })
+              })
+          ));
+      }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -94,7 +135,6 @@ const ProductEditor = () => {
       const submitData = new FormData();
       submitData.append('title', formData.title);
       submitData.append('description', formData.description);
-      // ✅ Xử lý an toàn khi gửi số
       submitData.append('price', (formData.price || 0).toString());
       submitData.append('quantity', (formData.quantity || 0).toString());
       
@@ -102,7 +142,7 @@ const ProductEditor = () => {
         submitData.append('image', selectedFile);
       }
 
-      console.log("🚀 Sending data...");
+      let productId = Number(id);
 
       if (isEditMode && id) {
         await api.put(`/products/${id}`, submitData, {
@@ -110,11 +150,18 @@ const ProductEditor = () => {
         });
         toast.success('Product updated successfully');
       } else {
-        await api.post('/products', submitData, {
+        const res = await api.post('/products', submitData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
+        productId = res.data.id; // Get the new product ID
         toast.success('Product created successfully');
       }
+
+      // Save Tags
+      if (productId) {
+          await saveTags(productId);
+      }
+
       navigate('/admin/products');
     } catch (error: any) {
       console.error("❌ Submit Error:", error);
@@ -122,7 +169,6 @@ const ProductEditor = () => {
           if(error.response.status === 403) {
               toast.error("⛔ Bạn không có quyền (Cần Admin/Staff)");
           } else {
-              // Hiển thị lỗi cụ thể từ Backend (như lỗi thiếu quantity)
               toast.error(`Lỗi: ${error.response.data.message || 'Failed to save'}`);
           }
       } else {
@@ -134,103 +180,130 @@ const ProductEditor = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-6">{isEditMode ? 'Edit Product' : 'Create New Product'}</h2>
-      
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Title */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Product Title</label>
-          <input
-            type="text"
-            name="title"
-            required
-            value={formData.title}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
+    <div className="max-w-4xl mx-auto">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
+          {isEditMode ? 'Edit Product' : 'New Product'}
+        </h1>
+        <p className="text-slate-500 text-sm">Add or update product information</p>
+      </div>
 
-        <div className="grid grid-cols-2 gap-4">
-            {/* Price */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Price ($)</label>
-              <input
-                type="number"
-                name="price"
-                required
-                min="0"
-                step="0.01"
-                value={formData.price} 
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+        <div className="space-y-6">
+          {/* Title */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Product Title</label>
+            <input
+              type="text"
+              name="title"
+              required
+              placeholder="e.g. iPhone 15 Pro Max"
+              value={formData.title}
+              onChange={handleChange}
+              className="w-full rounded-lg border-slate-200 border p-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-shadow"
+            />
+          </div>
 
-            {/* ✅ Ô NHẬP QUANTITY (MỚI THÊM) */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Quantity (Stock)</label>
-              <input
-                type="number"
-                name="quantity"
-                required
-                min="0"
-                step="1"
-                value={formData.quantity} 
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Price */}
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Price ($)</label>
+                <input
+                  type="number"
+                  name="price"
+                  required
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                  value={formData.price} 
+                  onChange={handleChange}
+                  className="w-full rounded-lg border-slate-200 border p-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-shadow"
+                />
+              </div>
 
-        {/* Image */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Product Image</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-          />
-          {previewUrl && (
-            <div className="mt-4">
-              <img 
-                src={previewUrl} 
-                alt="Preview" 
-                className="max-w-xs h-48 object-cover rounded border shadow-sm"
-              />
-            </div>
-          )}
-        </div>
+              {/* Quantity */}
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Quantity (Stock)</label>
+                <input
+                  type="number"
+                  name="quantity"
+                  required
+                  min="0"
+                  step="1"
+                  placeholder="0"
+                  value={formData.quantity} 
+                  onChange={handleChange}
+                  className="w-full rounded-lg border-slate-200 border p-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-shadow"
+                />
+              </div>
+          </div>
 
-        {/* Description */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Description</label>
-          <textarea
-            name="description"
-            rows={4}
-            value={formData.description}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
+          {/* Tag Input Integration */}
+          <div>
+             <TagInput 
+                selectedTags={tags} 
+                onTagsChange={setTags} 
+                placeholder="Gõ để tìm kiếm hoặc tạo tag mới (VD: Pin khủng)"
+             />
+          </div>
 
-        {/* Buttons */}
-        <div className="flex justify-end space-x-3 pt-4">
-          <button
-            type="button"
-            onClick={() => navigate('/admin/products')}
-            className="px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={loading}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 transition-colors"
-          >
-            {loading ? 'Saving...' : 'Save Product'}
-          </button>
+          {/* Image Upload */}
+          <div className="p-4 border-2 border-dashed border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-center">
+            <label className="cursor-pointer block">
+                <span className="block text-sm font-medium text-slate-600 mb-2">Product Image</span>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="hidden"
+                />
+                <div className="inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    Choose Information
+                </div>
+            </label>
+            {previewUrl && (
+                <div className="mt-4 relative inline-block">
+                <img 
+                    src={previewUrl} 
+                    alt="Preview" 
+                    className="h-40 object-cover rounded-lg shadow-sm border border-slate-200"
+                />
+                <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">Preview</div>
+                </div>
+            )}
+          </div>
+
+          {/* Description */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Description</label>
+            <textarea
+              name="description"
+              rows={5}
+              placeholder="Detailed product description..."
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full rounded-lg border-slate-200 border p-2.5 text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-shadow"
+            />
+          </div>
+
+          {/* Buttons */}
+          <div className="flex justify-end gap-3 pt-6 border-t border-slate-100">
+            <button
+              type="button"
+              onClick={() => navigate('/admin/products')}
+              className="px-5 py-2.5 border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-5 py-2.5 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors shadow-lg shadow-primary-500/20"
+            >
+              {loading ? 'Saving...' : (isEditMode ? 'Update Product' : 'Create Product')}
+            </button>
+          </div>
         </div>
       </form>
     </div>

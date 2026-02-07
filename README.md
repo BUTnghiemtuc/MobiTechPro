@@ -1,63 +1,102 @@
-# MobiTechPro - Nền Tảng Thương Mại Điện Tử
+# MobiTechPro - E-commerce Platform
 
-Chào mừng đến với repository chính thức của **MobiTechPro**. Đây là một giải pháp thương mại điện tử Full-stack hiện đại, phục vụ nhu cầu mua sắm thiết bị công nghệ trực tuyến.
+MobiTechPro là một nền tảng thương mại điện tử hiện đại, chuyên cung cấp các sản phẩm công nghệ. Dự án được xây dựng với kiến trúc Fullstack, sử dụng các công nghệ tiên tiến nhất hiện nay để đảm bảo hiệu năng và trải nghiệm người dùng.
 
-Dự án này được tổ chức theo mô hình **Monorepo**, bao gồm mã nguồn cho cả Frontend (Giao diện người dùng) và Backend (API & Server).
+## 🚀 Công Nghệ Sử Dụng (Tech Stack)
 
-## 🏗️ Kiến Trúc Hệ Thống
+### Backend
+-   **Ngôn ngữ:** TypeScript
+-   **Framework:** Node.js, Express.js
+-   **Database:** PostgreSQL (sử dụng TypeORM để quản lý)
+-   **Authentication:** JWT (JSON Web Token), Bcrypt (mã hóa mật khẩu)
+-   **Modules:** Modular Architecture (Auth, Users, Products, Orders, Cart, Reviews)
 
-Dự án được chia thành hai phần chính:
+### Frontend
+-   **Framework:** React (Vite)
+-   **Language:** TypeScript
+-   **Styling:** Tailwind CSS (Modern, Responsive Design)
+-   **State Management:** React Context API (Auth Context)
+-   **Routing:** React Router DOM (v6)
+-   **HTTP Client:** Axios (với Interceptors xử lý Token)
 
-### 1. [Frontend](./frontend)
-*   **Vị trí**: `/frontend`
-*   **Nhiệm vụ**: Xây dựng giao diện người dùng tương tác, hiển thị sản phẩm, giỏ hàng và thanh toán.
-*   **Công nghệ**: React, TypeScript, Vite, Tailwind CSS, Axios.
+## ✨ Tính Năng Đã Triển Khai (Features)
 
-### 2. [Backend](./backend)
-*   **Vị trí**: `/backend`
-*   **Nhiệm vụ**: Cung cấp RESTful API, quản lý cơ sở dữ liệu, xác thực người dùng và xử lý nghiệp vụ.
-*   **Công nghệ**: Node.js, Express, TypeScript, TypeORM, PostgreSQL.
+### 1. Phân Quyền & Xác Thực (Auth & RBAC)
+-   [x] Đăng ký / Đăng nhập (JWT).
+-   [x] Phân quyền người dùng: **Admin** (Quản trị), **Staff** (Nhân viên), **Customer** (Khách hàng).
+-   [x] Bảo vệ Route (Protected Routes) dựa trên vai trò.
+-   [x] Xử lý phiên đăng nhập hết hạn (Auto Logout).
 
-## 📂 Cấu Trúc Thư Mục
+### 2. Sản Phẩm (Products)
+-   [x] Xem danh sách sản phẩm (Pagination, Filter theo giá/danh mục, Search).
+-   [x] Xem chi tiết sản phẩm.
+-   [x] Đánh giá & Bình luận sản phẩm (Product Reviews & Ratings).
+-   [x] **Admin:** Thêm, Sửa, Xóa sản phẩm, Up ảnh.
 
-```text
+### 3. Giỏ Hàng & Đặt Hàng (Cart & Checkout)
+-   [x] Thêm vào giỏ hàng.
+-   [x] Xem giỏ hàng, cập nhật số lượng, xóa sản phẩm.
+-   [x] Thanh toán (Checkout) -> Tạo đơn hàng tự động.
+-   [x] Xóa giỏ hàng sau khi đặt thành công.
+
+### 4. Quản Lý Đơn Hàng (Order Management)
+-   [x] **Customer:** Xem lịch sử đơn hàng (**My Orders**), theo dõi trạng thái.
+-   [x] **Staff/Admin:** Quản lý tất cả đơn hàng (**Order Management**).
+-   [x] **Staff/Admin:** Cập nhật trạng thái đơn (Processing, Shipped, Completed, Cancelled).
+-   [x] **Admin:** Xóa đơn hàng.
+
+### 5. Người Dùng (User Profile)
+-   [x] Xem & Chỉnh sửa thông tin cá nhân.
+-   [x] Đổi mật khẩu.
+-   [x] **Admin:** Quản lý danh sách người dùng, phân quyền.
+
+## 📂 Cấu Trúc Thư Mục (Project Structure)
+
+```
 MobiTechPro/
-├── frontend/        # Mã nguồn Client-side (ReactJS)
+├── backend/                 # Mã nguồn Backend
 │   ├── src/
-│   ├── public/
-│   └── README.md    # Hướng dẫn chi tiết cho Frontend
-├── backend/         # Mã nguồn Server-side (NodeJS)
+│   │   ├── config/          # Cấu hình DB, Environment
+│   │   ├── modules/         # Các module chức năng chính
+│   │   │   ├── auth/        # Login, Register
+│   │   │   ├── cart/        # Giỏ hàng
+│   │   │   ├── orders/      # Đơn hàng
+│   │   │   ├── products/    # Sản phẩm
+│   │   │   ├── reviews/     # Đánh giá
+│   │   │   └── users/       # Người dùng
+│   │   └── app.ts           # Entry point
+│
+├── frontend/                # Mã nguồn Frontend
 │   ├── src/
-│   └── README.md    # Hướng dẫn chi tiết cho Backend (To be added)
-└── README.md        # Tài liệu tổng quan (File này)
+│   │   ├── components/      # UI Components tái sử dụng (Header, Button, etc.)
+│   │   ├── context/         # AuthContext
+│   │   ├── layouts/         # MainLayout, AdminLayout
+│   │   ├── pages/           # Các trang màn hình
+│   │   │   ├── admin/       # Dashboard & Quản lý (Products, Orders, Users)
+│   │   │   ├── CartPage.tsx
+│   │   │   ├── HomePage.tsx
+│   │   │   ├── MyOrdersPage.tsx
+│   │   │   ├── ProductDetailPage.tsx
+│   │   │   └── ProfilePage.tsx
+│   │   ├── services/        # API Services (Axios calls)
+│   │   └── main.tsx         # Entry point
 ```
 
-## 🚀 Hướng Dẫn Nhanh (Quick Start)
+## 🛠 Hướng Dẫn Cài Đặt (Setup Guide)
 
-Để chạy toàn bộ dự án trên máy local, bạn cần mở hai terminal riêng biệt:
-
-**Terminal 1: Chạy Backend**
+### 1. Backend
 ```bash
 cd backend
 npm install
+# Cấu hình file .env (DB_HOST, DB_PASS, JWT_SECRET...)
 npm run dev
-# Server sẽ chạy tại: http://localhost:3000
 ```
 
-**Terminal 2: Chạy Frontend**
+### 2. Frontend
 ```bash
 cd frontend
 npm install
 npm run dev
-# Website sẽ chạy tại: http://localhost:5173
 ```
 
-## 📝 Tài Liệu Chi Tiết
-
-Vui lòng tham khảo file `README.md` bên trong từng thư mục con để biết thêm chi tiết về cách cài đặt, cấu hình môi trường (.env) và các lệnh script cụ thể:
-
-*   [Xem Hướng dẫn Frontend](./frontend/README.md)
-*   [Xem Hướng dẫn Backend](./backend/README.md)
-
----
-© 2024 MobiTechPro Team. All rights reserved.
+Project is ready to run! 🚀

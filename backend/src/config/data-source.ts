@@ -10,6 +10,8 @@ import { Cart } from "../modules/cart/cart.entity";
 import { Order } from "../modules/orders/orders.entity";
 import { OrderItems } from "../modules/orders/order-items.entity";
 import { Ads } from "../modules/marketing/ads.entity";
+import { Review } from "../modules/reviews/reviews.entity";
+import { Brand } from "../modules/brands/brands.entity";
 
 dotenv.config();
 
@@ -24,7 +26,7 @@ export const AppDataSource = new DataSource({
     synchronize: true, 
     logging: false,
     
-    entities: [User, Product, Tag, Cart, Order, OrderItems, Ads],
+    entities: [User, Product, Tag, Cart, Order, OrderItems, Ads, Review, Brand],
     
     subscribers: [],
     migrations: [],
