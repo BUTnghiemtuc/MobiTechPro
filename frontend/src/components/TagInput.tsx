@@ -130,7 +130,7 @@ const TagInput: React.FC<TagInputProps> = ({ selectedTags, onTagsChange, placeho
             {/* Quick Select Bar */}
             {quickTags.length > 0 && (
                 <div className="mb-2 flex flex-wrap gap-2">
-                    <span className="text-xs text-gray-500 py-1">Gợi ý:</span>
+                    <span className="text-xs text-gray-700 py-1 font-medium">Gợi ý:</span>
                     {quickTags.map(tag => (
                         <button
                             key={tag.id}

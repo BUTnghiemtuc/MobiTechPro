@@ -35,9 +35,17 @@ export class ProductsController {
       if (!req.user) return res.status(401).json({ message: "Unauthorized" });
       
       const productData = req.body;
-      if (req.file) {
-        // Cloudinary returns the full URL in req.file.path
+      
+      // Handle multiple images
+      if (req.files && Array.isArray(req.files) && req.files.length > 0) {
+        // Cloudinary middleware returns array of files with .path as full URL
+        productData.images = req.files.map((file: any) => file.path);
+        // Set first image as main image_url for backward compatibility
+        productData.image_url = req.files[0].path;
+      } else if (req.file) {
+        // Single file upload (backward compatibility)
         productData.image_url = req.file.path;
+        productData.images = [req.file.path];
       }
 
       const product = await ProductsService.create(productData, req.user.userId);
@@ -52,9 +60,15 @@ export class ProductsController {
       const id = parseInt(req.params.id as string);
       
       const productData = req.body;
-      if (req.file) {
-        // Cloudinary returns the full URL in req.file.path
+      
+      // Handle multiple images
+      if (req.files && Array.isArray(req.files) && req.files.length > 0) {
+        productData.images = req.files.map((file: any) => file.path);
+        productData.image_url = req.files[0].path;
+      } else if (req.file) {
+        // Single file upload (backward compatibility)
         productData.image_url = req.file.path;
+        productData.images = [req.file.path];
       }
 
       const product = await ProductsService.update(id, productData);

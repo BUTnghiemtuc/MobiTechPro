@@ -42,13 +42,7 @@ const PhonePage = () => {
     return `${API_BASE_URL}${url}`;
   };
 
-  // Combine fetched products (first 10) for sub-nav
-  const subNavItems = products.slice(0, 10).map(p => ({
-      name: p.title,
-      isNew: true, // You might want real logic here
-      image: getImageUrl(p.image_url),
-      icon: undefined
-  }));
+
 
   const handleAddToCart = async (product: Product) => {
     if (!isAuthenticated) {
@@ -73,57 +67,7 @@ const PhonePage = () => {
             Tìm quà ý nghĩa cho mọi người dịp Tết này. <Link to="/" className="text-blue-600 hover:underline">Mua sắm ngay &gt;</Link>
        </div>
 
-       {/* Page Header */}
-       <div className="container mx-auto px-6 py-10 md:py-16">
-            <div className="flex flex-col md:flex-row items-center justify-between mb-8">
-                <h1 className="text-5xl md:text-7xl font-bold text-slate-900 tracking-tight mb-8 md:mb-0">Sản Phẩm</h1>
-            </div>
 
-             {/* Sub Navigation - Featured Products Carousel */}
-             {products.length > 0 && (
-                 <div className="relative">
-                     <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wider mb-6">Sản phẩm nổi bật</h3>
-                     <div className="flex overflow-x-auto gap-4 pt-3 pb-6 scrollbar-hide snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0">
-                         {subNavItems.map((item, index) => (
-                             <Link 
-                                 key={index} 
-                                 to={`/products/${products[index]?.id}`}
-                                 className="group snap-center shrink-0"
-                             >
-                                 <div className="flex flex-col items-center gap-3 w-28 md:w-32 overflow-visible">
-                                     <div className="relative w-full aspect-square bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-2 transition-all duration-300 group-hover:shadow-xl group-hover:scale-105 group-hover:from-blue-50 group-hover:to-slate-100 overflow-visible">
-                                         {item.image ? (
-                                             <img 
-                                                 src={item.image} 
-                                                 alt={item.name} 
-                                                 className="w-full h-full object-contain mix-blend-multiply scale-110"
-                                             />
-                                         ) : (
-                                             <div className="w-full h-full flex items-center justify-center text-slate-300">
-                                                 <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
-                                                     <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6z"/>
-                                                 </svg>
-                                             </div>
-                                         )}
-                                         {item.isNew && (
-                                             <div className="absolute -top-2 -right-2 bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">
-                                                 NEW
-                                             </div>
-                                         )}
-                                     </div>
-                                     <div className="text-center">
-                                         <p className="text-xs font-semibold text-slate-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                                             {item.name}
-                                         </p>
-                                     </div>
-                                 </div>
-                             </Link>
-                         ))}
-                     </div>
-                     <div className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-full bg-gradient-to-l from-white to-transparent pointer-events-none md:hidden"></div>
-                 </div>
-             )}
-       </div>
 
        {/* Brand Discovery Section */}
        <BrandDiscovery />
@@ -166,9 +110,9 @@ const PhonePage = () => {
                             <motion.div 
                                 key={product.id}
                                 whileHover={{ scale: 1.02 }}
-                                className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col items-center text-center p-8 h-full"
+                                className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col items-center text-center p-6 h-full"
                             >
-                                <div className="w-full aspect-[4/5] mb-8 relative">
+                                <div className="w-full aspect-[3/4] mb-6 relative">
                                     <span className="absolute top-0 left-2 bg-orange-100 text-orange-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
                                         New
                                     </span>

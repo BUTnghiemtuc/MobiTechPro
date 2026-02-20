@@ -72,6 +72,7 @@ const Header = () => {
           <NavLink to="/">Trang chủ</NavLink>
           <NavLink to="/phones">Điện thoại</NavLink>
           <NavLink to="/?search=Accessories">Phụ kiện</NavLink>
+          <NavLink to="/blog">Góc công nghệ</NavLink>
           <NavLink to="/contact">Tư vấn</NavLink>
         </nav>
 

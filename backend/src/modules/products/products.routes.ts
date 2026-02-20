@@ -12,7 +12,7 @@ router.post(
   "/",
   authMiddleware,
   checkRole([UserRole.STAFF, UserRole.ADMIN]),
-  upload.single("image"),
+  upload.array("images", 5), // Max 5 images
   ProductsController.createProduct
 );
 
@@ -20,7 +20,7 @@ router.put(
   "/:id",
   authMiddleware,
   checkRole([UserRole.STAFF, UserRole.ADMIN]),
-  upload.single("image"),
+  upload.array("images", 5), // Max 5 images
   ProductsController.updateProduct
 );
 

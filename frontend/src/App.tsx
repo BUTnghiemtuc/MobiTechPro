@@ -26,6 +26,12 @@ import MainLayout from './layouts/MainLayout';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import PolicyPage from './components/PolicyPage';
+import BlogListPage from './pages/BlogListPage';
+import BlogDetailPage from './pages/BlogDetailPage';
+import BlogManagement from './pages/admin/BlogManagement';
+import BlogEditor from './pages/admin/BlogEditor';
+import CheckoutPage from './pages/checkout/CheckoutPage';
+import OrderSuccessPage from './pages/checkout/OrderSuccessPage';
 
 function App() {
   return (
@@ -41,9 +47,13 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/checkout/success" element={<OrderSuccessPage />} />
             <Route path="/products/:id" element={<ProductDetailPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/blog" element={<BlogListPage />} />
+            <Route path="/blog/:id" element={<BlogDetailPage />} />
             <Route path="/privacy-policy" element={<PolicyPage title="Privacy Policy" lastUpdated="February 4, 2026" />} />
             <Route path="/terms-of-service" element={<PolicyPage title="Terms of Service" lastUpdated="February 4, 2026" />} />
             <Route path="/shipping-policy" element={<PolicyPage title="Shipping Policy" lastUpdated="February 4, 2026" />} />
@@ -78,6 +88,9 @@ function App() {
             <Route path="products/:id" element={<ProductEditor />} />
             <Route path="orders" element={<OrderManagement />} />
             <Route path="brands" element={<BrandManagement />} />
+            <Route path="blog" element={<BlogManagement />} />
+            <Route path="blog/new" element={<BlogEditor />} />
+            <Route path="blog/:id/edit" element={<BlogEditor />} />
             {/* Admin-only route for User Management */}
             <Route
               path="users"

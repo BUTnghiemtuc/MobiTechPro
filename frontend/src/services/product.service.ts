@@ -5,7 +5,8 @@ export interface Product {
   title: string;
   description: string;
   price: number;
-  image_url?: string;
+  image_url: string;
+  images?: string[];
   quantity: number;
   tags?: any[]; // Allow tags array
 }
