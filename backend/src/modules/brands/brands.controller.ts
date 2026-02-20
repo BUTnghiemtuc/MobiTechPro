@@ -25,7 +25,7 @@ export class BrandsController {
 
   static async getBrandById(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id);
       const brand = await BrandsService.findOne(id);
       if (!brand) {
         return res.status(404).json({ message: "Brand not found" });
@@ -76,7 +76,7 @@ export class BrandsController {
 
   static async updateBrand(req: AuthRequest, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id);
       
       const brandData: any = {
         name: req.body.name,
@@ -111,7 +111,7 @@ export class BrandsController {
 
   static async deleteBrand(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id);
       await BrandsService.delete(id);
       res.status(204).send();
     } catch (error: any) {

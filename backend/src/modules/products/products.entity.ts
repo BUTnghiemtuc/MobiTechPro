@@ -17,7 +17,10 @@ export class Product {
   price: number;
 
   @Column({ nullable: true })
-  image_url: string;
+  image_url?: string;
+
+  @Column('simple-array', { nullable: true })
+  images?: string[];
 
   @Column("int")
   quantity: number;

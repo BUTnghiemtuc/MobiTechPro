@@ -32,5 +32,9 @@ export const cartService = {
 
   removeFromCart: async (cartItemId: number) => {
     return await api.delete(`/cart/${cartItemId}`);
-  }
+  },
+
+  updateQuantity: async (cartItemId: number, quantity: number) => {
+    return api.patch(`/cart/${cartItemId}`, { quantity }).then(res => res.data);
+  },
 };      

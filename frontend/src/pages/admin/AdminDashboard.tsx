@@ -23,9 +23,26 @@ const AdminDashboard = () => {
     try {
       const data = await orderService.getDashboardStats();
       setStats(data);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to fetch stats:", error);
-      toast.error("Failed to load dashboard statistics");
+      
+      // Provide specific error messages
+      if (error.response?.status === 401) {
+        toast.error("Phi\u00ean làm việc hết hạn. Vui lòng đăng nhập lại");
+      } else if (error.response?.status === 403) {
+        toast.error("Bạn không có quyền xem thống kê");
+      } else {
+        toast.error("Không thể tải thống kê dashboard");
+      }
+      
+      // Set default/empty stats to prevent UI from breaking
+      setStats({
+        revenue: 0,
+        totalOrders: 0,
+        totalProducts: 0,
+        statusDistribution: [],
+        revenueTrend: []
+      });
     } finally {
       setLoading(false);
     }

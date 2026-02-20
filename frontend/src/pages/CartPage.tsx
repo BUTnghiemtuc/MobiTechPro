@@ -4,6 +4,8 @@ import { cartService, type CartItem } from '../services/cart.service';
 import { orderService } from '../services/order.service';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import QuantityStepper from '../components/QuantityStepper';
+import ShippingProgressBar from '../components/ShippingProgressBar';
 
 // Định nghĩa URL Backend (nên để trong file config chung)
 const API_BASE_URL = 'http://localhost:3000';
@@ -11,7 +13,9 @@ const API_BASE_URL = 'http://localhost:3000';
 const CartPage = () => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState(true);
-    const [checkingOut, setCheckingOut] = useState(false);
+    const [couponCode, setCouponCode] = useState('');
+    const [discount, setDiscount] = useState(0);
+    const [applyingCoupon, setApplyingCoupon] = useState(false);
     
     // State xử lý xóa item (loading cục bộ cho từng nút xóa)
     const [removingId, setRemovingId] = useState<number | null>(null);
@@ -64,55 +68,83 @@ const CartPage = () => {
     }, [isAuthenticated, authLoading, navigate]);
 
     // ✅ Tính tổng tiền (đã bọc Number để an toàn)
-    const calculateTotal = () => {
+    const calculateSubtotal = () => {
         return cartItems.reduce((total, item) => {
             const price = typeof item.product.price === 'string' ? parseFloat(item.product.price) : item.product.price;
             return total + (price * item.quantity);
         }, 0);
     };
 
+    const calculateTotal = () => {
+        const subtotal = calculateSubtotal();
+        return subtotal - discount;
+    };
+
+    const handleApplyCoupon = async () => {
+        if (!couponCode.trim()) {
+            toast.warn('Vui lòng nhập mã giảm giá');
+            return;
+        }
+
+        setApplyingCoupon(true);
+        try {
+            // TODO: Call actual API endpoint
+            // Simulate coupon validation
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            // Mock discount (10%)
+            if (couponCode.toUpperCase() === 'SUMMER10') {
+                const discountAmount = calculateSubtotal() * 0.1;
+                setDiscount(discountAmount);
+                toast.success(`Áp dụng mã thành công! Giảm $${discountAmount.toFixed(2)}`);
+            } else {
+                toast.error('Mã giảm giá không hợp lệ');
+            }
+        } catch (error) {
+            toast.error('Không thể áp dụng mã giảm giá');
+        } finally {
+            setApplyingCoupon(false);
+        }
+    };
+
+    const handleUpdateQuantity = async (cartItemId: number, newQuantity: number) => {
+        try {
+            await cartService.updateQuantity(cartItemId, newQuantity);
+            // Update local state
+            setCartItems(prevItems =>
+                prevItems.map(item =>
+                    item.id === cartItemId ? { ...item, quantity: newQuantity } : item
+                )
+            );
+            toast.success('Quantity updated');
+        } catch (error) {
+            toast.error('Failed to update quantity');
+            // Reload to get correct state
+            fetchCart();
+        }
+    };
+
     // 🆕 Hàm Xóa sản phẩm khỏi giỏ
     const handleRemoveItem = async (cartItemId: number) => {
-        if (!window.confirm("Are you sure you want to remove this item?")) return;
-        
         setRemovingId(cartItemId);
         try {
-            // TODO: Gọi API backend thực tế ở đây
-             await cartService.removeFromCart(cartItemId); 
-             // Tạm thời mình lọc ở client để demo hiệu ứng
-             const newItems = cartItems.filter(item => item.id !== cartItemId);
-             setCartItems(newItems);
-             
-             toast.success("Item removed");
-             // fetchCart(); // Load lại cho chắc
-             
+            await cartService.removeFromCart(cartItemId);
+            const newItems = cartItems.filter(item => item.id !== cartItemId);
+            setCartItems(newItems);
+            toast.success('Đã xóa sản phẩm');
         } catch (error) {
-            toast.error("Failed to remove item");
+            toast.error('Không thể xóa sản phẩm');
         } finally {
             setRemovingId(null);
         }
     };
 
-    const handleCheckout = async () => {
+    const handleCheckout = () => {
         if (cartItems.length === 0) {
-            toast.warn('Your cart is empty');
+            toast.warn('Giỏ hàng trống');
             return;
         }
-
-        setCheckingOut(true);
-        try {
-            const address = "Hanoi, Vietnam"; 
-            await orderService.createOrder(address);
-            
-            toast.success('Order placed successfully!');
-            setCartItems([]); // Clear giỏ hàng local (Backend đã clear rồi)
-            navigate('/my-orders'); // Chuyển hướng sang trang My Orders
-        } catch (error: any) {
-            console.error('Checkout failed', error);
-            toast.error(error.response?.data?.message || 'Checkout failed');
-        } finally {
-            setCheckingOut(false);
-        }
+        navigate('/checkout');
     };
 
     if (loading) {
@@ -177,23 +209,35 @@ const CartPage = () => {
                                                 <div className="text-sm text-gray-500">${formatPrice(item.product.price)}</div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-center">
-                                                <div className="text-sm text-gray-900 font-medium inline-block bg-gray-100 px-3 py-1 rounded">
-                                                    {item.quantity}
-                                                </div>
+                                                <QuantityStepper
+                                                    value={item.quantity}
+                                                    max={item.product.quantity}
+                                                    onChange={(newQty) => handleUpdateQuantity(item.id, newQty)}
+                                                />
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-right">
                                                 <div className="text-sm text-gray-900 font-bold">
                                                     ${(parseFloat(formatPrice(item.product.price)) * item.quantity).toFixed(2)}
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                {/* 🆕 NÚT XÓA */}
-                                                <button 
+                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                                <button
                                                     onClick={() => handleRemoveItem(item.id)}
                                                     disabled={removingId === item.id}
-                                                    className="text-red-600 hover:text-red-900 transition disabled:opacity-50"
+                                                    className="text-gray-400 hover:text-red-500 transition-colors disabled:opacity-50 p-2 rounded-lg hover:bg-red-50"
+                                                    aria-label="Remove item"
+                                                    title="Xóa khỏi giỏ"
                                                 >
-                                                    {removingId === item.id ? '...' : 'Remove'}
+                                                    {removingId === item.id ? (
+                                                        <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                        </svg>
+                                                    ) : (
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                    )}
                                                 </button>
                                             </td>
                                         </tr>
@@ -206,37 +250,73 @@ const CartPage = () => {
                     {/* Cột phải: Tổng tiền & Checkout */}
                     <div className="lg:col-span-1">
                         <div className="bg-white rounded-xl shadow-sm border p-6 sticky top-4">
-                            <h2 className="text-lg font-bold mb-6 text-gray-800 border-b pb-4">Order Summary</h2>
+                            <h2 className="text-lg font-bold mb-6 text-gray-800 border-b pb-4">Tổng Đơn Hàng</h2>
                             
-                            <div className="flex justify-between items-center mb-2 text-gray-600">
-                                <span>Subtotal</span>
-                                <span>${calculateTotal().toFixed(2)}</span>
+                            {/* Coupon Input */}
+                            <div className="mb-6">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Mã giảm giá</label>
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Nhập mã..."
+                                        value={couponCode}
+                                        onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    />
+                                    <button
+                                        onClick={handleApplyCoupon}
+                                        disabled={applyingCoupon}
+                                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium text-sm disabled:opacity-50"
+                                    >
+                                        {applyingCoupon ? '...' : 'Áp dụng'}
+                                    </button>
+                                </div>
+                                <p className="text-xs text-gray-500 mt-1">Thử: SUMMER10</p>
                             </div>
-                            <div className="flex justify-between items-center mb-6 text-gray-600">
-                                <span>Shipping</span>
-                                <span>Free</span>
+
+                            {/* Price Breakdown */}
+                            <div className="space-y-3 mb-6">
+                                <div className="flex justify-between items-center text-gray-600">
+                                    <span>Tạm tính:</span>
+                                    <span>${calculateSubtotal().toFixed(2)}</span>
+                                </div>
+                                
+                                {discount > 0 && (
+                                    <div className="flex justify-between items-center text-green-600">
+                                        <span>Giảm giá:</span>
+                                        <span>-${discount.toFixed(2)}</span>
+                                    </div>
+                                )}
+                                
+                                <div className="flex justify-between items-center text-gray-600">
+                                    <span>Phí vận chuyển:</span>
+                                    <span className="text-green-600 font-medium">Miễn phí 🎉</span>
+                                </div>
                             </div>
                             
                             <div className="flex justify-between items-center mb-6 text-xl font-bold text-gray-900 pt-4 border-t">
-                                <span>Total</span>
+                                <span>Tổng cộng:</span>
                                 <span>${calculateTotal().toFixed(2)}</span>
                             </div>
 
                             <button
                                 onClick={handleCheckout}
-                                disabled={checkingOut}
-                                className={`w-full py-3 px-4 rounded-lg text-white font-bold text-lg transition shadow-md ${
-                                    checkingOut 
-                                    ? 'bg-blue-400 cursor-not-allowed' 
-                                    : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg transform active:scale-95'
-                                }`}
+                                className="w-full py-3 px-4 rounded-lg text-white font-bold text-lg transition shadow-md bg-blue-600 hover:bg-blue-700 hover:shadow-lg transform active:scale-95"
                             >
-                                {checkingOut ? 'Processing...' : 'Proceed to Checkout'}
+                                Thanh Toán
                             </button>
                             
-                            <p className="text-xs text-gray-400 text-center mt-4">
-                                Secure Checkout - 100% Money Back Guarantee
-                            </p>
+                            {/* Payment Methods */}
+                            <div className="mt-6 pt-6 border-t">
+                                <p className="text-xs text-gray-500 text-center mb-3">Thanh toán an toàn với:</p>
+                                <div className="flex justify-center items-center gap-3 flex-wrap">
+                                    <div className="text-2xl" title="Visa">💳</div>
+                                    <div className="text-2xl" title="MasterCard">💳</div>
+                                    <div className="text-2xl" title="MoMo">📱</div>
+                                    <div className="text-2xl" title="ZaloPay">💰</div>
+                                    <div className="text-2xl" title="COD">💵</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
