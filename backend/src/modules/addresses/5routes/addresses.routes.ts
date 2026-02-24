@@ -39,7 +39,7 @@ router.get('/:id', authenticateJWT, async (req, res) => {
 // Create new address
 router.post('/', authenticateJWT, async (req, res) => {
   try {
-    const { fullName, phone, address, city, district, ward, zip Code, label, isDefault } = req.body;
+    const { fullName, phone, address, city, district, ward, zipCode, label, isDefault } = req.body;
 
     // If setting as default, unset other defaults first
     if (isDefault) {

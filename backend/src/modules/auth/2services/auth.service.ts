@@ -1,5 +1,5 @@
-import { AppDataSource } from "../../config/data-source";
-import { User } from "../users/users.entity";
+import { AppDataSource } from "../../../config/data-source";
+import { User } from "../../users/1models/users.entity";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 
