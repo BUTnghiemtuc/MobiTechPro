@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { AppDataSource } from '../../config/data-source';
-import { Address } from './addresses.entity';
-import { authenticateJWT } from '../auth/auth.middleware';
+import { AppDataSource } from '../../../config/data-source';
+import { Address } from '../1models/addresses.entity';
+import { authenticateJWT } from '../../auth/3middlewares/auth.middleware';
 
 const router = Router();
 const addressRepository = AppDataSource.getRepository(Address);

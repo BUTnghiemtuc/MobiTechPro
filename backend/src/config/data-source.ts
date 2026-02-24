@@ -2,18 +2,6 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 import * as dotenv from "dotenv";
 
-// Import tất cả Entity vào đây để TypeORM nhận diện chắc chắn 100%
-import { User } from "../modules/users/users.entity";
-import { Product } from "../modules/products/products.entity";
-import { Tag } from "../modules/products/tags.entity";
-import { Cart } from "../modules/cart/cart.entity";
-import { Order } from "../modules/orders/orders.entity";
-import { OrderItems } from "../modules/orders/order-items.entity";
-import { Ads } from "../modules/marketing/ads.entity";
-import { Review } from "../modules/reviews/reviews.entity";
-import { Brand } from "../modules/brands/brands.entity";
-import { BlogPost } from "../modules/blog/blog.entity";
-
 dotenv.config();
 
 export const AppDataSource = new DataSource({
@@ -27,7 +15,8 @@ export const AppDataSource = new DataSource({
     synchronize: true, 
     logging: false,
     
-    entities: [User, Product, Tag, Cart, Order, OrderItems, Ads, Review, Brand, BlogPost],
+    // nếu có bất kì thực thể nào mới thì tự động được khai báo và dùng
+    entities: [__dirname + "/../modules/**/1models/*.entity.{js,ts}"],
     
     subscribers: [],
     migrations: [],

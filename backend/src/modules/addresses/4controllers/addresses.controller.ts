@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Request } from '@nestjs/common';
-import { AddressesService } from './addresses.service';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { Address } from './addresses.entity';
+import { AddressesService } from '../2services/addresses.service';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { Address } from '../1models/addresses.entity';
 
 @Controller('addresses')
 @UseGuards(JwtAuthGuard)

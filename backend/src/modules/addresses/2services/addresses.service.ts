@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Address } from './addresses.entity';
-import { User } from '../users/users.entity';
+import { Address } from '../1models/addresses.entity';
+import { User } from '../../users/1models/users.entity';
 
 @Injectable()
 export class AddressesService {
