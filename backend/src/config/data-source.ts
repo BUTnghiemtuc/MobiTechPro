@@ -14,6 +14,7 @@ export const AppDataSource = new DataSource({
     
     synchronize: true, 
     logging: false,
+    ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
     
     // nếu có bất kì thực thể nào mới thì tự động được khai báo và dùng
     entities: [__dirname + "/../modules/**/1models/*.entity.{js,ts}"],

@@ -4,16 +4,16 @@ import cors from "cors";
 import path from "path";
 
 // Import các Routes
-import authRoutes from "./modules/auth/auth.routes";
-import productRoutes from "./modules/products/products.routes";
-import cartRoutes from "./modules/cart/cart.routes";
-import orderRoutes from "./modules/orders/orders.routes";
-import reviewRoutes from "./modules/reviews/reviews.routes";
-import tagsRoutes from "./modules/products/tags.routes";
-import userRoutes from "./modules/users/users.routes";
-import brandRoutes from "./modules/brands/brands.routes";
-import { blogRoutes, blogAdminRoutes } from "./modules/blog/blog.routes";
-import addressRoutes from "./modules/addresses/addresses.routes";
+import authRoutes from "./modules/auth/5routes/auth.routes";
+import productRoutes from "./modules/products/5routes/products.routes";
+import cartRoutes from "./modules/cart/5routes/cart.routes";
+import orderRoutes from "./modules/orders/5routes/orders.routes";
+import reviewRoutes from "./modules/reviews/5routes/reviews.routes";
+import tagsRoutes from "./modules/products/5routes/tags.routes";
+import userRoutes from "./modules/users/5routes/users.routes";
+import brandRoutes from "./modules/brands/5routes/brands.routes";
+import { blogRoutes, blogAdminRoutes } from "./modules/blog/5routes/blog.routes";
+import addressRoutes from "./modules/addresses/5routes/addresses.routes";
 
 const app = express();
 
