@@ -1,6 +1,11 @@
+import { Request } from "express";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
+import * as dotenv from "dotenv";
+
+// Đảm bảo biến môi trường được tải lên trước khi cấu hình
+dotenv.config();
 
 // Configuration 
 cloudinary.config({
@@ -12,16 +17,20 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'MobiTechPro_Products',
+    folder: 'MobiTechPro_Uploads',
     allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
-  } as any, // Type assertion to bypass strict type check for custom params
+  } as Record<string, any>,
 });
 
-const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+const fileFilter = (
+  req: Request, 
+  file: Express.Multer.File, 
+  cb: multer.FileFilterCallback
+) => {
   if (file.mimetype.startsWith("image/")) {
     cb(null, true);
   } else {
-    cb(new Error("Not an image! Please upload an image."));
+    cb(new Error("File không hợp lệ! Vui lòng kiểm tra lại định dạng."));
   }
 };
 
@@ -29,6 +38,6 @@ export const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB limit
+    fileSize: 10 * 1024 * 1024,
   },
 });
