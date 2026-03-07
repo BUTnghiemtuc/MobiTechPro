@@ -1,45 +1,77 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Request } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { AddressesService } from '../2services/addresses.service';
-import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
-import { Address } from '../1models/addresses.entity';
 
-@Controller('addresses')
-@UseGuards(JwtAuthGuard)
+// Khởi tạo service để gọi các hàm logic
+const addressesService = new AddressesService();
+
 export class AddressesController {
-  constructor(private readonly addressesService: AddressesService) {}
-
-  @Get()
-  findAll(@Request() req): Promise<Address[]> {
-    return this.addressesService.findAll(req.user.userId);
+  static async findAll(req: any, res: Response) {
+    try {
+      // req.user sẽ được truyền vào từ Middleware xác thực (Auth Middleware)
+      const userId = req.user.id; 
+      const addresses = await addressesService.findAll(userId);
+      res.status(200).json(addresses);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string, @Request() req): Promise<Address> {
-    return this.addressesService.findOne(+id, req.user.userId);
+  // Lấy 1 địa chỉ cụ thể
+  static async findOne(req: any, res: Response) {
+    try {
+      const id = parseInt(req.params.id); // Lấy id từ URL (/addresses/:id)
+      const userId = req.user.id;
+      const address = await addressesService.findOne(id, userId);
+      res.status(200).json(address);
+    } catch (error: any) {
+      res.status(404).json({ message: error.message });
+    }
   }
 
-  @Post()
-  create(@Request() req, @Body() createAddressDto: Partial<Address>): Promise<Address> {
-    return this.addressesService.create(req.user, createAddressDto);
+  // Tạo địa chỉ mới
+  static async create(req: any, res: Response) {
+    try {
+      const user = req.user; 
+      const newAddress = await addressesService.create(user, req.body);
+      res.status(201).json(newAddress);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
   }
 
-  @Put(':id')
-  update(
-    @Param('id') id: string,
-    @Request() req,
-    @Body() updateAddressDto: Partial<Address>,
-  ): Promise<Address> {
-    return this.addressesService.update(+id, req.user.userId, updateAddressDto);
+  // Cập nhật địa chỉ
+  static async update(req: any, res: Response) {
+    try {
+      const id = parseInt(req.params.id);
+      const userId = req.user.id;
+      const updatedAddress = await addressesService.update(id, userId, req.body);
+      res.status(200).json(updatedAddress);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string, @Request() req): Promise<{ message: string }> {
-    await this.addressesService.remove(+id, req.user.userId);
-    return { message: 'Address deleted successfully' };
+  // Xóa địa chỉ
+  static async remove(req: any, res: Response) {
+    try {
+      const id = parseInt(req.params.id);
+      const userId = req.user.id;
+      await addressesService.remove(id, userId);
+      res.status(200).json({ message: 'Đã xóa địa chỉ thành công' });
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
   }
 
-  @Post(':id/default')
-  setDefault(@Param('id') id: string, @Request() req): Promise<Address> {
-    return this.addressesService.setDefault(+id, req.user.userId);
+  // Set địa chỉ mặc định
+  static async setDefault(req: any, res: Response) {
+    try {
+      const id = parseInt(req.params.id);
+      const userId = req.user.id;
+      const address = await addressesService.setDefault(id, userId);
+      res.status(200).json(address);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
   }
 }

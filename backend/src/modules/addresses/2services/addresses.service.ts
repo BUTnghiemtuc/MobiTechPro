@@ -1,15 +1,9 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { AppDataSource } from '../../../config/data-source';
 import { Address } from '../1models/addresses.entity';
 import { User } from '../../users/1models/users.entity';
 
-@Injectable()
 export class AddressesService {
-  constructor(
-    @InjectRepository(Address)
-    private addressesRepository: Repository<Address>,
-  ) {}
+  private addressesRepository = AppDataSource.getRepository(Address);
 
   async findAll(userId: number): Promise<Address[]> {
     return this.addressesRepository.find({
@@ -24,7 +18,7 @@ export class AddressesService {
     });
 
     if (!address) {
-      throw new NotFoundException('Address not found');
+      throw new Error('Address not found');
     }
 
     return address;
@@ -47,7 +41,6 @@ export class AddressesService {
   async update(id: number, userId: number, updateAddressDto: Partial<Address>): Promise<Address> {
     const address = await this.findOne(id, userId);
 
-    // If updating to default, unset other defaults
     if (updateAddressDto.isDefault && !address.isDefault) {
       await this.unsetOtherDefaults(userId);
     }
@@ -64,10 +57,8 @@ export class AddressesService {
   async setDefault(id: number, userId: number): Promise<Address> {
     const address = await this.findOne(id, userId);
 
-    // Unset other defaults
     await this.unsetOtherDefaults(userId);
 
-    // Set this as default
     address.isDefault = true;
     return this.addressesRepository.save(address);
   }
