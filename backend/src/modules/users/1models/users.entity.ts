@@ -1,15 +1,15 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from "typeorm";
-import { Product } from "../products/products.entity";
-import { Cart } from "../cart/cart.entity";
-import { Order } from "../orders/orders.entity";
+import { Product } from "../../products/1models/products.entity";
+import { Cart } from "../../cart/1models/cart.entity";
+import { Order } from "../../orders/1models/orders.entity";
 
 export enum UserRole {
-  CUSTOMER = "Customer",
-  STAFF = "Staff",
-  ADMIN = "Admin",
+  USER = "user",
+  STAFF = "staff",
+  ADMIN = "admin",
 }
 
-@Entity({ name: 'Users' })
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -41,7 +41,7 @@ export class User {
   @Column({
     type: "enum",
     enum: UserRole,
-    default: UserRole.CUSTOMER,
+    default: UserRole.USER,
   })
   role: UserRole;
 

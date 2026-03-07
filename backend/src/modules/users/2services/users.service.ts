@@ -1,5 +1,5 @@
-import { AppDataSource } from "../../config/data-source";
-import { User } from "./users.entity";
+import { AppDataSource } from "../../../config/data-source";
+import { User } from "../1models/users.entity";
 import * as bcrypt from "bcrypt";
 
 export class UsersService {
