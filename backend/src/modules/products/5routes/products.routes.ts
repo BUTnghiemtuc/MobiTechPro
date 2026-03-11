@@ -1,33 +1,33 @@
 import { Router } from "express";
-import { ProductsController } from "./products.controller";
-import { authMiddleware, checkRole } from "../auth/auth.middleware";
-import { UserRole } from "../users/users.entity";
-import { upload } from "../../middleware/upload.middleware";
+import { ProductsController } from "../4controllers/products.controller";
+import { authenticateJWT, checkRole } from "../../auth/3middlewares/auth.middleware";
+import { upload } from "../../../middleware/upload.middleware"
 
 const router = Router();
 
 router.get("/", ProductsController.getProducts);
 router.get("/:id", ProductsController.getProductById);
+
 router.post(
   "/",
-  authMiddleware,
-  checkRole([UserRole.STAFF, UserRole.ADMIN]),
-  upload.array("images", 5), // Max 5 images
+  authenticateJWT,
+  checkRole(["staff", "admin"]),
+  upload.array("images", 5),
   ProductsController.createProduct
 );
 
 router.put(
   "/:id",
-  authMiddleware,
-  checkRole([UserRole.STAFF, UserRole.ADMIN]),
-  upload.array("images", 5), // Max 5 images
+  authenticateJWT,
+  checkRole(["staff", "admin"]),
+  upload.array("images", 5),
   ProductsController.updateProduct
 );
 
 router.delete(
   "/:id",
-  authMiddleware,
-  checkRole([UserRole.STAFF, UserRole.ADMIN]),
+  authenticateJWT,
+  checkRole(["staff", "admin"]),
   ProductsController.deleteProduct
 );
 

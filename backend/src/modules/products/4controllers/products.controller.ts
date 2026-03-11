@@ -1,93 +1,96 @@
-import { Request, Response } from "express";
-import { ProductsService } from "./products.service";
-import { AuthRequest } from "../auth/auth.middleware";
+import { Response } from "express";
+import { ProductsService } from "../2services/products.service";
 
 export class ProductsController {
-  static async getProducts(req: Request, res: Response) {
+  static async getProducts(req: any, res: Response) {
     try {
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 10;
+      const page = Number(req.query.page) || 1;
+      const limit = Number(req.query.limit) || 10;
       const title = req.query.title ? String(req.query.title) : undefined;
       const tag = req.query.tag ? String(req.query.tag) : undefined;
 
       const result = await ProductsService.findAll(page, limit, title, tag);
-      res.json(result);
+      return res.status(200).json(result);
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   }
 
-  static async getProductById(req: Request, res: Response) {
+  static async getProductById(req: any, res: Response) {
     try {
-      const id = parseInt(req.params.id as string);
+      const id = Number(req.params.id);
       const product = await ProductsService.findOne(id);
-      if (!product) {
-        return res.status(404).json({ message: "Product not found" });
-      }
-      res.json(product);
+      return res.status(200).json(product);
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      return res.status(404).json({ message: error.message });
     }
   }
 
-  static async createProduct(req: AuthRequest, res: Response) {
+  static async createProduct(req: any, res: Response) {
     try {
-      if (!req.user) return res.status(401).json({ message: "Unauthorized" });
+      const productData = { ...req.body };
       
-      const productData = req.body;
-      
-      // Handle multiple images
+      if (productData.brandId) productData.brand_id = Number(productData.brandId);
+      if (productData.tagIds) {
+         // Đảm bảo tagIds luôn là một mảng dù Frontend có gửi lên 1 chuỗi
+         productData.tag_ids = Array.isArray(productData.tagIds) 
+            ? productData.tagIds.map(Number) 
+            : [Number(productData.tagIds)];
+      }
+
+      // Xử lý ảnh (Upload Cloudinary/Multer)
       if (req.files && Array.isArray(req.files) && req.files.length > 0) {
-        // Cloudinary middleware returns array of files with .path as full URL
         productData.images = req.files.map((file: any) => file.path);
-        // Set first image as main image_url for backward compatibility
-        productData.image_url = req.files[0].path;
+        productData.image_url = req.files[0].path; // Lấy ảnh đầu tiên làm ảnh đại diện
       } else if (req.file) {
-        // Single file upload (backward compatibility)
         productData.image_url = req.file.path;
         productData.images = [req.file.path];
       }
 
-      const product = await ProductsService.create(productData, req.user.userId);
-      res.status(201).json(product);
+      // SỬA LỖI CHÍ MẠNG: Dùng req.user.id
+      const product = await ProductsService.create(productData, req.user.id);
+      return res.status(201).json(product);
     } catch (error: any) {
-      res.status(400).json({ message: error.message });
+      return res.status(400).json({ message: error.message });
     }
   }
 
-  static async updateProduct(req: AuthRequest, res: Response) {
+  static async updateProduct(req: any, res: Response) {
     try {
-      const id = parseInt(req.params.id as string);
+      const id = Number(req.params.id);
+      const productData = { ...req.body };
       
-      const productData = req.body;
-      
-      // Handle multiple images
+      // BƯỚC PHIÊN DỊCH TƯƠNG TỰ
+      if (productData.brandId) productData.brand_id = Number(productData.brandId);
+      if (productData.tagIds) {
+         productData.tag_ids = Array.isArray(productData.tagIds) 
+            ? productData.tagIds.map(Number) 
+            : [Number(productData.tagIds)];
+      }
+
+      // Xử lý ảnh update
       if (req.files && Array.isArray(req.files) && req.files.length > 0) {
         productData.images = req.files.map((file: any) => file.path);
         productData.image_url = req.files[0].path;
       } else if (req.file) {
-        // Single file upload (backward compatibility)
         productData.image_url = req.file.path;
         productData.images = [req.file.path];
       }
 
       const product = await ProductsService.update(id, productData);
-      if (!product) {
-        return res.status(404).json({ message: "Product not found" });
-      }
-      res.json(product);
+      return res.status(200).json(product);
     } catch (error: any) {
-      res.status(400).json({ message: error.message });
+      return res.status(400).json({ message: error.message });
     }
   }
 
-  static async deleteProduct(req: Request, res: Response) {
+  static async deleteProduct(req: any, res: Response) {
     try {
-      const id = parseInt(req.params.id as string);
+      const id = Number(req.params.id);
       await ProductsService.delete(id);
-      res.status(204).send();
+      return res.status(200).json({ message: "Xóa sản phẩm thành công" });
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   }
 }

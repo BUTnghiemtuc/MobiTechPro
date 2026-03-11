@@ -1,82 +1,62 @@
-import { AppDataSource } from "../../config/data-source";
-import { Tag } from "./tags.entity";
-import { Product } from "./products.entity";
-import { User } from "../users/users.entity";
+// Sửa toàn bộ đường dẫn chọc ra đúng nhà của nó
+import { AppDataSource } from "../../../config/data-source";
+import { Tag } from "../1models/tags.entity";
+import { Product } from "../1models/products.entity";
+import { User } from "../../users/1models/users.entity";
+
+// Gom lên đầu để tái sử dụng, code clean hơn
+const tagRepository = AppDataSource.getRepository(Tag);
+const productRepository = AppDataSource.getRepository(Product);
 
 export class TagsService {
     static async getAllTags(): Promise<Tag[]> {
-        const tagRepository = AppDataSource.getRepository(Tag);
         return await tagRepository.find({ order: { name: 'ASC' } });
     }
 
     static async createTag(name: string, color: string, userId: number): Promise<Tag> {
-        const tagRepository = AppDataSource.getRepository(Tag);
-        
-        const tag = new Tag();
-        tag.name = name;
-        tag.color = color;
-        
-        // Link to user who created it
-        const user = new User();
-        user.id = userId;
-        tag.user = user;
+        // Dùng lệnh create của TypeORM nhìn gọn hơn hẳn việc dùng "new Tag()"
+        const tag = tagRepository.create({
+            name,
+            color,
+            user: { id: userId } as User
+        });
 
         return await tagRepository.save(tag);
     }
 
     static async assignTagToProduct(productId: number, tagId: number): Promise<void> {
-        const productRepository = AppDataSource.getRepository(Product);
-        const tagRepository = AppDataSource.getRepository(Tag);
-
         const product = await productRepository.findOne({
             where: { id: productId },
             relations: ["tags"]
         });
 
-        if (!product) {
-            throw new Error("Product not found");
-        }
+        if (!product) throw new Error("Không tìm thấy sản phẩm");
 
         const tag = await tagRepository.findOneBy({ id: tagId });
-        if (!tag) {
-            throw new Error("Tag not found");
-        }
+        if (!tag) throw new Error("Không tìm thấy nhãn");
 
-        // Check for duplicates
+        // Kiểm tra xem nhãn này đã được gắn cho sản phẩm chưa
         const exists = product.tags.some(t => t.id === tag.id);
-        if (exists) {
-            // Already assigned, just return or throw error. 
-            // User requirement: "Kiểm tra xem cặp product_id và tag_id đã tồn tại chưa"
-            // Returning ensures idempotency without error.
-            return; 
-        }
+        if (exists) return; // Nếu có rồi thì bỏ qua không làm gì cả
 
         product.tags.push(tag);
         await productRepository.save(product);
     }
 
     static async removeTagFromProduct(productId: number, tagId: number): Promise<void> {
-        const productRepository = AppDataSource.getRepository(Product);
-
         const product = await productRepository.findOne({
             where: { id: productId },
             relations: ["tags"]
         });
 
-        if (!product) {
-            throw new Error("Product not found");
-        }
+        if (!product) throw new Error("Không tìm thấy sản phẩm");
 
-        // Filter out the tag to be removed
+        // Lọc bỏ cái tag cần xóa ra khỏi danh sách
         product.tags = product.tags.filter(t => t.id !== Number(tagId));
         await productRepository.save(product);
     }
 
     static async getTagStats() {
-        // Query to count products per tag
-        const tagRepository = AppDataSource.getRepository(Tag);
-        
-        // Use QueryBuilder for complex aggregation
         return await tagRepository.createQueryBuilder("tag")
             .leftJoin("tag.products", "product")
             .select([

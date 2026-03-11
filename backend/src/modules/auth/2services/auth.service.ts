@@ -21,7 +21,7 @@ export class AuthService {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = userRepository.create({
+    const newUser: any = userRepository.create({
       ...data,
       password_hash: hashedPassword,
       // Fix bảo mật: Mặc định đăng ký luôn là user, cấm truyền role bậy bạ
