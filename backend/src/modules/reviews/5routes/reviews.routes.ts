@@ -1,11 +1,10 @@
 import { Router } from "express";
-import { ReviewsController } from "./reviews.controller";
-import { authMiddleware } from "../auth/auth.middleware";
+import { ReviewsController } from "../4controllers/reviews.controller";
+import { authenticateJWT } from "../../auth/3middlewares/auth.middleware";
 
 const router = Router();
-const reviewsController = new ReviewsController();
 
-router.post("/", authMiddleware, reviewsController.create.bind(reviewsController));
-router.get("/:productId", reviewsController.getByProduct.bind(reviewsController));
+router.post("/", authenticateJWT, ReviewsController.create);
+router.get("/:productId", ReviewsController.getByProduct);
 
 export default router;

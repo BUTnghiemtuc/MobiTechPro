@@ -1,32 +1,33 @@
-import { AppDataSource } from "../../config/data-source";
-import { Review } from "./reviews.entity";
-import { Product } from "../products/products.entity";
-import { User } from "../users/users.entity";
+import { AppDataSource } from "../../../config/data-source";
+import { Review } from "../1models/reviews.entity";
+import { Product } from "../../products/1models/products.entity";
+import { User } from "../../users/1models/users.entity";
+
+const reviewRepository = AppDataSource.getRepository(Review);
+const productRepository = AppDataSource.getRepository(Product);
 
 export class ReviewsService {
-    private reviewRepository = AppDataSource.getRepository(Review);
-    private productRepository = AppDataSource.getRepository(Product);
-
-    async createReview(userId: number, productId: number, rating: number, comment: string) {
-        const product = await this.productRepository.findOneBy({ id: productId });
+    static async createReview(userId: number, productId: number, rating: number, comment: string) {
+        const product = await productRepository.findOneBy({ id: productId });
         if (!product) {
-            throw new Error("Product not found");
+            throw new Error("Không tìm thấy sản phẩm");
         }
 
-        const review = new Review();
-        review.rating = rating;
-        review.comment = comment;
-        review.user = { id: userId } as User;
-        review.product = product;
+        const review = reviewRepository.create({
+            rating,
+            comment,
+            user: { id: userId } as User,
+            product: product
+        });
 
-        return await this.reviewRepository.save(review);
+        return await reviewRepository.save(review);
     }
 
-    async getReviewsByProduct(productId: number) {
-        return await this.reviewRepository.find({
+    static async getReviewsByProduct(productId: number) {
+        return await reviewRepository.find({
             where: { product: { id: productId } },
             relations: ["user"],
-            order: { createdAt: "DESC" }
+            order: { created_at: "DESC" }
         });
     }
 }

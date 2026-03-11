@@ -1,26 +1,26 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from "typeorm";
-import { User } from "../users/users.entity";
-import { Product } from "../products/products.entity";
+import { User } from "../../users/1models/users.entity";
+import { Product } from "../../products/1models/products.entity";
 
-@Entity()
+@Entity({ name: 'reviews' })
 export class Review {
-    @PrimaryGeneratedColumn()
-    id!: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ type: "int" })
-    rating!: number; // 1-5 stars
+  @Column("int")
+  rating: number;
 
-    @Column({ type: "text" })
-    comment!: string;
+  @Column("text")
+  comment: string;
 
-    @CreateDateColumn()
-    createdAt!: Date;
+  @CreateDateColumn()
+  created_at: Date;
 
-    @ManyToOne(() => User, (user) => user.id, { onDelete: "CASCADE" })
-    @JoinColumn({ name: "userId" })
-    user!: User;
+  @ManyToOne(() => User, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "user_id" })
+  user: User;
 
-    @ManyToOne(() => Product, (product) => product.id, { onDelete: "CASCADE" })
-    @JoinColumn({ name: "productId" })
-    product!: Product;
+  @ManyToOne(() => Product, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "product_id" })
+  product: Product;
 }
