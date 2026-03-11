@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, OneToMany, JoinColumn } from "typeorm";
 import { User } from "../../users/1models/users.entity";
-import { OrderItems } from "./order-items.entity";
+import { OrderItem } from "./order-items.entity";
 
 export enum OrderStatus {
   PENDING = "Pending",
@@ -10,7 +10,7 @@ export enum OrderStatus {
   CANCELLED = "Cancelled",
 }
 
-@Entity({ name: 'Orders' })
+@Entity({ name: 'orders' })
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;
@@ -32,8 +32,9 @@ export class Order {
   created_at: Date;
 
   @ManyToOne(() => User, (user) => user.orders)
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @OneToMany(() => OrderItems, (orderItem) => orderItem.order)
-  orderItems: OrderItems[];
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { cascade: true })
+  order_items: OrderItem[]; 
 }

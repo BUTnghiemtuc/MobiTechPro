@@ -1,66 +1,69 @@
 import { Response } from "express";
-import { OrdersService } from "./orders.service";
-import { AuthRequest } from "../auth/auth.middleware";
+import { OrdersService } from "../2services/orders.service";
 
 export class OrdersController {
-  static async createOrder(req: AuthRequest, res: Response) {
+  static async createOrder(req: any, res: Response) {
     try {
-      const userId = req.user!.userId;
+      const userId = req.user.id;
       const { address } = req.body;
+
+      if (!address) {
+         return res.status(400).json({ message: "Vui lòng cung cấp địa chỉ giao hàng" });
+      }
+
       const order = await OrdersService.createOrder(userId, address);
-      res.status(201).json(order);
+      return res.status(201).json(order);
     } catch (error: any) {
-      res.status(400).json({ message: error.message });
+      return res.status(400).json({ message: error.message });
     }
   }
 
-  static async getMyOrders(req: AuthRequest, res: Response) {
+  static async getMyOrders(req: any, res: Response) {
     try {
-      // @ts-ignore
-      const userId = req.user!.userId;
+      const userId = req.user.id;
       const orders = await OrdersService.getMyOrders(userId);
-      res.json(orders);
+      return res.status(200).json(orders);
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   }
 
-  static async getAllOrders(req: AuthRequest, res: Response) {
+  static async getAllOrders(req: any, res: Response) {
     try {
       const orders = await OrdersService.getAllOrders();
-      res.json(orders);
+      return res.status(200).json(orders);
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   }
 
-  static async updateStatus(req: AuthRequest, res: Response) {
+  static async updateStatus(req: any, res: Response) {
     try {
       const { id } = req.params;
       const { status } = req.body;
       const order = await OrdersService.updateStatus(Number(id), status);
-      res.json(order);
+      return res.status(200).json(order);
     } catch (error: any) {
-      res.status(400).json({ message: error.message });
+      return res.status(400).json({ message: error.message });
     }
   }
 
-  static async deleteOrder(req: AuthRequest, res: Response) {
+  static async deleteOrder(req: any, res: Response) {
     try {
       const { id } = req.params;
       await OrdersService.deleteOrder(Number(id));
-      res.json({ message: "Order deleted successfully" });
+      return res.status(200).json({ message: "Xóa đơn hàng thành công" });
     } catch (error: any) {
-      res.status(400).json({ message: error.message });
+      return res.status(400).json({ message: error.message });
     }
   }
 
-  static async getStats(req: AuthRequest, res: Response) {
+  static async getStats(req: any, res: Response) {
     try {
       const stats = await OrdersService.getDashboardStats();
-      res.json(stats);
+      return res.status(200).json(stats);
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   }
 }
