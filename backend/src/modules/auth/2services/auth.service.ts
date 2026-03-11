@@ -6,49 +6,57 @@ import * as jwt from "jsonwebtoken";
 const userRepository = AppDataSource.getRepository(User);
 
 export class AuthService {
-  static async register(data: Partial<User>) {
-    const { username, password_hash, email, role } = data;
+  static async register(data: any) {
+    // Sửa password_hash thành password cho Frontend dễ gửi
+    const { username, password, email, role } = data;
 
     const existingUser = await userRepository.findOne({
       where: [{ username }, { email }],
     });
 
     if (existingUser) {
-      throw new Error("Username or Email already exists");
+      throw new Error("Username hoặc Email đã tồn tại");
     }
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password_hash!, salt);
-
-    const matchRole = role;
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = userRepository.create({
       ...data,
       password_hash: hashedPassword,
-      role: matchRole,
+      // Fix bảo mật: Mặc định đăng ký luôn là user, cấm truyền role bậy bạ
+      role: role || "user", 
     });
 
-    return await userRepository.save(newUser);
+    const savedUser = await userRepository.save(newUser);
+
+    // Fix bảo mật: Xóa cột password_hash trước khi trả data về
+    const { password_hash: _, ...userWithoutPassword } = savedUser;
+    return userWithoutPassword;
   }
 
   static async login(username: string, password: string) {
     const user = await userRepository.findOne({ where: { username } });
 
     if (!user) {
-      throw new Error("User not found");
+      throw new Error("Không tìm thấy người dùng");
     }
 
     const isMatch = await bcrypt.compare(password, user.password_hash);
     if (!isMatch) {
-      throw new Error("Invalid credentials");
+      throw new Error("Thông tin đăng nhập không hợp lệ");
     }
 
+    // Fix lỗi đồng bộ: Sửa userId thành id
     const token = jwt.sign(
-      { userId: user.id, username: user.username, role: user.role },
+      { id: user.id, username: user.username, role: user.role },
       process.env.JWT_SECRET || "mobi_tech_secret",
-      { expiresIn: "1h" }
+      { expiresIn: "24h" } // Thời gian sống của token là 24 tiếng
     );
 
-    return { user, token };
+    // Fix bảo mật: Xóa cột password_hash trước khi trả data về
+    const { password_hash: _, ...userWithoutPassword } = user;
+    
+    return { user: userWithoutPassword, token };
   }
 }

@@ -1,52 +1,48 @@
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
-import multer from "multer";
 
+// Khai báo thêm thuộc tính user cho Request để TS không báo lỗi
 export interface AuthRequest extends Request {
   user?: any;
-  file?: Express.Multer.File;
 }
 
-export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): void => { // Explicitly return void
+// Đã đổi tên thành authenticateJWT cho khớp với các file Routes
+export const authenticateJWT = (req: AuthRequest, res: Response, next: NextFunction): void => {
   const authHeader = req.headers.authorization;
-  // console.log("Auth Header:", authHeader);
 
   if (!authHeader) {
-    console.log("No auth header");
-    res.status(401).json({ message: "No token provided in header" });
+    res.status(401).json({ message: "Không tìm thấy token xác thực" });
     return;
   }
 
-  // Handle both "Bearer <token>" and just "<token>"
+  // Xử lý linh hoạt việc Frontend có gửi kèm chữ "Bearer " hay không
   const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : authHeader;
 
   if (!token) {
-    console.log("Token is empty");
-    res.status(401).json({ message: "Token format invalid" });
+    res.status(401).json({ message: "Định dạng token không hợp lệ" });
     return;
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "mobi_tech_secret");
-    req.user = decoded;
-    next();
+    req.user = decoded; // Gắn thông tin (id, username, role) vào req để Controller dùng
+    next(); // Mở barie cho đi tiếp
   } catch (error: any) {
-    console.error("verify error:", error.message);
-    // Return specific error message to help debugging
-    res.status(401).json({ message: `Invalid token: ${error.message}` });
+    res.status(401).json({ message: `Token không hợp lệ hoặc đã hết hạn: ${error.message}` });
     return;
   }
 };
 
 export const checkRole = (roles: string[]) => {
-  return (req: AuthRequest, res: Response, next: NextFunction): void => { // Explicitly return void
+  return (req: AuthRequest, res: Response, next: NextFunction): void => {
     if (!req.user) {
-        res.status(401).json({ message: "Unauthorized" });
+        res.status(401).json({ message: "Chưa xác thực danh tính" });
         return;
     }
 
+    // Kiểm tra xem role của user có nằm trong danh sách VIP được phép qua không
     if (!roles.includes(req.user.role)) {
-        res.status(403).json({ message: "Forbidden" });
+        res.status(403).json({ message: "Bạn không có quyền truy cập tài nguyên này" });
         return;
     }
 
