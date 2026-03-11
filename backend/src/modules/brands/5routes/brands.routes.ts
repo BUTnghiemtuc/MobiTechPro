@@ -1,21 +1,18 @@
 import { Router } from "express";
-import { BrandsController } from "./brands.controller";
-import { authMiddleware, checkRole } from "../auth/auth.middleware";
-import { UserRole } from "../users/users.entity";
-import { upload } from "../../middleware/upload.middleware";
+import { BrandsController } from "../4controllers/brands.controller";
+import { authenticateJWT, checkRole } from "../../auth/3middlewares/auth.middleware";
+import { upload } from "../../../middleware/upload.middleware";
 
 const router = Router();
 
-// Public routes
 router.get("/", BrandsController.getBrands);
 router.get("/active", BrandsController.getActiveBrands);
 router.get("/:id", BrandsController.getBrandById);
 
-// Admin-only routes
 router.post(
   "/",
-  authMiddleware,
-  checkRole([UserRole.ADMIN, UserRole.STAFF]),
+  authenticateJWT,
+  checkRole(["admin", "staff"]),
   upload.fields([
     { name: 'logo', maxCount: 1 },
     { name: 'image', maxCount: 1 }
@@ -25,8 +22,8 @@ router.post(
 
 router.put(
   "/:id",
-  authMiddleware,
-  checkRole([UserRole.ADMIN, UserRole.STAFF]),
+  authenticateJWT,
+  checkRole(["admin", "staff"]),
   upload.fields([
     { name: 'logo', maxCount: 1 },
     { name: 'image', maxCount: 1 }
@@ -36,8 +33,8 @@ router.put(
 
 router.delete(
   "/:id",
-  authMiddleware,
-  checkRole([UserRole.ADMIN, UserRole.STAFF]),
+  authenticateJWT,
+  checkRole(["admin", "staff"]),
   BrandsController.deleteBrand
 );
 

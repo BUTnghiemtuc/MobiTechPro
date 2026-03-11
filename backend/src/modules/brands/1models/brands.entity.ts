@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { Product } from "../../products/1models/products.entity";
 
-@Entity({ name: 'Brands' })
+@Entity({ name: 'brands' })
 export class Brand {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,29 +10,32 @@ export class Brand {
   name: string;
 
   @Column({ nullable: true })
-  color: string; // Hex color code
+  color: string; 
 
   @Column({ nullable: true })
-  bgGradient: string; // Tailwind gradient classes
+  bg_gradient: string;
 
   @Column({ nullable: true })
-  logoUrl: string; // Path to logo image
+  logo_url: string;
 
   @Column({ nullable: true })
-  imageUrl: string; // Path to flagship phone image
+  image_url: string;
 
   @Column({ nullable: true })
-  link: string; // Link to filtered products page
+  link: string; 
 
   @Column({ type: 'int', default: 0 })
-  displayOrder: number; // Order in carousel
+  display_order: number;
 
   @Column({ type: 'boolean', default: true })
-  isActive: boolean; // Show/hide brand
+  is_active: boolean;
 
   @CreateDateColumn()
-  createdAt: Date;
+  created_at: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updated_at: Date;
+
+  @OneToMany(() => Product, (product) => product.brand)
+  products: Product[];
 }
