@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { User } from '../users/users.entity';
+import { User } from '../../users/1models/users.entity';
 
 @Entity('blog_posts')
 export class BlogPost {
@@ -27,9 +27,6 @@ export class BlogPost {
   @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'author_id' })
   author: User;
-
-  @Column({ nullable: true })
-  author_id: number;
 
   @Column({ length: 20, nullable: true })
   read_time: string;

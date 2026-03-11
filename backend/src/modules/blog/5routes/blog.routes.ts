@@ -1,21 +1,22 @@
 import { Router } from "express";
-import { BlogController } from "./blog.controller";
-import { authMiddleware, checkRole } from "../auth/auth.middleware";
-import { UserRole } from "../users/users.entity";
+import { BlogController } from "../4controllers/blog.controller";
+import { authenticateJWT, checkRole } from "../../auth/3middlewares/auth.middleware";
+import { upload } from "../../../middleware/upload.middleware"; 
 
 const router = Router();
 
-// Public routes
 router.get("/", BlogController.getPublishedPosts);
 router.get("/:id", BlogController.getPost);
 router.get("/slug/:slug", BlogController.getPostBySlug);
 
-// Admin/Staff protected routes
 const adminRouter = Router();
-adminRouter.get("/", authMiddleware, checkRole([UserRole.STAFF, UserRole.ADMIN]), BlogController.getAllPosts);
-adminRouter.post("/", authMiddleware, checkRole([UserRole.STAFF, UserRole.ADMIN]), BlogController.createPost);
-adminRouter.put("/:id", authMiddleware, checkRole([UserRole.STAFF, UserRole.ADMIN]), BlogController.updatePost);
-adminRouter.delete("/:id", authMiddleware, checkRole([UserRole.STAFF, UserRole.ADMIN]), BlogController.deletePost);
-adminRouter.patch("/:id/publish", authMiddleware, checkRole([UserRole.STAFF, UserRole.ADMIN]), BlogController.togglePublish);
+
+adminRouter.use(authenticateJWT, checkRole(["staff", "admin"]));
+
+adminRouter.get("/", BlogController.getAllPosts);
+adminRouter.post("/", upload.single('featured_image'), BlogController.createPost);
+adminRouter.put("/:id", upload.single('featured_image'), BlogController.updatePost);
+adminRouter.delete("/:id", BlogController.deletePost);
+adminRouter.patch("/:id/publish", BlogController.togglePublish);
 
 export { router as blogRoutes, adminRouter as blogAdminRoutes };

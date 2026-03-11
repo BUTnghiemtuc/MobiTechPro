@@ -1,11 +1,11 @@
-import { AppDataSource } from '../../config/data-source';
-import { BlogPost } from './blog.entity';
+import { AppDataSource } from "../../../config/data-source";
+import { BlogPost } from "../1models/blog.entity";
+import { User } from "../../users/1models/users.entity"; 
 import { Like } from 'typeorm';
 
 const blogRepository = AppDataSource.getRepository(BlogPost);
 
 export class BlogService {
-  // Public: Get all published posts
   static async findAll(page: number = 1, limit: number = 10, category?: string, search?: string) {
     const skip = (page - 1) * limit;
     const where: any = { published: true };
@@ -37,7 +37,6 @@ export class BlogService {
     };
   }
 
-  // Admin: Get all posts including drafts
   static async findAllAdmin(page: number = 1, limit: number = 20, category?: string, published?: boolean, search?: string) {
     const skip = (page - 1) * limit;
     const where: any = {};
@@ -73,7 +72,6 @@ export class BlogService {
     };
   }
 
-  // Get single post by ID
   static async findOne(id: number) {
     return await blogRepository.findOne({
       where: { id },
@@ -81,7 +79,6 @@ export class BlogService {
     });
   }
 
-  // Get post by slug
   static async findBySlug(slug: string) {
     return await blogRepository.findOne({
       where: { slug, published: true },
@@ -89,11 +86,10 @@ export class BlogService {
     });
   }
 
-  // Create new post
-  static async create(data: Partial<BlogPost>, userId: number) {
+  static async create(data: any, userId: number) {
     const post = blogRepository.create({
       ...data,
-      author_id: userId,
+      author: { id: userId } as User,
       slug: data.slug || this.generateSlug(data.title || ''),
       read_time: data.read_time || this.calculateReadTime(data.content || ''),
     });
@@ -101,8 +97,7 @@ export class BlogService {
     return await blogRepository.save(post);
   }
 
-  // Update post
-  static async update(id: number, data: Partial<BlogPost>) {
+  static async update(id: number, data: any) {
     const updateData: any = { ...data };
     
     if (data.title && !data.slug) {
@@ -117,29 +112,26 @@ export class BlogService {
     return await this.findOne(id);
   }
 
-  // Delete post
   static async delete(id: number) {
     const result = await blogRepository.delete(id);
     return (result.affected || 0) > 0;
   }
 
-  // Toggle publish status
   static async togglePublish(id: number) {
     const post = await this.findOne(id);
     if (!post) {
-      throw new Error('Post not found');
+      throw new Error('Không tìm thấy bài viết');
     }
 
     post.published = !post.published;
     return await blogRepository.save(post);
   }
 
-  // Helper: Generate slug from title
   private static generateSlug(title: string): string {
     return title
       .toLowerCase()
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+      .replace(/[\u0300-\u036f]/g, '')
       .replace(/đ/g, 'd')
       .replace(/[^a-z0-9\s-]/g, '')
       .trim()
@@ -147,7 +139,6 @@ export class BlogService {
       .replace(/-+/g, '-');
   }
 
-  // Helper: Calculate read time
   private static calculateReadTime(content: string): string {
     const wordsPerMinute = 200;
     const wordCount = content.split(/\s+/).length;
