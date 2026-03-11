@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { CartController } from "./cart.controller";
-import { authMiddleware } from "../auth/auth.middleware";
+import { CartController } from "../4controllers/cart.controller";
+import { authenticateJWT } from "../../auth/3middlewares/auth.middleware";
 
 const router = Router();
 
-router.use(authMiddleware);
+router.use(authenticateJWT);
 
 router.post("/", CartController.addToCart);
 router.get("/", CartController.getCart);

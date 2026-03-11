@@ -1,37 +1,42 @@
 import { Response } from "express";
-import { CartService } from "./cart.service";
-import { AuthRequest } from "../auth/auth.middleware";
+import { CartService } from "../2services/cart.service";
 
 export class CartController {
-  static async addToCart(req: AuthRequest, res: Response) {
+  static async addToCart(req: any, res: Response) {
     try {
-      const userId = req.user!.userId;
+      const userId = req.user.id;
       const { productId, quantity } = req.body;
+
+      if (!productId || !quantity) {
+          return res.status(400).json({ message: "Thiếu ID sản phẩm hoặc số lượng" });
+      }
+
       const item = await CartService.addToCart(userId, productId, quantity);
-      res.json(item);
+      return res.status(201).json(item);
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   }
 
-  static async getCart(req: AuthRequest, res: Response) {
+  static async getCart(req: any, res: Response) {
     try {
-      const userId = req.user!.userId;
+      const userId = req.user.id;
       const items = await CartService.getCart(userId);
-      res.json(items);
+      return res.status(200).json(items);
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   }
 
-  static async removeFromCart(req: AuthRequest, res: Response) {
+  static async removeFromCart(req: any, res: Response) {
     try {
-      const userId = req.user!.userId;
+      const userId = req.user.id;
       const { id } = req.params;
+      
       await CartService.deleteCartItem(Number(id), userId);
-      res.json({ message: "Item removed from cart" });
+      return res.status(200).json({ message: "Đã xóa sản phẩm khỏi giỏ hàng" });
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   }
 }

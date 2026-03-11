@@ -1,7 +1,7 @@
-import { AppDataSource } from "../../config/data-source";
-import { Cart } from "./cart.entity";
-import { Product } from "../products/products.entity";
-import { User } from "../users/users.entity";
+import { AppDataSource } from "../../../config/data-source";
+import { Cart } from "../1models/cart.entity";
+import { Product } from "../../products/1models/products.entity";
+import { User } from "../../users/1models/users.entity";
 
 const cartRepository = AppDataSource.getRepository(Cart);
 
