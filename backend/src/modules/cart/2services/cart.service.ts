@@ -38,4 +38,14 @@ export class CartService {
   static async deleteCartItem(cartId: number, userId: number) {
       return await cartRepository.delete({ id: cartId, user: { id: userId } });
   }
+
+  static async updateQuantity(userId: number, cartId: number, quantity: number) {
+    const item = await cartRepository.findOne({
+      where: { id: cartId, user: { id: userId } }
+    });
+    if (!item) throw new Error("Không tìm thấy sản phẩm trong giỏ hàng");
+    
+    item.quantity = quantity;
+    return await cartRepository.save(item);
+  }
 }

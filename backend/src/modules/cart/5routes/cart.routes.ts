@@ -9,5 +9,6 @@ router.use(authenticateJWT);
 router.post("/", CartController.addToCart);
 router.get("/", CartController.getCart);
 router.delete("/:id", CartController.removeFromCart);
+router.patch("/:id", CartController.updateQuantity);
 
 export default router;
