@@ -39,4 +39,16 @@ export class CartController {
       return res.status(500).json({ message: error.message });
     }
   }
+
+  static async updateQuantity(req:any, res: Response) {
+    try {
+      const userId = req.user.id;
+      const { id, quantity } = req.body;
+
+      await CartService.updateQuantity(userId, Number(id), Number(quantity));
+      return res.status(200).json({ message: "Đã cập nhật số lượng sản phẩm" });
+    } catch (error: any) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
 }
