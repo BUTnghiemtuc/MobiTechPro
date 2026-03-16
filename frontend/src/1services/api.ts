@@ -7,7 +7,6 @@ const api = axios.create({
   },
 });
 
-// Add a request interceptor to include auth token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -17,6 +16,24 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => {
+    return response; 
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      console.warn("Phiên đăng nhập hết hạn.");
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      
+      if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+        window.location.href = '/login';
+      }
+    }
     return Promise.reject(error);
   }
 );

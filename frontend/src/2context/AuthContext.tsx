@@ -1,13 +1,12 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import api from '../1services/api';
 
-// Define types broadly for now, can be refined based on backend response
-interface User {
-  id: string;
+export interface User {
+  id: number; 
   username: string;
   email?: string;
   avatar_url?: string;
-  role: 'Customer' | 'Staff' | 'Admin'; // Explicitly define roles
+  role: 'customer' | 'staff' | 'admin'; 
 }
 
 interface AuthContextType {
@@ -24,23 +23,21 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); // Add loading state for initial check
+  const [loading, setLoading] = useState<boolean>(true); 
 
-  // Check for existing token on mount
+  // Kiểm tra vé (token) mỗi khi load lại trang
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user'); // Optional: check if we persist user info too
+    const savedUser = localStorage.getItem('user'); 
     
-    if (token) {
+    // Phải có cả token và user thì mới tính là đã đăng nhập
+    if (token && savedUser) {
       setIsAuthenticated(true);
-      if (savedUser) {
-        try {
-          setUser(JSON.parse(savedUser));
-        } catch (e) {
-          console.error("Failed to parse saved user", e);
-        }
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (e) {
+        console.error("Lỗi khi đọc thông tin user từ máy", e);
       }
-      // Optional: Verify token with backend here if needed
     }
     setLoading(false);
   }, []);
@@ -48,40 +45,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (username: string, password: string) => {
     try {
       const response = await api.post('/auth/login', { username, password });
-      // Assuming response.data contains { accessToken: string, user: User }
-      // Adjust based on your actual API response structure
+      
+      // Hứng token và thông tin user từ Backend trả về
       const { token, user } = response.data; 
 
+      // Lưu vào két sắt của trình duyệt (localStorage)
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
       
       setIsAuthenticated(true);
       setUser(user);
     } catch (error) {
-      console.error('Login failed:', error);
-      throw error; // Re-throw to let components handle UI error feedback
+      console.error('Đăng nhập thất bại:', error);
+      throw error; 
     }
   };
 
   const register = async (username: string, password: string, email: string) => {
     try {
-      await api.post('/auth/register', { username, password, email });
-      // After register, user might need to login, or is auto-logged in.
-      // For now, assume we just redirect to login logic or let user login.
+      // Đẩy data lên Backend theo đúng thứ tự
+      await api.post('/auth/register', { username, email, password });
     } catch (error) {
-      console.error('Registration failed:', error);
+      console.error('Đăng ký thất bại:', error);
       throw error;
     }
   };
 
   const logout = () => {
+    // Quét sạch két sắt
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setIsAuthenticated(false);
     setUser(null);
-    // Redirect to login is usually handled by the component calling logout or by a ProtectedRoute
-    // reacting to isAuthenticated = false. 
-    // To forcibly redirect here would require useNavigate or window.location
+    // Đá về trang login
     window.location.href = '/login'; 
   };
 
@@ -95,7 +91,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useAuth bắt buộc phải nằm bên trong AuthProvider');
   }
   return context;
 };

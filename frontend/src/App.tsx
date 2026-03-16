@@ -1,37 +1,37 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import HomePage from './pages/HomePage';
-import PhonePage from './pages/PhonePage';
-import LoginPage from './pages/LoginPage';
-import CartPage from './pages/CartPage';
-import RegisterPage from './pages/RegisterPage';
-import ProductDetailPage from './pages/ProductDetailPage';
-import ProfilePage from './pages/ProfilePage';
-import MyOrdersPage from './pages/MyOrdersPage';
-import OrderManagement from './pages/admin/OrderManagement';
-import { AuthProvider } from './context/AuthContext';
+import HomePage from './3pages/HomePage';
+import PhonePage from './3pages/PhonePage';
+import LoginPage from './3pages/LoginPage';
+import CartPage from './3pages/CartPage';
+import RegisterPage from './3pages/RegisterPage';
+import ProductDetailPage from './3pages/ProductDetailPage';
+import ProfilePage from './3pages/ProfilePage';
+import MyOrdersPage from './3pages/MyOrdersPage';
+import OrderManagement from './3pages/admin/OrderManagement';
+import { AuthProvider } from './2context/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ProtectedRoute from './components/ProtectedRoute';
-import AdminLayout from './layouts/AdminLayout';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import ProductManagement from './pages/admin/ProductManagement';
-import ProductEditor from './pages/admin/ProductEditor';
-import UserManagement from './pages/admin/UserManagement';
-import BrandManagement from './pages/admin/BrandManagement';
-import BrandPage from './pages/BrandPage';
-import UnauthorizedPage from './pages/UnauthorizedPage';
-import MainLayout from './layouts/MainLayout';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-import PolicyPage from './components/PolicyPage';
-import BlogListPage from './pages/BlogListPage';
-import BlogDetailPage from './pages/BlogDetailPage';
-import BlogManagement from './pages/admin/BlogManagement';
-import BlogEditor from './pages/admin/BlogEditor';
-import CheckoutPage from './pages/checkout/CheckoutPage';
-import OrderSuccessPage from './pages/checkout/OrderSuccessPage';
+import ProtectedRoute from './4components/ProtectedRoute';
+import AdminLayout from './4components/layouts/AdminLayout';
+import AdminDashboard from './3pages/admin/AdminDashboard';
+import ProductManagement from './3pages/admin/ProductManagement';
+import ProductEditor from './3pages/admin/ProductEditor';
+import UserManagement from './3pages/admin/UserManagement';
+import BrandManagement from './3pages/admin/BrandManagement';
+import BrandPage from './3pages/BrandPage';
+import UnauthorizedPage from './3pages/UnauthorizedPage';
+import MainLayout from './4components/layouts/MainLayout';
+import AboutPage from './3pages/AboutPage';
+import ContactPage from './3pages/ContactPage';
+import PolicyPage from './4components/PolicyPage';
+import BlogListPage from './3pages/BlogListPage';
+import BlogDetailPage from './3pages/BlogDetailPage';
+import BlogManagement from './3pages/admin/BlogManagement';
+import BlogEditor from './3pages/admin/BlogEditor';
+import CheckoutPage from './3pages/checkout/CheckoutPage';
+import OrderSuccessPage from './3pages/checkout/OrderSuccessPage';
 
 function App() {
   return (
@@ -58,13 +58,15 @@ function App() {
             <Route path="/terms-of-service" element={<PolicyPage title="Terms of Service" lastUpdated="February 4, 2026" />} />
             <Route path="/shipping-policy" element={<PolicyPage title="Shipping Policy" lastUpdated="February 4, 2026" />} />
             <Route path="/returns-refunds" element={<PolicyPage title="Returns & Refunds Policy" lastUpdated="February 4, 2026" />} />
+            
+            {/* GỠ BOM: Hạ chữ thường cho Role */}
             <Route path="/profile" element={
-                 <ProtectedRoute allowedRoles={['Customer', 'Staff', 'Admin']}>
+                 <ProtectedRoute allowedRoles={['customer', 'staff', 'admin']}>
                      <ProfilePage />
                  </ProtectedRoute>
             } />
             <Route path="/my-orders" element={
-                 <ProtectedRoute allowedRoles={['Customer', 'Staff', 'Admin']}>
+                 <ProtectedRoute allowedRoles={['customer', 'staff', 'admin']}>
                      <MyOrdersPage />
                  </ProtectedRoute>
             } />
@@ -77,7 +79,8 @@ function App() {
           <Route
             path="/admin/*"
             element={
-              <ProtectedRoute allowedRoles={['Admin', 'Staff']}>
+              /* GỠ BOM: Hạ chữ thường cho Role */
+              <ProtectedRoute allowedRoles={['admin', 'staff']}>
                 <AdminLayout />
               </ProtectedRoute>
             }
@@ -91,11 +94,13 @@ function App() {
             <Route path="blog" element={<BlogManagement />} />
             <Route path="blog/new" element={<BlogEditor />} />
             <Route path="blog/:id/edit" element={<BlogEditor />} />
+            
             {/* Admin-only route for User Management */}
             <Route
               path="users"
               element={
-                <ProtectedRoute allowedRoles={['Admin']}>
+                /* GỠ BOM: Hạ chữ thường cho Role */
+                <ProtectedRoute allowedRoles={['admin']}>
                   <UserManagement />
                 </ProtectedRoute>
               }
