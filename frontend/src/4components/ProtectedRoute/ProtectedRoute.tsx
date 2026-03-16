@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../2context/AuthContext';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -13,22 +13,22 @@ const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="text-xl text-gray-600">Loading...</div>
+        <div className="text-xl text-gray-600">Đang tải dữ liệu...</div>
       </div>
     );
   }
 
-  // Not authenticated -> redirect to login
+  // Chưa đăng nhập -> đá về trang login
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Authenticated but wrong role -> redirect to unauthorized
+  // Đã đăng nhập nhưng sai quyền (Role) -> đá về trang báo lỗi không có quyền
   if (!user?.role || !allowedRoles.includes(user.role)) {
     return <Navigate to="/unauthorized" replace />;
   }
 
-  // Correct role -> render children
+  // Quyền chuẩn xác -> mở cửa cho vào
   return <>{children}</>;
 };
 
