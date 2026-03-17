@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { cartService, type CartItem } from '../1services/cart.service';
-import { orderService } from '../1services/order.service';
+import { useAuth } from '../../2context/AuthContext';
+import { cartService, type CartItem } from '../../1services/cart.service';
+import { orderService } from '../../1services/order.service';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import QuantityStepper from '../components/QuantityStepper';
-import ShippingProgressBar from '../components/ShippingProgressBar';
+import QuantityStepper from '../../4components/QuantityStepper/QuantityStepper';
+import ShippingProgressBar from '../../4components/ShippingProgressBar/ShippingProgressBar';
 
 // Định nghĩa URL Backend (nên để trong file config chung)
 const API_BASE_URL = 'http://localhost:3000';
