@@ -1,38 +1,40 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, Link } from 'react-router-dom';
 import { useAuth } from '../../2context/AuthContext';
+import styles from './StaffRoute.module.css';
 
 const StaffRoute = () => {
   const { user, isAuthenticated, loading } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>; // Or a proper spinner
+    return <div>Đang tải dữ liệu...</div>;
   }
 
-  // Check if user is logged in AND has Staff role (not Admin)
+  // Đã đăng nhập VÀ có quyền staff 
   if (isAuthenticated && user?.role === 'staff') {
     return <Outlet />;
   }
 
-  // If authenticated but not Staff, show Access Denied
+  // Đã đăng nhập nhưng KHÔNG phải staff -> Báo lỗi Access Denied
   if (isAuthenticated) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md text-center">
-          <h1 className="text-3xl font-bold text-red-600 mb-4">Access Denied</h1>
-          <p className="mb-2 text-gray-700">You do not have permission to view this page.</p>
-          <p className="mb-6 text-gray-600">
-            Current Role: <span className="font-semibold">{user?.role || 'Unknown'}</span><br/>
-            Required Role: <span className="font-semibold">Staff</span>
+      <div className={styles.container}>
+        <div className={styles.card}>
+          <h1 className={styles.title}>Truy cập bị từ chối</h1>
+          <p className={styles.message}>Bạn không có quyền xem trang này dành cho Nhân viên.</p>
+          <p className={styles.details}>
+            Quyền hiện tại: <span className={styles.roleHighlight}>{user?.role || 'Không xác định'}</span><br/>
+            Quyền yêu cầu: <span className={styles.roleHighlight}>staff</span>
           </p>
-          <a href="/" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
-            Go to Home
-          </a>
+          
+          <Link to="/" className={styles.homeButton}>
+            Về trang chủ
+          </Link>
         </div>
       </div>
     );
   }
 
-  // If not authorized, redirect to login
+  // Chưa đăng nhập -> Đá về trang Login
   return <Navigate to="/login" replace />;
 };
 
