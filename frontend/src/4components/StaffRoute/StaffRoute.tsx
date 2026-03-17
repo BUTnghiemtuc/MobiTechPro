@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../2context/AuthContext';
 
 const StaffRoute = () => {
   const { user, isAuthenticated, loading } = useAuth();
@@ -9,7 +9,7 @@ const StaffRoute = () => {
   }
 
   // Check if user is logged in AND has Staff role (not Admin)
-  if (isAuthenticated && user?.role === 'Staff') {
+  if (isAuthenticated && user?.role === 'staff') {
     return <Outlet />;
   }
 

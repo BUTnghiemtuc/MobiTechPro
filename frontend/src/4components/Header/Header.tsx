@@ -1,7 +1,7 @@
 
 import { motion } from "framer-motion";
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../2context/AuthContext';
 import { useEffect, useState } from 'react';
 
 const NavLink = ({ to, children, className = "" }: { to: string, children: React.ReactNode, className?: string }) => {
@@ -116,7 +116,7 @@ const Header = () => {
                     <button className="flex items-center gap-3 focus:outline-none group-hover/profile:opacity-80 transition-opacity">
                         <div className="text-right hidden sm:block">
                             <p className="text-xs font-bold text-slate-900 leading-tight">{user?.username}</p>
-                            <p className="text-[10px] text-slate-500 font-medium">{user?.role === 'Admin' ? 'Administrator' : 'Member'}</p>
+                            <p className="text-[10px] text-slate-500 font-medium">{user?.role === 'admin' ? 'Administrator' : 'Member'}</p>
                         </div>
                         <div className="w-9 h-9 rounded-full overflow-hidden border border-slate-200 shadow-sm transition-transform group-active/profile:scale-95">
                              {user?.avatar_url ? (
@@ -134,7 +134,7 @@ const Header = () => {
                         <div className="flex flex-col gap-1">
                             <Link to="/profile" className="px-4 py-2.5 text-sm text-slate-700 hover:bg-black/5 hover:text-black rounded-xl transition-colors font-medium">My Profile</Link>
                             <Link to="/my-orders" className="px-4 py-2.5 text-sm text-slate-700 hover:bg-black/5 hover:text-black rounded-xl transition-colors font-medium">Order History</Link>
-                            {(user?.role === 'Admin' || user?.role === 'Staff') && (
+                            {(user?.role === 'admin' || user?.role === 'staff') && (
                                 <Link to="/admin" className="px-4 py-2.5 text-sm text-slate-700 hover:bg-black/5 hover:text-black rounded-xl transition-colors font-medium">Admin Dashboard</Link>
                             )}
                             <div className="h-px bg-slate-100 my-1 mx-2"></div>

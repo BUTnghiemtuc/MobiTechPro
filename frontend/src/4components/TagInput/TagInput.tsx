@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import api from '../1services/api';
+import api from '../../1services/api';
 
 interface Tag {
     id: number;

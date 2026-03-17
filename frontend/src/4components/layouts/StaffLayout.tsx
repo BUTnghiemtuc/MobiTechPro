@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../2context/AuthContext';
 
 const StaffLayout = () => {
   const { logout, user } = useAuth();

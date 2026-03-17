@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../2context/AuthContext';
 
 const AdminRoute = () => {
   const { user, isAuthenticated, loading } = useAuth();
@@ -9,7 +9,7 @@ const AdminRoute = () => {
   }
 
   // Check if user is logged in AND has Admin role only
-  if (isAuthenticated && user?.role === 'Admin') {
+  if (isAuthenticated && user?.role === 'admin') {
     return <Outlet />;
   }
 

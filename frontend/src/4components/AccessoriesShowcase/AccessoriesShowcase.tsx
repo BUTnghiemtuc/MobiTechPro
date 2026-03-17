@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { productService, type Product } from '../1services/product.service';
-import { cartService } from '../1services/cart.service';
-import { useAuth } from '../context/AuthContext';
+import { productService, type Product } from '../../1services/product.service';
+import { cartService } from '../../1services/cart.service';
+import { useAuth } from '../../2context/AuthContext';
 import { toast } from 'react-toastify';
 
 const AccessoriesShowcase = () => {

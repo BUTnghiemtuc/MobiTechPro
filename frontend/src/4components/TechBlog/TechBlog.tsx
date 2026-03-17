@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { blogService, type BlogPost } from '../1services/blog.service';
+import { blogService, type BlogPost } from '../../1services/blog.service';
 
 const TechBlog = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { brandService, type Brand } from '../1services/brand.service';
+import { brandService, type Brand } from '../../1services/brand.service';
 
 const BrandDiscovery = () => {
   const [brands, setBrands] = useState<Brand[]>([]);

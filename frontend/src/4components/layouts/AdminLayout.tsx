@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../2context/AuthContext';
 import { useState } from 'react';
 
 const AdminLayout = () => {
@@ -77,7 +77,7 @@ const AdminLayout = () => {
             />
             
             {/* Admin Only */}
-            {user?.role === 'Admin' && (
+            {user?.role === 'admin' && (
               <>
                  <NavItem 
                   to="/admin/users" 
