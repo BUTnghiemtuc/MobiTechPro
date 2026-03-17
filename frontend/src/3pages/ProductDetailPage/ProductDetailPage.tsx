@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { productService, type Product } from '../1services/product.service';
-import { reviewService, type Review } from '../1services/review.service';
-import { cartService } from '../1services/cart.service';
-import { useAuth } from '../context/AuthContext';
+import { productService, type Product } from '../../1services/product.service';
+import { reviewService, type Review } from '../../1services/review.service';
+import { cartService } from '../../1services/cart.service';
+import { useAuth } from '../../2context/AuthContext';
 import { toast } from 'react-toastify';
-import ReviewForm from '../components/reviews/ReviewForm';
-import ReviewList from '../components/reviews/ReviewList';
+import ReviewForm from '../../4components/reviews/ReviewForm';
+import ReviewList from '../../4components/reviews/ReviewList';
 
 const ProductDetailPage = () => {
     const { id } = useParams<{ id: string }>();

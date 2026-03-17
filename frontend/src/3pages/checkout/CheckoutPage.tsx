@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import ProgressIndicator from '../../components/checkout/ProgressIndicator';
-import ShippingForm from '../../components/checkout/ShippingForm';
-import PaymentSelector, { type PaymentMethod } from '../../components/checkout/PaymentSelector';
-import OrderReview from '../../components/checkout/OrderReview';
+import ProgressIndicator from '../../4components/checkout/ProgressIndicator';
+import ShippingForm from '../../4components/checkout/ShippingForm';
+import PaymentSelector, { type PaymentMethod } from '../../4components/checkout/PaymentSelector';
+import OrderReview from '../../4components/checkout/OrderReview';
 import { orderService } from '../../1services/order.service';
 
 interface ShippingData {

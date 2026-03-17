@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { orderService, type Order } from '../1services/order.service';
+import { orderService, type Order } from '../../1services/order.service';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 

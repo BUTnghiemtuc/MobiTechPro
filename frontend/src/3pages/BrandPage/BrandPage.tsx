@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { productService, type Product } from '../1services/product.service';
-import { brandService, type Brand } from '../1services/brand.service';
-import { cartService } from '../1services/cart.service';
-import { useAuth } from '../context/AuthContext';
+import { productService, type Product } from '../../1services/product.service';
+import { brandService, type Brand } from '../../1services/brand.service';
+import { cartService } from '../../1services/cart.service';
+import { useAuth } from '../../2context/AuthContext';
 import { toast } from 'react-toastify';
 
 // Brand theme configurations

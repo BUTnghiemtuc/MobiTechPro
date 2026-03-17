@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { productService, type Product } from '../1services/product.service';
-import { cartService } from '../1services/cart.service';
-import { useAuth } from '../context/AuthContext';
+import { productService, type Product } from '../../1services/product.service';
+import { cartService } from '../../1services/cart.service';
+import { useAuth } from '../../2context/AuthContext';
 import { toast } from 'react-toastify';
-import BrandDiscovery from '../components/BrandDiscovery';
+import BrandDiscovery from '../../4components/BrandDiscovery/BrandDiscovery';
 
 import { useSearchParams, useParams } from 'react-router-dom';
 

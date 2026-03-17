@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { productService } from '../../1services/product.service';
 import { toast } from 'react-toastify';
 import api from '../../1services/api';
-import TagInput from '../../components/TagInput';
+import TagInput from '../../4components/TagInput/TagInput';
 
 const ProductEditor = () => {
   const { id } = useParams();

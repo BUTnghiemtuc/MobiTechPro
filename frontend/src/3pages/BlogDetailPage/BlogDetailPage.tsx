@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { blogService, type BlogPost } from '../1services/blog.service';
+import { blogService, type BlogPost } from '../../1services/blog.service';
 
 const BlogDetailPage = () => {
   const { id } = useParams<{ id: string }>();

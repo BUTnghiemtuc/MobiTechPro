@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { orderService, type Order, OrderStatus } from '../../1services/order.service';
 import { toast } from 'react-toastify';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../2context/AuthContext';
 
 const OrderManagement = () => {
   const { user } = useAuth();
@@ -127,7 +127,7 @@ const OrderManagement = () => {
                             </select>
 
                             {/* Delete Button (Admin Only) */}
-                            {user?.role === 'Admin' && (
+                            {user?.role === 'admin' && (
                                 <button
                                 onClick={() => handleDelete(order.id)}
                                 className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"

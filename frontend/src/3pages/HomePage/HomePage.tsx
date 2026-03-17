@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
-import heroBanner from '../assets/hero_flagship_smartphone.png';
-import ValueProposition from '../components/ValueProposition';
-import BrandDiscovery from '../components/BrandDiscovery';
-import BestSellers from '../components/BestSellers';
-import FlashSale from '../components/FlashSale';
-import AdvertisingBanner from '../components/AdvertisingBanner';
-import AccessoriesShowcase from '../components/AccessoriesShowcase';
-import TechBlog from '../components/TechBlog';
+import heroBanner from '../../assets/hero_flagship_smartphone.png';
+import ValueProposition from '../../4components/ValueProposition/ValueProposition';
+import BrandDiscovery from '../../4components/BrandDiscovery/BrandDiscovery';
+import BestSellers from '../../4components/BestSellers/BestSellers';
+import FlashSale from '../../4components/FlashSale/FlashSale';
+import AdvertisingBanner from '../../4components/AdvertisingBanner/AdvertisingBanner';
+import AccessoriesShowcase from '../../4components/AccessoriesShowcase/AccessoriesShowcase';
+import TechBlog from '../../4components/TechBlog/TechBlog';
 
 const HomePage = () => {
   return (

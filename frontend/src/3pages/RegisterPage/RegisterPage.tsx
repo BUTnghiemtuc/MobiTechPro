@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../2context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import loginBg from '../assets/login.png';
+import loginBg from '../../assets/login.png';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({

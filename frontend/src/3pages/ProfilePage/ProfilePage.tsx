@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import { useAuth } from '../context/AuthContext';
-import { userService, type UserProfile } from '../1services/user.service';
+import { userService, type UserProfile } from '../../1services/user.service';
 import { toast } from 'react-toastify';
 
 const ProfilePage = () => {
