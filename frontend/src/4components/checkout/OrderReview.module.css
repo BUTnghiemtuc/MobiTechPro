@@ -32,10 +32,6 @@
   .leftCol { grid-column: span 2 / span 2; }
 }
 
-.rightCol {
-  /* lg:col-span-1 */
-}
-
 /* --- Card Styles --- */
 .card {
   background-color: #ffffff;

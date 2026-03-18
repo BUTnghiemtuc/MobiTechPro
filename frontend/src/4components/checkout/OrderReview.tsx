@@ -174,7 +174,7 @@ const OrderReview = ({
         </div>
 
         {/* Cột phải: Hóa đơn tóm tắt */}
-        <div className={styles.rightCol}>
+        <div>
           <div className={`${styles.card} ${styles.summarySticky}`}>
             <h3 className={styles.summaryTitle}>Tổng Đơn Hàng</h3>
 
