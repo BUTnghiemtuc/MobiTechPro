@@ -1,0 +1,151 @@
+/* --- Container Chung --- */
+.card {
+  background-color: #ffffff;
+  border-radius: 1rem; /* rounded-2xl */
+  padding: 2rem; /* p-8 */
+  border: 1px solid #e5e7eb; /* border-gray-200 */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+}
+
+/* --- Trạng thái Chưa Đăng Nhập --- */
+.unauthWrapper {
+  text-align: center;
+}
+
+.unauthMessage {
+  color: #374151; /* text-gray-700 */
+  margin-bottom: 1rem; /* mb-4 */
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 600; /* font-semibold */
+}
+
+.loginBtn {
+  display: inline-block;
+  background-color: #2563eb; /* bg-blue-600 */
+  color: #ffffff;
+  padding: 0.75rem 1.5rem; /* px-6 py-3 */
+  border-radius: 0.75rem; /* rounded-xl */
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.loginBtn:hover {
+  background-color: #3b82f6; /* hover:bg-blue-500 */
+}
+
+/* --- Form Đánh Giá --- */
+.formTitle {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 700;
+  color: #111827; /* text-gray-900 */
+  margin-bottom: 1.5rem; /* mb-6 */
+}
+
+.inputGroup {
+  margin-bottom: 1.5rem; /* mb-6 */
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.75rem; /* mb-3 */
+  text-transform: uppercase;
+  letter-spacing: 0.025em; /* tracking-wide */
+}
+
+/* --- Rating Stars --- */
+.starsRow {
+  display: flex;
+  gap: 0.25rem; /* gap-1 */
+}
+
+.starBtn {
+  font-size: 2.25rem; /* text-4xl */
+  background: transparent;
+  border: none;
+  padding: 0;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.starBtn:focus {
+  outline: none;
+}
+
+.starBtn:hover {
+  transform: scale(1.1);
+}
+
+.starActive {
+  color: #eab308; /* text-yellow-500 */
+}
+
+.starInactive {
+  color: #d1d5db; /* text-gray-300 */
+}
+
+.ratingFeedback {
+  color: #4b5563; /* text-gray-600 */
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+/* --- Textarea --- */
+.textarea {
+  width: 100%;
+  background-color: #f9fafb; /* bg-gray-50 */
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  border-radius: 0.75rem;
+  padding: 1rem;
+  color: #111827;
+  transition: all 0.2s ease;
+  resize: none;
+  outline: none;
+}
+
+.textarea::placeholder {
+  color: #9ca3af; /* placeholder-gray-400 */
+}
+
+.textarea:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* focus:ring-2 focus:ring-blue-500 */
+}
+
+.charCount {
+  font-size: 0.75rem; /* text-xs */
+  color: #6b7280; /* text-gray-500 */
+  margin-top: 0.5rem;
+}
+
+/* --- Submit Button --- */
+.submitBtn {
+  width: 100%;
+  background: linear-gradient(to right, #2563eb, #9333ea); /* from-blue-600 to-purple-600 */
+  color: #ffffff;
+  padding: 1rem; /* py-4 */
+  border-radius: 0.75rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3); /* shadow-blue-500/30 */
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: linear-gradient(to right, #3b82f6, #a855f7); /* hover:from-blue-500 hover:to-purple-500 */
+  transform: scale(1.05); /* hover:scale-105 */
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: scale(0.95); /* active:scale-95 */
+}
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

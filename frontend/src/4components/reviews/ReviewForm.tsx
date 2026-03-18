@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { reviewService } from '../../1services/review.service';
 import { useAuth } from '../../2context/AuthContext';
 import { Link } from 'react-router-dom';
+import styles from './ReviewForm.module.css';
 
 interface ReviewFormProps {
   productId: number;
@@ -16,24 +17,23 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ productId, onReviewAdded }) => 
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  // Giao diện khi chưa đăng nhập
   if (!isAuthenticated) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-2xl p-8 border border-gray-200 shadow-lg text-center"
+        className={`${styles.card} ${styles.unauthWrapper}`}
       >
-        <p className="text-gray-700 mb-4 text-lg font-semibold">Đăng nhập để viết đánh giá</p>
-        <Link
-          to="/login"
-          className="inline-block bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-semibold transition-all"
-        >
+        <p className={styles.unauthMessage}>Đăng nhập để viết đánh giá</p>
+        <Link to="/login" className={styles.loginBtn}>
           Đăng nhập ngay
         </Link>
       </motion.div>
     );
   }
 
+  // Xử lý gửi form
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!comment.trim()) {
@@ -47,9 +47,9 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ productId, onReviewAdded }) => 
       toast.success('Đánh giá thành công!');
       setComment('');
       setRating(5);
-      onReviewAdded();
+      onReviewAdded(); // Trigger load lại danh sách review
     } catch (error) {
-      console.error(error);
+      console.error('Lỗi khi gửi đánh giá:', error);
       toast.error('Gửi đánh giá thất bại');
     } finally {
       setSubmitting(false);
@@ -60,32 +60,27 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ productId, onReviewAdded }) => 
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl p-8 border border-gray-200 shadow-lg"
+      className={styles.card}
     >
-      <h3 className="text-xl font-bold text-gray-900 mb-6">
-        Viết đánh giá
-      </h3>
+      <h3 className={styles.formTitle}>Viết đánh giá</h3>
       <form onSubmit={handleSubmit}>
-        {/* Rating Stars */}
-        <div className="mb-6">
-          <label className="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
-            Đánh giá của bạn
-          </label>
-          <div className="flex gap-1">
+        
+        {/* Khối chọn Sao (Rating) */}
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Đánh giá của bạn</label>
+          <div className={styles.starsRow}>
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
                 type="button"
                 onClick={() => setRating(star)}
-                className={`text-4xl bg-transparent border-none p-0 leading-none transition-all hover:scale-110 focus:outline-none ${
-                  star <= rating ? 'text-yellow-500' : 'text-gray-300'
-                }`}
+                className={`${styles.starBtn} ${star <= rating ? styles.starActive : styles.starInactive}`}
               >
                 ★
               </button>
             ))}
           </div>
-          <p className="text-gray-600 text-sm mt-2 font-medium">
+          <p className={styles.ratingFeedback}>
             {rating === 5 && 'Xuất sắc!'}
             {rating === 4 && 'Rất tốt!'}
             {rating === 3 && 'Tốt'}
@@ -94,28 +89,27 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ productId, onReviewAdded }) => 
           </p>
         </div>
         
-        {/* Comment */}
-        <div className="mb-6">
-          <label className="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
-            Nhận xét
-          </label>
+        {/* Khối nhập bình luận (Comment) */}
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Nhận xét</label>
           <textarea
-            className="w-full bg-gray-50 border border-gray-300 rounded-xl p-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+            className={styles.textarea}
             rows={5}
+            maxLength={500} // Ép giới hạn số chữ HTML
             placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..."
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-          <div className="text-xs text-gray-500 mt-2">
+          <div className={styles.charCount}>
             {comment.length}/500 ký tự
           </div>
         </div>
 
-        {/* Submit Button */}
+        {/* Nút Gửi */}
         <button
           type="submit"
           disabled={submitting}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
+          className={styles.submitBtn}
         >
           {submitting ? 'Đang gửi...' : 'Gửi đánh giá'}
         </button>
