@@ -18,9 +18,7 @@ export const AppDataSource = new DataSource({
     logging: false,
     
     // 2. Ép bật SSL luôn, bỏ cái điều kiện check môi trường đi
-    ssl: { 
-        rejectUnauthorized: false 
-    },
+    ssl: { rejectUnauthorized: false },
     
     // nếu có bất kì thực thể nào mới thì tự động được khai báo và dùng
     entities: [__dirname + "/../modules/**/1models/*.entity.{js,ts}"],
