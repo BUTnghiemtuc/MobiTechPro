@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { cartService, type CartItem } from '../../1services/cart.service';
 import type { PaymentMethod } from './PaymentSelector';
+import styles from './OrderReview.module.css';
 
 interface OrderReviewProps {
   shippingData: {
@@ -43,17 +44,23 @@ const OrderReview = ({
       const items = await cartService.getCart();
       setCartItems(items);
     } catch (error) {
-      console.error('Failed to fetch cart', error);
+      console.error('Lỗi khi tải giỏ hàng', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const API_BASE_URL = 'http://localhost:3000';
+  // Lấy đường dẫn ảnh chuẩn từ biến môi trường
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace('/api', '') || 'http://localhost:3000';
   const getImageUrl = (url?: string) => {
     if (!url) return '';
     if (url.startsWith('http')) return url;
     return `${API_BASE_URL}${url}`;
+  };
+
+  // Format tiền tệ VNĐ
+  const formatCurrency = (amount: number) => {
+    return amount.toLocaleString('vi-VN') + 'đ';
   };
 
   const calculateSubtotal = () => {
@@ -76,156 +83,150 @@ const OrderReview = ({
       card: '💳 Thẻ tín dụng/ghi nợ',
       banking: '🏧 Chuyển khoản ngân hàng',
     };
-    return methods[method];
+    return methods[method] || method;
   };
 
   if (loading) {
     return (
-      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-sm border p-8">
-        <div className="text-center text-gray-500">Đang tải...</div>
+      <div className={styles.container}>
+        <div className={styles.loader}>Đang tải thông tin đơn hàng...</div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left: Order Items */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Shipping Info */}
-          <div className="bg-white rounded-xl shadow-sm border p-6">
-            <div className="flex justify-between items-start mb-4">
-              <h3 className="font-bold text-lg text-gray-800">Thông tin giao hàng</h3>
-              <button
-                onClick={onEditShipping}
-                className="text-blue-600 text-sm hover:underline"
-              >
+    <div className={styles.container}>
+      <div className={styles.grid}>
+        
+        {/* Cột trái: Thông tin Giao hàng & Sản phẩm */}
+        <div className={styles.leftCol}>
+          
+          {/* Box: Thông tin giao hàng */}
+          <div className={styles.card}>
+            <div className={styles.cardHeader}>
+              <h3 className={styles.cardTitle}>Thông tin giao hàng</h3>
+              <button onClick={onEditShipping} className={styles.editBtn}>
                 Sửa
               </button>
             </div>
-            <div className="text-sm text-gray-600 space-y-1">
-              <p className="font-semibold text-gray-900">{shippingData.fullName}</p>
-              <p>{shippingData.phone} | {shippingData.email}</p>
-              <p>{shippingData.address}</p>
-              <p>
+            <div>
+              <p className={styles.infoName}>{shippingData.fullName}</p>
+              <p className={styles.infoText}>{shippingData.phone} | {shippingData.email}</p>
+              <p className={styles.infoText}>{shippingData.address}</p>
+              <p className={styles.infoText}>
                 {shippingData.ward && `${shippingData.ward}, `}
                 {shippingData.district}, {shippingData.city}
               </p>
               {shippingData.notes && (
-                <p className="mt-2 italic text-gray-500">Ghi chú: {shippingData.notes}</p>
+                <p className={styles.noteText}>Ghi chú: {shippingData.notes}</p>
               )}
             </div>
           </div>
 
-          {/* Payment Method */}
-          <div className="bg-white rounded-xl shadow-sm border p-6">
-            <div className="flex justify-between items-start mb-4">
-              <h3 className="font-bold text-lg text-gray-800">Phương thức thanh toán</h3>
-              <button
-                onClick={onEditPayment}
-                className="text-blue-600 text-sm hover:underline"
-              >
+          {/* Box: Phương thức thanh toán */}
+          <div className={styles.card}>
+            <div className={styles.cardHeader}>
+              <h3 className={styles.cardTitle}>Phương thức thanh toán</h3>
+              <button onClick={onEditPayment} className={styles.editBtn}>
                 Sửa
               </button>
             </div>
-            <p className="text-gray-700">{getPaymentMethodName(paymentMethod)}</p>
+            <p className={styles.infoText} style={{ fontSize: '1rem' }}>
+              {getPaymentMethodName(paymentMethod)}
+            </p>
           </div>
 
-          {/* Cart Items */}
-          <div className="bg-white rounded-xl shadow-sm border p-6">
-            <h3 className="font-bold text-lg text-gray-800 mb-4">
+          {/* Box: Danh sách món hàng */}
+          <div className={styles.card}>
+            <h3 className={styles.cardTitle} style={{ marginBottom: '1rem' }}>
               Giỏ hàng ({cartItems.length} sản phẩm)
             </h3>
-            <div className="space-y-4">
-              {cartItems.map((item) => (
-                <div key={item.id} className="flex gap-4 pb-4 border-b last:border-b-0">
-                  <img
-                    src={getImageUrl(item.product.image_url)}
-                    alt={item.product.title}
-                    className="w-20 h-20 object-cover rounded-lg border"
-                    onError={(e) => {
-                      e.currentTarget.src = 'https://via.placeholder.com/80';
-                    }}
-                  />
-                  <div className="flex-1">
-                    <h4 className="font-medium text-gray-900 mb-1">{item.product.title}</h4>
-                    <p className="text-sm text-gray-500">Số lượng: {item.quantity}</p>
+            <div className={styles.cartList}>
+              {cartItems.map((item) => {
+                const itemPrice = typeof item.product.price === 'string' ? parseFloat(item.product.price) : item.product.price;
+                return (
+                  <div key={item.id} className={styles.cartItem}>
+                    <img
+                      src={getImageUrl(item.product.image_url)}
+                      alt={item.product.title}
+                      className={styles.itemImg}
+                      onError={(e) => {
+                        e.currentTarget.src = 'https://via.placeholder.com/80?text=No+Image';
+                      }}
+                    />
+                    <div className={styles.itemInfo}>
+                      <h4 className={styles.itemTitle}>{item.product.title}</h4>
+                      <p className={styles.itemQty}>Số lượng: {item.quantity}</p>
+                    </div>
+                    <div className={styles.itemPriceBox}>
+                      <p className={styles.itemTotal}>
+                        {formatCurrency(itemPrice * item.quantity)}
+                      </p>
+                      <p className={styles.itemUnit}>
+                        {formatCurrency(itemPrice)} x {item.quantity}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-semibold text-gray-900">
-                      ${(parseFloat(item.product.price.toString()) * item.quantity).toFixed(2)}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      ${parseFloat(item.product.price.toString()).toFixed(2)} x {item.quantity}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
 
-        {/* Right: Order Summary */}
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-xl shadow-sm border p-6 sticky top-4">
-            <h3 className="font-bold text-lg text-gray-800 mb-6 pb-4 border-b">
-              Tổng Đơn Hàng
-            </h3>
+        {/* Cột phải: Hóa đơn tóm tắt */}
+        <div className={styles.rightCol}>
+          <div className={`${styles.card} ${styles.summarySticky}`}>
+            <h3 className={styles.summaryTitle}>Tổng Đơn Hàng</h3>
 
-            <div className="space-y-3 mb-6">
-              <div className="flex justify-between text-gray-600">
+            <div>
+              <div className={styles.summaryRow}>
                 <span>Tạm tính:</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>{formatCurrency(subtotal)}</span>
               </div>
 
               {discount > 0 && (
-                <div className="flex justify-between text-green-600">
+                <div className={styles.discountRow}>
                   <span>Giảm giá:</span>
-                  <span>-${discount.toFixed(2)}</span>
+                  <span>-{formatCurrency(discount)}</span>
                 </div>
               )}
 
-              <div className="flex justify-between text-gray-600">
+              <div className={styles.summaryRow}>
                 <span>Phí vận chuyển:</span>
-                <span className="text-green-600 font-medium">Miễn phí 🎉</span>
+                <span className={styles.freeShipping}>Miễn phí 🎉</span>
               </div>
             </div>
 
-            <div className="flex justify-between text-xl font-bold text-gray-900 pt-4 border-t mb-6">
+            <div className={styles.totalRow}>
               <span>Tổng cộng:</span>
-              <span>${total.toFixed(2)}</span>
+              <span>{formatCurrency(total)}</span>
             </div>
 
-            <button
-              onClick={onPlaceOrder}
-              className="w-full py-4 bg-green-600 text-white rounded-lg font-bold text-lg hover:bg-green-700 transition-colors shadow-lg hover:shadow-xl mb-4"
-            >
+            <button onClick={onPlaceOrder} className={styles.placeOrderBtn}>
               ĐẶT HÀNG
             </button>
 
-            <button
-              onClick={onBack}
-              className="w-full py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-            >
+            <button onClick={onBack} className={styles.backBtn}>
               ← Quay lại
             </button>
 
-            {/* Trust Indicators */}
-            <div className="mt-6 pt-6 border-t text-center space-y-2">
-              <div className="flex items-center justify-center gap-2 text-sm text-green-600">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            {/* Dấu hiệu chứng nhận an toàn */}
+            <div className={styles.trustBox}>
+              <div className={styles.secureText}>
+                <svg xmlns="http://www.w3.org/2000/svg" className={styles.secureIcon} viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
                 <span>Thanh toán an toàn</span>
               </div>
-              <p className="text-xs text-gray-500">
+              <p className={styles.policyText}>
                 Bằng cách đặt hàng, bạn đồng ý với <br />
-                <a href="#" className="text-blue-600 hover:underline">Điều khoản</a> &{' '}
-                <a href="#" className="text-blue-600 hover:underline">Chính sách</a>
+                <a href="#" className={styles.policyLink}>Điều khoản</a> &{' '}
+                <a href="#" className={styles.policyLink}>Chính sách</a> của chúng tôi.
               </p>
             </div>
           </div>
         </div>
+        
       </div>
     </div>
   );

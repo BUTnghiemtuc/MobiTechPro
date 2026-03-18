@@ -1,0 +1,136 @@
+.container {
+  max-width: 48rem; /* max-w-3xl */
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Guest Toggle --- */
+.guestToggleGroup {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.radioInput {
+  margin-right: 0.5rem;
+  cursor: inherit;
+}
+
+.radioText {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* --- Form Layout --- */
+.grid2Col {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .grid2Col { grid-template-columns: repeat(2, 1fr); }
+}
+
+.grid3Col {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .grid3Col { grid-template-columns: repeat(3, 1fr); }
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.requiredMark {
+  color: #ef4444; /* text-red-500 */
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.625rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #111827;
+  transition: all 0.2s;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.inputField:focus {
+  border-color: #3b82f6; /* focus:border-blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); /* focus:ring-blue-500 */
+}
+
+.inputFieldDisabled {
+  background-color: #f3f4f6; /* disabled:bg-gray-100 */
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.inputError {
+  border-color: #ef4444 !important;
+}
+
+.errorText {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* --- Submit Section --- */
+.submitGroup {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.submitBtn {
+  padding: 0.75rem 2rem;
+  background-color: #2563eb;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.submitBtn:hover {
+  background-color: #1d4ed8;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
