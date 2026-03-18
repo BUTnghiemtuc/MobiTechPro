@@ -90,6 +90,14 @@ cd backend
 npm install
 # Cấu hình file .env (DB_HOST, DB_PASS, JWT_SECRET...)
 npm run dev
+
+# Tài khoản Admin
+username: admin
+password: Password123@!
+
+# Tài khoản Staff
+username: staff
+password: Password123@!
 ```
 
 ### 2. Frontend
