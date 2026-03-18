@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } from 'recharts';
 import { orderService } from '../../1services/order.service';
 import { toast } from 'react-toastify';
+import styles from './AdminDashboard.module.css';
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState<{
@@ -49,19 +50,19 @@ const AdminDashboard = () => {
   };
 
   const StatCard = ({ title, value, subtext, icon, color, gradient }: any) => (
-    <div className="relative overflow-hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 group hover:shadow-lg transition-all duration-300">
+    <div className={`${styles.div_1} group`}>
       <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${gradient} opacity-10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110`}></div>
-      <div className="relative z-10 flex justify-between items-start">
+      <div className={styles.div_2}>
         <div>
-          <p className="text-sm font-semibold text-slate-500 mb-1 uppercase tracking-wider">{title}</p>
-          <h3 className="text-4xl font-extrabold text-slate-800 tracking-tight">{value}</h3>
+          <p className={styles.p_1}>{title}</p>
+          <h3 className={styles.h3_1}>{value}</h3>
         </div>
         <div className={`p-3 rounded-2xl ${color} bg-opacity-10 text-opacity-100 shadow-sm group-hover:scale-110 transition-transform`}>
           {icon}
         </div>
       </div>
-      <div className="relative z-10 mt-4 flex items-center gap-2 text-sm font-medium">
-        <span className="text-slate-400 flex items-center gap-1">
+      <div className={styles.div_3}>
+        <span className={styles.span_1}>
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             {subtext}
         </span>
@@ -71,32 +72,32 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+      <div className={styles.div_4}>
+        <div className={styles.div_5}></div>
       </div>
     );
   }
 
   // Fallback if stats is null (should normally not happen after loading)
-  if (!stats) return <div className="text-center p-8 text-slate-500">No data available</div>;
+  if (!stats) return <div className={styles.div_6}>No data available</div>;
 
   return (
-    <div className="space-y-8 animate-fade-in-up">
+    <div className={styles.div_7}>
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className={styles.div_8}>
         <div>
-           <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Dashboard Overview</h1>
-           <p className="text-slate-500 mt-1">Real-time insights into your store's performance.</p>
+           <h1 className={styles.h1_1}>Dashboard Overview</h1>
+           <p className={styles.p_2}>Real-time insights into your store's performance.</p>
         </div>
-        <div className="flex items-center gap-3 bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm">
-            <span className="px-3 py-1.5 text-xs font-semibold bg-slate-100 text-slate-600 rounded-lg">Today</span>
-            <span className="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-800 cursor-pointer transition-colors">7 Days</span>
-            <span className="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-800 cursor-pointer transition-colors">30 Days</span>
+        <div className={styles.div_9}>
+            <span className={styles.span_2}>Today</span>
+            <span className={styles.span_3}>7 Days</span>
+            <span className={styles.span_3}>30 Days</span>
         </div>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className={styles.div_10}>
         <StatCard 
           title="Total Revenue" 
           value={`$${stats.revenue.toLocaleString()}`}
@@ -124,12 +125,12 @@ const AdminDashboard = () => {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className={styles.div_11}>
         {/* Revenue Chart */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-           <div className="flex justify-between items-center mb-6">
-               <h3 className="text-lg font-bold text-slate-800">Revenue Trend</h3>
-               <select className="text-xs bg-slate-50 border-none rounded-lg text-slate-500 font-medium focus:ring-0">
+        <div className={styles.div_12}>
+           <div className={styles.div_13}>
+               <h3 className={styles.h3_2}>Revenue Trend</h3>
+               <select className={styles.select_1}>
                    <option>Last 7 Days</option>
                </select>
            </div>
@@ -158,8 +159,8 @@ const AdminDashboard = () => {
         </div>
 
         {/* Orders Overview */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-           <h3 className="text-lg font-bold text-slate-800 mb-6">Order Status Distribution</h3>
+        <div className={styles.div_12}>
+           <h3 className={styles.h3_3}>Order Status Distribution</h3>
            <div className="h-80">
              <ResponsiveContainer width="100%" height="100%">
                <BarChart data={stats.statusDistribution} layout="vertical" margin={{ top: 0, right: 20, left: 0, bottom: 0 }} barSize={36}>
@@ -180,36 +181,36 @@ const AdminDashboard = () => {
 
       {/* Quick Actions */}
       <div>
-        <h3 className="text-xl font-bold text-slate-800 mb-6">Quick Actions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Link to="/admin/products/new" className="group relative overflow-hidden bg-gradient-to-br from-blue-600 to-blue-700 text-white p-6 rounded-2xl shadow-lg shadow-blue-500/30 flex flex-col items-start justify-between min-h-[140px] transition-transform hover:-translate-y-1">
-             <div className="absolute top-0 right-0 w-24 h-24 bg-white opacity-10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
-             <div className="p-3 bg-white/20 rounded-xl mb-4 backdrop-blur-sm">
+        <h3 className={styles.h3_4}>Quick Actions</h3>
+        <div className={styles.div_14}>
+          <Link to="/admin/products/new" className={styles.Link_1}>
+             <div className={styles.div_15}></div>
+             <div className={styles.div_16}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
              </div>
              <div>
-                <span className="block font-bold text-lg">Add Product</span>
-                <span className="text-blue-100 text-sm">Create new listing</span>
+                <span className={styles.span_4}>Add Product</span>
+                <span className={styles.span_5}>Create new listing</span>
              </div>
           </Link>
           
-          <Link to="/admin/orders" className="group bg-white hover:border-indigo-500 border border-slate-200 text-slate-700 p-6 rounded-2xl shadow-sm hover:shadow-md flex flex-col items-start justify-between min-h-[140px] transition-all hover:-translate-y-1">
-             <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+          <Link to="/admin/orders" className={`${styles.Link_2} group relative overflow-hidden`}>
+             <div className={styles.div_17}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
              </div>
              <div>
-                <span className="block font-bold text-lg group-hover:text-indigo-600 transition-colors">Manage Orders</span>
-                <span className="text-slate-400 text-sm">Review incoming orders</span>
+                <span className={styles.span_6}>Manage Orders</span>
+                <span className={styles.span_7}>Review incoming orders</span>
              </div>
           </Link>
 
-          <Link to="/admin/users" className="group bg-white hover:border-purple-500 border border-slate-200 text-slate-700 p-6 rounded-2xl shadow-sm hover:shadow-md flex flex-col items-start justify-between min-h-[140px] transition-all hover:-translate-y-1">
-             <div className="p-3 bg-purple-50 text-purple-600 rounded-xl mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+          <Link to="/admin/users" className={`${styles.Link_3} group relative overflow-hidden`}>
+             <div className={styles.div_18}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
              </div>
              <div>
-                <span className="block font-bold text-lg group-hover:text-purple-600 transition-colors">Users</span>
-                <span className="text-slate-400 text-sm">Manage accounts</span>
+                <span className={styles.span_8}>Users</span>
+                <span className={styles.span_7}>Manage accounts</span>
              </div>
           </Link>
         </div>

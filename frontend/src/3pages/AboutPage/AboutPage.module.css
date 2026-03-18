@@ -1,0 +1,32 @@
+/* About Page Styles */
+
+.aboutContainer {
+  @apply mx-auto px-4 pt-28 pb-12;
+}
+
+.innerWrapper {
+  @apply max-w-3xl mx-auto;
+}
+
+.title {
+  @apply text-4xl font-bold text-slate-900 mb-6;
+}
+
+.content {
+  @apply text-slate-600;
+  max-width: 65ch;
+  line-height: 1.75;
+  font-size: 1.125rem;
+}
+
+.leadText {
+  @apply text-xl mb-6;
+}
+
+.paragraph {
+  @apply mb-4;
+}
+
+.signature {
+  @apply font-semibold text-slate-800 mt-8;
+}

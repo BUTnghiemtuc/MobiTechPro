@@ -1,0 +1,100 @@
+/* Auto-extracted Tailwind Classes */
+.div_1 {
+  @apply flex items-center justify-center h-64;
+}
+
+.div_2 {
+  @apply mb-8 flex items-center justify-between;
+}
+
+.h1_1 {
+  @apply text-3xl font-bold text-slate-900 mb-2;
+}
+
+.Link_1 {
+  @apply px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors flex items-center gap-2;
+}
+
+.svg_1 {
+  @apply w-5 h-5;
+}
+
+.div_3 {
+  @apply mb-6 flex flex-wrap gap-4;
+}
+
+.el_1 {
+  @apply px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.div_4 {
+  @apply flex-1 max-w-md;
+}
+
+.el_2 {
+  @apply w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.div_5 {
+  @apply bg-white rounded-xl shadow-sm overflow-hidden;
+}
+
+.thead_1 {
+  @apply bg-slate-50 border-b border-slate-200;
+}
+
+.th_1 {
+  @apply px-6 py-4 text-left text-sm font-semibold text-slate-700;
+}
+
+.th_2 {
+  @apply px-6 py-4 text-right text-sm font-semibold text-slate-700;
+}
+
+.tbody_1 {
+  @apply divide-y divide-slate-200;
+}
+
+.td_1 {
+  @apply px-6 py-12 text-center text-slate-500;
+}
+
+.tr_1 {
+  @apply hover:bg-slate-50 transition-colors;
+}
+
+.td_2 {
+  @apply px-6 py-4;
+}
+
+.div_6 {
+  @apply font-medium text-slate-900;
+}
+
+.div_7 {
+  @apply text-sm text-slate-500 mt-1;
+}
+
+.span_1 {
+  @apply px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded;
+}
+
+.td_3 {
+  @apply px-6 py-4 text-sm text-slate-600;
+}
+
+.td_4 {
+  @apply px-6 py-4 text-right;
+}
+
+.div_8 {
+  @apply flex items-center justify-end gap-2;
+}
+
+.Link_2 {
+  @apply px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded-lg transition-colors;
+}
+
+.el_3 {
+  @apply px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors;
+}

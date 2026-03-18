@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../2context/AuthContext';
+import styles from './UnauthorizedPage.module.css';
 
 const UnauthorizedPage = () => {
   const { user } = useAuth();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md text-center">
+    <div className={styles.div_1}>
+      <div className={styles.div_2}>
         <div className="mb-6">
           <svg
-            className="mx-auto h-16 w-16 text-red-500"
+            className={styles.svg_1}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -23,34 +24,34 @@ const UnauthorizedPage = () => {
           </svg>
         </div>
         
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
+        <h1 className={styles.h1_1}>
           Access Denied
         </h1>
         
-        <p className="text-gray-600 mb-2">
+        <p className={styles.p_1}>
           Bạn không có quyền truy cập trang này.
         </p>
         
         {user && (
-          <p className="text-sm text-gray-500 mb-6">
-            Current Role: <span className="font-semibold text-gray-700">{user.role}</span>
+          <p className={styles.p_2}>
+            Current Role: <span className={styles.span_1}>{user.role}</span>
           </p>
         )}
         
         <div className="space-y-3">
           <Link
             to="/"
-            className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors"
+            className={styles.Link_1}
           >
             Go to Home
           </Link>
           <Link
-            to={user?.role === 'Admin' ? '/admin' : user?.role === 'Staff' ? '/staff' : '/'}
-            className="block w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded transition-colors"
+            to={user?.role === 'admin' ? '/admin' : user?.role === 'staff' ? '/staff' : '/'}
+            className={styles.Link_2}
           >
-            {user?.role === 'Admin' && 'Go to Admin Dashboard'}
-            {user?.role === 'Staff' && 'Go to Staff Dashboard'}
-            {user?.role === 'Customer' && 'Continue Shopping'}
+            {user?.role === 'admin' && 'Go to Admin Dashboard'}
+            {user?.role === 'staff' && 'Go to Staff Dashboard'}
+            {user?.role === 'customer' && 'Continue Shopping'}
           </Link>
         </div>
       </div>

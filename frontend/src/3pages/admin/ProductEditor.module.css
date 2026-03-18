@@ -1,0 +1,84 @@
+/* Auto-extracted Tailwind Classes */
+.div_1 {
+  @apply max-w-4xl mx-auto;
+}
+
+.h1_1 {
+  @apply text-2xl font-bold text-slate-800 tracking-tight;
+}
+
+.p_1 {
+  @apply text-slate-500 text-sm;
+}
+
+.form_1 {
+  @apply bg-white p-8 rounded-2xl shadow-sm border border-slate-200;
+}
+
+.label_1 {
+  @apply block text-sm font-semibold text-slate-700 mb-2;
+}
+
+.input_1 {
+  @apply w-full rounded-lg border-slate-200 border p-2.5 text-sm text-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-shadow;
+}
+
+.div_2 {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+.label_2 {
+  @apply block text-sm font-semibold text-slate-700 mb-3;
+}
+
+.div_3 {
+  @apply p-4 border-2 border-dashed border-slate-200 rounded-xl hover:bg-slate-50 transition-colors;
+}
+
+.label_3 {
+  @apply cursor-pointer block text-center;
+}
+
+.div_4 {
+  @apply inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50;
+}
+
+.div_5 {
+  @apply grid grid-cols-2 md:grid-cols-4 gap-4 mt-4;
+}
+
+.div_6 {
+  @apply relative rounded-lg border-2 border-slate-200 overflow-hidden;
+}
+
+.img_1 {
+  @apply w-full h-32 object-cover;
+}
+
+.div_7 {
+  @apply absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded font-semibold;
+}
+
+.div_8 {
+  @apply absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2;
+}
+
+.el_1 {
+  @apply p-2 bg-white rounded-full hover:bg-gray-100 transition-colors;
+}
+
+.el_2 {
+  @apply p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors;
+}
+
+.div_9 {
+  @apply flex justify-end gap-3 pt-6 border-t border-slate-100;
+}
+
+.el_3 {
+  @apply px-5 py-2.5 border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50 transition-colors;
+}
+
+.button_1 {
+  @apply px-5 py-2.5 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors shadow-lg shadow-primary-500/20;
+}

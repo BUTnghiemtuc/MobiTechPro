@@ -1,0 +1,174 @@
+
+
+/* Auto-extracted Tailwind Classes */
+.div_1 {
+  @apply min-h-screen flex items-center justify-center bg-slate-50;
+}
+
+.div_2 {
+  @apply animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-slate-900;
+}
+
+.div_3 {
+  @apply min-h-screen bg-slate-50 pt-28 pb-20 px-4;
+}
+
+.div_4 {
+  @apply max-w-5xl mx-auto;
+}
+
+.h1_1 {
+  @apply text-3xl font-display font-bold text-slate-900 mb-8 tracking-tight;
+}
+
+.div_5 {
+  @apply flex flex-col md:flex-row gap-8 items-start;
+}
+
+.div_6 {
+  @apply w-full md:w-80 bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col items-center text-center sticky top-28;
+}
+
+.div_7 {
+  @apply relative cursor-pointer mb-6;
+}
+
+.div_8 {
+  @apply w-32 h-32 rounded-full overflow-hidden bg-slate-100 ring-4 ring-white shadow-lg transition-transform group-hover:scale-105;
+}
+
+.img_1 {
+  @apply w-full h-full object-cover;
+}
+
+.div_9 {
+  @apply w-full h-full flex items-center justify-center bg-slate-100 text-slate-400 text-4xl font-bold;
+}
+
+.div_10 {
+  @apply absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity;
+}
+
+.svg_1 {
+  @apply w-8 h-8 text-white;
+}
+
+.button_1 {
+  @apply absolute bottom-0 right-0 bg-slate-900 text-white p-2 rounded-full shadow-lg hover:bg-black transition-colors;
+}
+
+.svg_2 {
+  @apply w-4 h-4;
+}
+
+.h2_1 {
+  @apply font-bold text-xl text-slate-900 mb-1;
+}
+
+.p_1 {
+  @apply text-sm text-slate-500 mb-8 font-medium;
+}
+
+.nav_1 {
+  @apply w-full space-y-2;
+}
+
+.svg_3 {
+  @apply w-5 h-5;
+}
+
+.div_11 {
+  @apply flex-1 w-full bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100;
+}
+
+.form_1 {
+  @apply space-y-8 animate-fade-in;
+}
+
+.div_12 {
+  @apply flex justify-between items-center pb-6 border-b border-slate-100;
+}
+
+.h3_1 {
+  @apply text-xl font-bold text-slate-900;
+}
+
+.button_2 {
+  @apply bg-slate-900 text-white px-8 py-3 rounded-full font-medium hover:bg-slate-800 transition-all hover:scale-105 shadow-lg shadow-slate-900/20 active:scale-95 text-sm;
+}
+
+.div_13 {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6;
+}
+
+.label_1 {
+  @apply text-xs font-bold text-slate-400 uppercase tracking-wider;
+}
+
+.input_1 {
+  @apply w-full bg-slate-50 border-none rounded-2xl px-5 py-4 font-medium text-slate-900 focus:ring-2 focus:ring-slate-200 focus:bg-white transition-all outline-none;
+}
+
+.div_14 {
+  @apply space-y-2 md:col-span-2;
+}
+
+.textarea_1 {
+  @apply w-full bg-slate-50 border-none rounded-2xl px-5 py-4 font-medium text-slate-900 focus:ring-2 focus:ring-slate-200 focus:bg-white transition-all outline-none resize-none;
+}
+
+.div_15 {
+  @apply pb-6 border-b border-slate-100;
+}
+
+.p_2 {
+  @apply text-slate-500 text-sm mt-1;
+}
+
+.div_16 {
+  @apply space-y-6 max-w-lg;
+}
+
+.button_3 {
+  @apply bg-red-50 text-red-600 border border-red-100 px-8 py-3 rounded-full font-medium hover:bg-red-600 hover:text-white transition-all hover:scale-105 active:scale-95 text-sm;
+}
+
+.div_17 {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in;
+}
+
+.div_18 {
+  @apply bg-white rounded-3xl p-8 max-w-2xl w-full shadow-2xl transform transition-all scale-100;
+}
+
+.div_19 {
+  @apply flex justify-between items-center mb-6;
+}
+
+.h3_2 {
+  @apply text-2xl font-bold text-slate-900;
+}
+
+.el_1 {
+  @apply text-slate-400 hover:text-slate-900 transition-colors;
+}
+
+.svg_4 {
+  @apply w-6 h-6;
+}
+
+.div_20 {
+  @apply grid grid-cols-3 sm:grid-cols-4 gap-6 mb-8;
+}
+
+.p_3 {
+  @apply text-slate-500 text-sm mb-4;
+}
+
+.input_2 {
+  @apply w-full bg-slate-50 border-none rounded-xl px-4 py-3 text-sm text-slate-900 focus:ring-2 focus:ring-slate-200 outline-none mb-4;
+}
+
+.el_2 {
+  @apply w-full bg-slate-900 text-white py-3 rounded-xl font-medium hover:bg-slate-800 transition-colors;
+}

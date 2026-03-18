@@ -6,6 +6,7 @@ import { brandService, type Brand } from '../../1services/brand.service';
 import { cartService } from '../../1services/cart.service';
 import { useAuth } from '../../2context/AuthContext';
 import { toast } from 'react-toastify';
+import styles from './BrandPage.module.css';
 
 // Brand theme configurations
 const brandThemes: Record<string, {
@@ -115,14 +116,14 @@ const BrandPage = () => {
   };
 
   return (
-    <div className="bg-white min-h-screen pt-20">
+    <div className={styles.div_1}>
       {/* Dynamic Hero Section */}
       <section className={`relative bg-gradient-to-br ${theme.gradient} py-20 md:py-32 overflow-hidden`}>
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]"></div>
+        <div className={styles.div_2}>
+          <div className={styles.div_3}></div>
         </div>
         
-        <div className="container mx-auto px-6 relative z-10">
+        <div className={styles.div_4}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -135,12 +136,12 @@ const BrandPage = () => {
                 transition={{ delay: 0.2 }}
                 src={brandData.logoUrl}
                 alt={brandData.name}
-                className="h-16 md:h-24 w-auto mx-auto mb-8 drop-shadow-2xl"
+                className={styles.motion_1}
               />
             )}
             
             <h1 className={`text-5xl md:text-7xl font-bold ${theme.textColor} mb-4 tracking-tight`}>
-              {brandName?.charAt(0).toUpperCase() + brandName?.slice(1)}
+              {brandName ? brandName.charAt(0).toUpperCase() + brandName.slice(1) : ''}
             </h1>
             
             <p className={`text-lg md:text-xl ${theme.textColor} opacity-90 max-w-2xl mx-auto`}>
@@ -157,7 +158,7 @@ const BrandPage = () => {
                 <img
                   src={brandData.imageUrl}
                   alt={`${brandData.name} flagship`}
-                  className="h-64 md:h-96 w-auto mx-auto drop-shadow-2xl"
+                  className={styles.img_1}
                 />
               </motion.div>
             )}
@@ -166,23 +167,23 @@ const BrandPage = () => {
       </section>
 
       {/* Breadcrumb */}
-      <div className="bg-slate-50 border-b border-slate-200">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center gap-2 text-sm text-slate-600">
-            <Link to="/" className="hover:text-slate-900 transition-colors">Trang chủ</Link>
+      <div className={styles.div_5}>
+        <div className={styles.div_6}>
+          <div className={styles.div_7}>
+            <Link to="/" className={styles.Link_1}>Trang chủ</Link>
             <span>/</span>
-            <Link to="/phones" className="hover:text-slate-900 transition-colors">Sản phẩm</Link>
+            <Link to="/phones" className={styles.Link_1}>Sản phẩm</Link>
             <span>/</span>
-            <span className="text-slate-900 font-medium">{brandName}</span>
+            <span className={styles.span_1}>{brandName}</span>
           </div>
         </div>
       </div>
 
       {/* Products Section */}
-      <section className="py-16 md:py-24 bg-slate-50">
-        <div className="container mx-auto px-6">
-          <div className="flex justify-between items-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">
+      <section className={styles.section_1}>
+        <div className={styles.div_8}>
+          <div className={styles.div_9}>
+            <h2 className={styles.h2_1}>
               Tất cả sản phẩm {brandName}
             </h2>
             <span className="text-slate-500">
@@ -191,23 +192,23 @@ const BrandPage = () => {
           </div>
 
           {loading ? (
-            <div className="flex justify-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-slate-900"></div>
+            <div className={styles.div_10}>
+              <div className={styles.div_11}></div>
             </div>
           ) : products.length === 0 ? (
-            <div className="text-center py-20">
-              <div className="text-6xl mb-4">📱</div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-2">Không tìm thấy sản phẩm</h3>
-              <p className="text-slate-500 mb-6">Hiện tại chưa có sản phẩm nào của thương hiệu này</p>
+            <div className={styles.div_12}>
+              <div className={styles.div_13}>📱</div>
+              <h3 className={styles.h3_1}>Không tìm thấy sản phẩm</h3>
+              <p className={styles.p_1}>Hiện tại chưa có sản phẩm nào của thương hiệu này</p>
               <Link
                 to="/phones"
-                className="inline-block px-6 py-3 bg-slate-900 text-white rounded-full hover:bg-slate-800 transition-colors"
+                className={styles.Link_2}
               >
                 Xem tất cả sản phẩm
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className={styles.div_14}>
               {products.map((product) => (
                 <motion.div
                   key={product.id}
@@ -216,43 +217,43 @@ const BrandPage = () => {
                   whileHover={{ y: -8 }}
                   className={`bg-white rounded-2xl overflow-visible shadow-sm hover:shadow-xl transition-all duration-300 border-2 border-transparent ${theme.hoverBorder} flex flex-col`}
                 >
-                  <Link to={`/products/${product.id}`} className="block p-6">
-                    <div className="aspect-square mb-4 relative">
+                  <Link to={`/products/${product.id}`} className={styles.Link_3}>
+                    <div className={styles.div_15}>
                       {product.image_url ? (
                         <img
                           src={getImageUrl(product.image_url)}
                           alt={product.title}
-                          className="w-full h-full object-contain mix-blend-multiply"
+                          className={styles.img_2}
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
+                        <div className={styles.div_16}>
                           No Image
                         </div>
                       )}
-                      <span className="absolute top-2 right-2 bg-orange-100 text-orange-700 text-xs font-bold px-2 py-1 rounded-full">
+                      <span className={styles.span_2}>
                         New
                       </span>
                     </div>
 
-                    <h3 className="text-lg font-bold text-slate-900 mb-2 line-clamp-2">
+                    <h3 className={styles.h3_2}>
                       {product.title}
                     </h3>
                     
-                    <p className="text-sm text-slate-500 mb-4 line-clamp-2">
+                    <p className={styles.p_2}>
                       {product.description || 'Trải nghiệm công nghệ đỉnh cao'}
                     </p>
 
-                    <div className="flex items-center justify-between mt-auto">
-                      <p className="text-xl font-bold text-slate-900">
+                    <div className={styles.div_17}>
+                      <p className={styles.p_3}>
                         ${(typeof product.price === 'string' ? parseFloat(product.price) : product.price).toFixed(2)}
                       </p>
                     </div>
                   </Link>
 
-                  <div className="px-6 pb-6 mt-auto">
+                  <div className={styles.div_18}>
                     <button
                       onClick={() => handleAddToCart(product)}
-                      className="w-full py-3 rounded-xl font-semibold transition-all duration-300"
+                      className={styles.el_1}
                       style={{
                         backgroundColor: theme.primary,
                         color: 'white',

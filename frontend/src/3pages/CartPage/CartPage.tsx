@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import QuantityStepper from '../../4components/QuantityStepper/QuantityStepper';
 import ShippingProgressBar from '../../4components/ShippingProgressBar/ShippingProgressBar';
+import styles from './CartPage.module.css';
 
 // Định nghĩa URL Backend (nên để trong file config chung)
 const API_BASE_URL = 'http://localhost:3000';
@@ -148,93 +149,93 @@ const CartPage = () => {
     };
 
     if (loading) {
-        return <div className="p-10 text-center text-gray-500">Loading your cart...</div>;
+        return <div className={styles.div_1}>Loading your cart...</div>;
     }
 
     return (
-        <div className="container mx-auto p-4 max-w-5xl">
-            <h1 className="text-3xl font-bold mb-8 text-gray-800">Shopping Cart</h1>
+        <div className={styles.div_2}>
+            <h1 className={styles.h1_1}>Shopping Cart</h1>
 
             {cartItems.length === 0 ? (
-                <div className="bg-white p-12 rounded-lg shadow-sm border text-center">
-                    <div className="mb-4 text-gray-300">
+                <div className={styles.div_3}>
+                    <div className={styles.div_4}>
                         {/* Icon giỏ hàng rỗng */}
-                        <svg className="w-20 h-20 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        <svg className={styles.svg_1} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                     </div>
-                    <p className="text-gray-500 text-lg mb-6">Your cart is currently empty.</p>
+                    <p className={styles.p_1}>Your cart is currently empty.</p>
                     <button 
                         onClick={() => navigate('/')}
-                        className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-medium"
+                        className={styles.el_1}
                     >
                         Start Shopping
                     </button>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className={styles.div_5}>
                     {/* Cột trái: Danh sách sản phẩm */}
                     <div className="lg:col-span-2">
-                         <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
-                            <table className="min-w-full divide-y divide-gray-200">
+                         <div className={styles.div_6}>
+                            <table className={styles.table_1}>
                                 <thead className="bg-gray-50">
                                     <tr>
-                                        <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Product</th>
-                                        <th scope="col" className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Price</th>
-                                        <th scope="col" className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Qty</th>
-                                        <th scope="col" className="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Total</th>
-                                        <th scope="col" className="px-6 py-4"></th>
+                                        <th scope="col" className={styles.th_1}>Product</th>
+                                        <th scope="col" className={styles.th_2}>Price</th>
+                                        <th scope="col" className={styles.th_2}>Qty</th>
+                                        <th scope="col" className={styles.th_3}>Total</th>
+                                        <th scope="col" className={styles.th_4}></th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
+                                <tbody className={styles.tbody_1}>
                                     {cartItems.map((item) => (
                                         <tr key={item.id}>
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center">
+                                            <td className={styles.th_4}>
+                                                <div className={styles.div_7}>
                                                     {/* ✅ HIỂN THỊ ẢNH SẢN PHẨM */}
-                                                    <div className="flex-shrink-0 h-16 w-16 border rounded overflow-hidden bg-gray-100">
+                                                    <div className={styles.div_8}>
                                                         <img 
-                                                            className="h-full w-full object-cover" 
+                                                            className={styles.img_1} 
                                                             src={getImageUrl(item.product.image_url)} 
                                                             alt={item.product.title}
                                                             onError={(e) => {e.currentTarget.src = 'https://via.placeholder.com/150'}}
                                                         />
                                                     </div>
                                                     <div className="ml-4">
-                                                        <div className="text-sm font-medium text-gray-900 line-clamp-2 max-w-[200px]" title={item.product.title}>
+                                                        <div className={styles.div_9} title={item.product.title}>
                                                             {item.product.title}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center">
-                                                <div className="text-sm text-gray-500">${formatPrice(item.product.price)}</div>
+                                            <td className={styles.td_1}>
+                                                <div className={styles.div_10}>${formatPrice(item.product.price)}</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                            <td className={styles.td_1}>
                                                 <QuantityStepper
                                                     value={item.quantity}
                                                     max={item.product.quantity}
                                                     onChange={(newQty) => handleUpdateQuantity(item.id, newQty)}
                                                 />
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-right">
-                                                <div className="text-sm text-gray-900 font-bold">
+                                            <td className={styles.td_2}>
+                                                <div className={styles.div_11}>
                                                     ${(parseFloat(formatPrice(item.product.price)) * item.quantity).toFixed(2)}
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                            <td className={styles.td_1}>
                                                 <button
                                                     onClick={() => handleRemoveItem(item.id)}
                                                     disabled={removingId === item.id}
-                                                    className="text-gray-400 hover:text-red-500 transition-colors disabled:opacity-50 p-2 rounded-lg hover:bg-red-50"
+                                                    className={styles.el_2}
                                                     aria-label="Remove item"
                                                     title="Xóa khỏi giỏ"
                                                 >
                                                     {removingId === item.id ? (
-                                                        <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                        <svg className={styles.svg_2} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                                         </svg>
                                                     ) : (
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className={styles.svg_3} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                         </svg>
                                                     )}
@@ -249,67 +250,67 @@ const CartPage = () => {
 
                     {/* Cột phải: Tổng tiền & Checkout */}
                     <div className="lg:col-span-1">
-                        <div className="bg-white rounded-xl shadow-sm border p-6 sticky top-4">
-                            <h2 className="text-lg font-bold mb-6 text-gray-800 border-b pb-4">Tổng Đơn Hàng</h2>
+                        <div className={styles.div_12}>
+                            <h2 className={styles.h2_1}>Tổng Đơn Hàng</h2>
                             
                             {/* Coupon Input */}
                             <div className="mb-6">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Mã giảm giá</label>
-                                <div className="flex gap-2">
+                                <label className={styles.label_1}>Mã giảm giá</label>
+                                <div className={styles.div_13}>
                                     <input
                                         type="text"
                                         placeholder="Nhập mã..."
                                         value={couponCode}
                                         onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className={styles.el_3}
                                     />
                                     <button
                                         onClick={handleApplyCoupon}
                                         disabled={applyingCoupon}
-                                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium text-sm disabled:opacity-50"
+                                        className={styles.button_1}
                                     >
                                         {applyingCoupon ? '...' : 'Áp dụng'}
                                     </button>
                                 </div>
-                                <p className="text-xs text-gray-500 mt-1">Thử: SUMMER10</p>
+                                <p className={styles.p_2}>Thử: SUMMER10</p>
                             </div>
 
                             {/* Price Breakdown */}
-                            <div className="space-y-3 mb-6">
-                                <div className="flex justify-between items-center text-gray-600">
+                            <div className={styles.div_14}>
+                                <div className={styles.div_15}>
                                     <span>Tạm tính:</span>
                                     <span>${calculateSubtotal().toFixed(2)}</span>
                                 </div>
                                 
                                 {discount > 0 && (
-                                    <div className="flex justify-between items-center text-green-600">
+                                    <div className={styles.div_16}>
                                         <span>Giảm giá:</span>
                                         <span>-${discount.toFixed(2)}</span>
                                     </div>
                                 )}
                                 
-                                <div className="flex justify-between items-center text-gray-600">
+                                <div className={styles.div_15}>
                                     <span>Phí vận chuyển:</span>
-                                    <span className="text-green-600 font-medium">Miễn phí 🎉</span>
+                                    <span className={styles.span_1}>Miễn phí 🎉</span>
                                 </div>
                             </div>
                             
-                            <div className="flex justify-between items-center mb-6 text-xl font-bold text-gray-900 pt-4 border-t">
+                            <div className={styles.div_17}>
                                 <span>Tổng cộng:</span>
                                 <span>${calculateTotal().toFixed(2)}</span>
                             </div>
 
                             <button
                                 onClick={handleCheckout}
-                                className="w-full py-3 px-4 rounded-lg text-white font-bold text-lg transition shadow-md bg-blue-600 hover:bg-blue-700 hover:shadow-lg transform active:scale-95"
+                                className={styles.button_2}
                             >
                                 Thanh Toán
                             </button>
                             
                             {/* Payment Methods */}
-                            <div className="mt-6 pt-6 border-t">
-                                <p className="text-xs text-gray-500 text-center mb-3">Thanh toán an toàn với:</p>
-                                <div className="flex justify-center items-center gap-3 flex-wrap">
+                            <div className={styles.div_18}>
+                                <p className={styles.p_3}>Thanh toán an toàn với:</p>
+                                <div className={styles.div_19}>
                                     <div className="text-2xl" title="Visa">💳</div>
                                     <div className="text-2xl" title="MasterCard">💳</div>
                                     <div className="text-2xl" title="MoMo">📱</div>

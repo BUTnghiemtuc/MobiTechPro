@@ -8,6 +8,7 @@ import { useAuth } from '../../2context/AuthContext';
 import { toast } from 'react-toastify';
 import ReviewForm from '../../4components/reviews/ReviewForm';
 import ReviewList from '../../4components/reviews/ReviewList';
+import styles from './ProductDetailPage.module.css';
 
 const ProductDetailPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -98,9 +99,9 @@ const ProductDetailPage = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center pt-24">
-                <div className="text-gray-900 text-lg flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+            <div className={styles.div_1}>
+                <div className={styles.div_2}>
+                    <div className={styles.div_3} />
                     <span>Loading product...</span>
                 </div>
             </div>
@@ -113,26 +114,26 @@ const ProductDetailPage = () => {
     const reviewCount = reviews.length;
 
     return (
-        <div className="min-h-screen bg-gray-50 pt-24 pb-20">
-            <div className="container mx-auto px-4 max-w-7xl">
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className={styles.div_4}>
+            <div className={styles.div_5}>
+                <div className={styles.div_6}>
                     {/* LEFT: Product Gallery (60%) */}
                     <div className="lg:col-span-3">
                         {/* Main Image */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="bg-white rounded-3xl p-8 border border-gray-200 shadow-lg mb-6"
+                            className={styles.motion_1}
                         >
-                            <div className="aspect-square rounded-2xl overflow-hidden bg-gray-100 relative group">
+                            <div className={`${styles.div_7} group`}>
                                 <img
                                     src={productImages[selectedImage]}
                                     alt={product.title}
-                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    className={styles.img_1}
                                 />
                                 {/* Zoom hint */}
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                    <span className="text-gray-900 text-sm bg-white/90 px-4 py-2 rounded-full shadow-lg">
+                                <div className={styles.div_8}>
+                                    <span className={styles.span_1}>
                                         🔍 Hover to zoom
                                     </span>
                                 </div>
@@ -140,7 +141,7 @@ const ProductDetailPage = () => {
                         </motion.div>
 
                         {/* Thumbnail Gallery */}
-                        <div className="grid grid-cols-4 gap-4">
+                        <div className={styles.div_9}>
                             {productImages.map((img, idx) => (
                                 <motion.button
                                     key={idx}
@@ -153,7 +154,7 @@ const ProductDetailPage = () => {
                                             : 'border-gray-200 hover:border-gray-300'
                                     }`}
                                 >
-                                    <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-cover" />
+                                    <img src={img} alt={`View ${idx + 1}`} className={styles.img_2} />
                                 </motion.button>
                             ))}
                         </div>
@@ -161,48 +162,48 @@ const ProductDetailPage = () => {
 
                     {/* RIGHT: Sticky Purchase Panel (40%) */}
                     <div className="lg:col-span-2">
-                        <div className="lg:sticky lg:top-24">
+                        <div className={styles.div_10}>
                             <motion.div
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xl"
+                                className={styles.motion_2}
                             >
                                 {/* Product Title & Rating */}
-                                <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+                                <h1 className={styles.h1_1}>
                                     {product.title}
                                 </h1>
-                                <div className="flex items-center gap-4 mb-6">
-                                    <div className="flex items-center gap-2">
-                                        <div className="flex text-yellow-500 text-lg">
+                                <div className={styles.div_11}>
+                                    <div className={styles.div_12}>
+                                        <div className={styles.div_13}>
                                             {'★'.repeat(Math.floor(avgRating))}
                                             {'☆'.repeat(5 - Math.floor(avgRating))}
                                         </div>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className={styles.span_2}>
                                             {avgRating}/5
                                         </span>
                                     </div>
                                     <span className="text-gray-300">|</span>
-                                    <button className="text-blue-600 hover:text-blue-500 text-sm transition-colors">
+                                    <button className={styles.button_1}>
                                         {reviewCount} đánh giá
                                     </button>
                                 </div>
 
                                 {/* Price */}
                                 <div className="mb-8">
-                                    <div className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                                    <div className={styles.div_14}>
                                         ${getCurrentPrice().toFixed(2)}
                                     </div>
-                                    <p className="text-gray-600 text-sm">
+                                    <p className={styles.span_2}>
                                         or ${(getCurrentPrice() / 12).toFixed(2)}/month for 12 months
                                     </p>
                                 </div>
 
                                 {/* Color Selector */}
                                 <div className="mb-6">
-                                    <label className="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+                                    <label className={styles.label_1}>
                                         Color: <span className="text-gray-900">{colors.find(c => c.value === selectedColor)?.name}</span>
                                     </label>
-                                    <div className="flex gap-3">
+                                    <div className={styles.div_15}>
                                         {colors.map((color) => (
                                             <button
                                                 key={color.value}
@@ -216,7 +217,7 @@ const ProductDetailPage = () => {
                                                 title={color.name}
                                             >
                                                 {selectedColor === color.value && (
-                                                    <span className="text-white text-xl">✓</span>
+                                                    <span className={styles.span_3}>✓</span>
                                                 )}
                                             </button>
                                         ))}
@@ -225,10 +226,10 @@ const ProductDetailPage = () => {
 
                                 {/* Storage Selector */}
                                 <div className="mb-8">
-                                    <label className="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+                                    <label className={styles.label_1}>
                                         Storage
                                     </label>
-                                    <div className="grid grid-cols-2 gap-3">
+                                    <div className={styles.div_16}>
                                         {storageOptions.map((option) => (
                                             <button
                                                 key={option.capacity}
@@ -241,7 +242,7 @@ const ProductDetailPage = () => {
                                             >
                                                 {option.capacity}
                                                 {option.price > 0 && (
-                                                    <div className="text-xs mt-1">+${option.price}</div>
+                                                    <div className={styles.div_17}>+${option.price}</div>
                                                 )}
                                             </button>
                                         ))}
@@ -250,34 +251,34 @@ const ProductDetailPage = () => {
 
                                 {/* Specifications Table */}
                                 <div className="mb-8">
-                                    <h4 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+                                    <h4 className={styles.h4_1}>
                                         Thông số kỹ thuật
                                     </h4>
-                                    <div className="bg-gray-50 rounded-xl border border-gray-200 overflow-hidden">
-                                        <div className="divide-y divide-gray-200">
-                                            <div className="flex py-3 px-4">
-                                                <span className="w-1/2 text-sm text-gray-600">Màn hình</span>
-                                                <span className="w-1/2 text-sm font-medium text-gray-900">6.7" OLED</span>
+                                    <div className={styles.div_18}>
+                                        <div className={styles.div_19}>
+                                            <div className={styles.div_20}>
+                                                <span className={styles.span_4}>Màn hình</span>
+                                                <span className={styles.span_5}>6.7" OLED</span>
                                             </div>
-                                            <div className="flex py-3 px-4">
-                                                <span className="w-1/2 text-sm text-gray-600">Camera</span>
-                                                <span className="w-1/2 text-sm font-medium text-gray-900">48MP</span>
+                                            <div className={styles.div_20}>
+                                                <span className={styles.span_4}>Camera</span>
+                                                <span className={styles.span_5}>48MP</span>
                                             </div>
-                                            <div className="flex py-3 px-4">
-                                                <span className="w-1/2 text-sm text-gray-600">Pin</span>
-                                                <span className="w-1/2 text-sm font-medium text-gray-900">4323 mAh</span>
+                                            <div className={styles.div_20}>
+                                                <span className={styles.span_4}>Pin</span>
+                                                <span className={styles.span_5}>4323 mAh</span>
                                             </div>
-                                            <div className="flex py-3 px-4">
-                                                <span className="w-1/2 text-sm text-gray-600">Chip</span>
-                                                <span className="w-1/2 text-sm font-medium text-gray-900">A15 Bionic</span>
+                                            <div className={styles.div_20}>
+                                                <span className={styles.span_4}>Chip</span>
+                                                <span className={styles.span_5}>A15 Bionic</span>
                                             </div>
-                                            <div className="flex py-3 px-4">
-                                                <span className="w-1/2 text-sm text-gray-600">RAM</span>
-                                                <span className="w-1/2 text-sm font-medium text-gray-900">6GB</span>
+                                            <div className={styles.div_20}>
+                                                <span className={styles.span_4}>RAM</span>
+                                                <span className={styles.span_5}>6GB</span>
                                             </div>
-                                            <div className="flex py-3 px-4">
-                                                <span className="w-1/2 text-sm text-gray-600">Hệ điều hành</span>
-                                                <span className="w-1/2 text-sm font-medium text-gray-900">iOS 17</span>
+                                            <div className={styles.div_20}>
+                                                <span className={styles.span_4}>Hệ điều hành</span>
+                                                <span className={styles.span_5}>iOS 17</span>
                                             </div>
                                         </div>
                                     </div>
@@ -285,20 +286,20 @@ const ProductDetailPage = () => {
 
                                 {/* Quantity */}
                                 <div className="mb-6">
-                                    <label className="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+                                    <label className={styles.label_1}>
                                         Quantity
                                     </label>
-                                    <div className="flex items-center gap-4">
+                                    <div className={styles.div_21}>
                                         <button
                                             onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                            className="w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold transition-colors"
+                                            className={styles.el_1}
                                         >
                                             −
                                         </button>
-                                        <span className="text-gray-900 font-semibold text-lg w-12 text-center">{quantity}</span>
+                                        <span className={styles.span_6}>{quantity}</span>
                                         <button
                                             onClick={() => setQuantity(quantity + 1)}
-                                            className="w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold transition-colors"
+                                            className={styles.el_1}
                                         >
                                             +
                                         </button>
@@ -306,34 +307,34 @@ const ProductDetailPage = () => {
                                 </div>
 
                                 {/* CTA Buttons */}
-                                <div className="space-y-3 mb-8">
+                                <div className={styles.div_22}>
                                     <button
                                         onClick={handleAddToCart}
-                                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-blue-500/30 hover:scale-105 active:scale-95"
+                                        className={styles.button_2}
                                     >
                                         Add to Cart
                                     </button>
-                                    <button className="w-full bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-900 py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2">
+                                    <button className={styles.button_3}>
                                         <span>❤️</span> Add to Wishlist
                                     </button>
                                 </div>
 
                                 {/* Trust Badges */}
-                                <div className="space-y-3 border-t border-gray-200 pt-6">
-                                    <div className="flex items-center gap-3 text-sm text-gray-700">
-                                        <span className="text-green-600 text-xl">✓</span>
+                                <div className={styles.div_23}>
+                                    <div className={styles.div_24}>
+                                        <span className={styles.span_7}>✓</span>
                                         <span>Chính hãng VN/A - Mới 100%</span>
                                     </div>
-                                    <div className="flex items-center gap-3 text-sm text-gray-700">
-                                        <span className="text-green-600 text-xl">✓</span>
+                                    <div className={styles.div_24}>
+                                        <span className={styles.span_7}>✓</span>
                                         <span>Bảo hành 12 tháng tại Apple Store</span>
                                     </div>
-                                    <div className="flex items-center gap-3 text-sm text-gray-700">
-                                        <span className="text-green-600 text-xl">✓</span>
+                                    <div className={styles.div_24}>
+                                        <span className={styles.span_7}>✓</span>
                                         <span>Đổi trả miễn phí trong 30 ngày</span>
                                     </div>
-                                    <div className="flex items-center gap-3 text-sm text-gray-700">
-                                        <span className="text-green-600 text-xl">✓</span>
+                                    <div className={styles.div_24}>
+                                        <span className={styles.span_7}>✓</span>
                                         <span>Giao hàng miễn phí toàn quốc</span>
                                     </div>
                                 </div>
@@ -347,18 +348,18 @@ const ProductDetailPage = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="mt-16 bg-white rounded-3xl p-8 border border-gray-200 shadow-lg"
+                    className={styles.motion_3}
                 >
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">Về sản phẩm</h2>
-                    <p className="text-gray-700 leading-relaxed">
+                    <h2 className={styles.h2_1}>Về sản phẩm</h2>
+                    <p className={styles.p_1}>
                         {product.description || "Experience premium technology with this device. It offers top-tier performance, sleek design, and features that elevate your daily productivity and entertainment."}
                     </p>
                 </motion.div>
 
                 {/* Reviews Section */}
                 <div className="mt-16">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-8">Đánh giá từ khách hàng</h2>
-                    <div className="grid md:grid-cols-3 gap-8">
+                    <h2 className={styles.h2_2}>Đánh giá từ khách hàng</h2>
+                    <div className={styles.div_25}>
                         <div className="md:col-span-1">
                             <ReviewForm productId={product.id} onReviewAdded={fetchData} />
                         </div>

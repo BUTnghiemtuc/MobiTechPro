@@ -1,0 +1,136 @@
+/* Auto-extracted Tailwind Classes */
+.div_1 {
+  @apply flex items-center justify-center h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900;
+}
+
+.motion_1 {
+  @apply text-white text-lg;
+}
+
+.div_2 {
+  @apply flex flex-col items-center gap-4;
+}
+
+.div_3 {
+  @apply w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin;
+}
+
+.div_4 {
+  @apply min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-8 px-4;
+}
+
+.div_5 {
+  @apply max-w-5xl mx-auto;
+}
+
+.h1_1 {
+  @apply text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-3;
+}
+
+.p_1 {
+  @apply text-slate-400 text-lg;
+}
+
+.motion_2 {
+  @apply bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-2xl;
+}
+
+.label_1 {
+  @apply block text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wide;
+}
+
+.input_1 {
+  @apply w-full px-5 py-4 bg-slate-950/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white text-2xl font-bold placeholder-slate-500 transition-all;
+}
+
+.span_1 {
+  @apply text-slate-400 text-xs ml-2 normal-case;
+}
+
+.input_2 {
+  @apply w-full px-5 py-3 bg-slate-950/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-300 placeholder-slate-600 font-mono transition-all;
+}
+
+.div_6 {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+}
+
+.select_1 {
+  @apply w-full px-5 py-3 bg-slate-950/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-white cursor-pointer transition-all;
+}
+
+.input_3 {
+  @apply w-full px-5 py-3 bg-slate-950/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-300 placeholder-slate-600 transition-all;
+}
+
+.motion_3 {
+  @apply mt-4 rounded-xl overflow-hidden border-2 border-blue-500/30 shadow-xl;
+}
+
+.img_1 {
+  @apply w-full h-64 object-cover;
+}
+
+.textarea_1 {
+  @apply w-full px-5 py-4 bg-slate-950/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-slate-300 placeholder-slate-600 leading-relaxed transition-all;
+}
+
+.div_7 {
+  @apply text-xs text-slate-400 mt-2 flex items-center gap-2;
+}
+
+.textarea_2 {
+  @apply w-full px-5 py-4 bg-slate-950/80 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none font-mono text-sm text-slate-200 placeholder-slate-600 leading-relaxed transition-all;
+}
+
+.div_8 {
+  @apply text-xs text-slate-400 mt-2 flex items-center gap-4;
+}
+
+.span_2 {
+  @apply flex items-center gap-2;
+}
+
+.span_3 {
+  @apply font-medium text-blue-400;
+}
+
+.span_4 {
+  @apply font-medium text-purple-400;
+}
+
+.motion_4 {
+  @apply bg-gradient-to-r from-green-500/10 to-emerald-500/10 backdrop-blur-xl rounded-2xl p-6 border border-green-500/30 shadow-2xl;
+}
+
+.label_2 {
+  @apply flex items-center gap-4 cursor-pointer;
+}
+
+.input_4 {
+  @apply w-6 h-6 text-green-500 border-green-400 rounded focus:ring-2 focus:ring-green-500 cursor-pointer transition-all;
+}
+
+.span_5 {
+  @apply text-base font-semibold text-green-300 group-hover:text-green-200 transition-colors;
+}
+
+.p_2 {
+  @apply text-xs text-slate-400 mt-1;
+}
+
+.motion_5 {
+  @apply flex items-center justify-end gap-4 pt-8;
+}
+
+.el_1 {
+  @apply px-8 py-3 rounded-xl font-semibold text-slate-300 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-600/50 transition-all hover:scale-105 active:scale-95;
+}
+
+.button_1 {
+  @apply px-8 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-lg shadow-blue-500/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+}
+
+.div_9 {
+  @apply w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin;
+}

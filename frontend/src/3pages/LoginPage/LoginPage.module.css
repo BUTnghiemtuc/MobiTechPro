@@ -1,0 +1,66 @@
+
+
+/* Auto-extracted Tailwind Classes */
+.div_1 {
+  @apply relative min-h-screen flex items-center justify-center lg:justify-end overflow-hidden;
+}
+
+.div_2 {
+  @apply absolute inset-0 z-0;
+}
+
+.img_1 {
+  @apply w-full h-full object-cover;
+}
+
+.div_3 {
+  @apply absolute inset-0 bg-gradient-to-r from-slate-900/80 to-slate-900/40;
+}
+
+.div_4 {
+  @apply relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between;
+}
+
+.div_5 {
+  @apply hidden lg:block text-white max-w-lg;
+}
+
+.h1_1 {
+  @apply text-5xl font-bold mb-6 leading-tight;
+}
+
+.p_1 {
+  @apply text-xl text-slate-200 opacity-90;
+}
+
+.div_6 {
+  @apply w-full max-w-md;
+}
+
+.div_7 {
+  @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-8 sm:p-12;
+}
+
+.div_8 {
+  @apply text-center mb-8;
+}
+
+.h2_1 {
+  @apply text-3xl font-bold text-white tracking-tight;
+}
+
+.p_2 {
+  @apply mt-2 text-sm text-slate-300;
+}
+
+.Link_1 {
+  @apply font-semibold text-blue-400 hover:text-blue-300 transition-colors;
+}
+
+.label_1 {
+  @apply block text-sm font-medium text-slate-200 mb-1;
+}
+
+.input_1 {
+  @apply block w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:bg-white/10;
+}

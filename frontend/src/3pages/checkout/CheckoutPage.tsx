@@ -6,6 +6,7 @@ import ShippingForm from '../../4components/checkout/ShippingForm';
 import PaymentSelector, { type PaymentMethod } from '../../4components/checkout/PaymentSelector';
 import OrderReview from '../../4components/checkout/OrderReview';
 import { orderService } from '../../1services/order.service';
+import styles from './CheckoutPage.module.css';
 
 interface ShippingData {
   fullName: string;
@@ -71,11 +72,11 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
+    <div className={styles.div_1}>
+      <div className={styles.div_2}>
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Thanh Toán</h1>
+        <div className={styles.div_3}>
+          <h1 className={styles.h1_1}>Thanh Toán</h1>
           <p className="text-gray-600">Hoàn tất đơn hàng của bạn trong 3 bước đơn giản</p>
         </div>
 
@@ -111,22 +112,22 @@ const CheckoutPage = () => {
           )}
 
           {placingOrder && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg p-8 text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                <p className="text-gray-700 font-medium">Đang xử lý đơn hàng...</p>
+            <div className={styles.div_4}>
+              <div className={styles.div_5}>
+                <div className={styles.div_6}></div>
+                <p className={styles.p_1}>Đang xử lý đơn hàng...</p>
               </div>
             </div>
           )}
         </div>
 
         {/* Back to Cart */}
-        <div className="text-center mt-8">
+        <div className={styles.div_7}>
           <button
             onClick={() => navigate('/cart')}
-            className="text-blue-600 hover:text-blue-700 font-medium text-sm inline-flex items-center gap-1"
+            className={styles.el_1}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className={styles.svg_1} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             Quay lại giỏ hàng

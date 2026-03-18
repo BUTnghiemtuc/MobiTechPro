@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { blogService, type BlogPost } from '../../1services/blog.service';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
+import styles from './BlogEditor.module.css';
 
 const BlogEditor = () => {
   const { id } = useParams<{ id: string }>();
@@ -77,14 +78,14 @@ const BlogEditor = () => {
 
   if (fetching) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className={styles.div_1}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-white text-lg"
+          className={styles.motion_1}
         >
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          <div className={styles.div_2}>
+            <div className={styles.div_3} />
             <span>Loading post...</span>
           </div>
         </motion.div>
@@ -93,18 +94,18 @@ const BlogEditor = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-8 px-4">
-      <div className="max-w-5xl mx-auto">
+    <div className={styles.div_4}>
+      <div className={styles.div_5}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-3">
+          <h1 className={styles.h1_1}>
             {isEditing ? '✏️ Edit Post' : '✨ Create New Post'}
           </h1>
-          <p className="text-slate-400 text-lg">
+          <p className={styles.p_1}>
             {isEditing ? 'Update your blog post content' : 'Write and publish a new blog post'}
           </p>
         </motion.div>
@@ -115,9 +116,9 @@ const BlogEditor = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-2xl"
+            className={styles.motion_2}
           >
-            <label className="block text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wide">
+            <label className={styles.label_1}>
               Title *
             </label>
             <input
@@ -126,7 +127,7 @@ const BlogEditor = () => {
               value={formData.title}
               onChange={handleChange}
               required
-              className="w-full px-5 py-4 bg-slate-950/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white text-2xl font-bold placeholder-slate-500 transition-all"
+              className={styles.input_1}
               placeholder="Enter an amazing post title..."
             />
           </motion.div>
@@ -136,31 +137,31 @@ const BlogEditor = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-2xl"
+            className={styles.motion_2}
           >
-            <label className="block text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wide">
+            <label className={styles.label_1}>
               URL Slug
-              <span className="text-slate-400 text-xs ml-2 normal-case">(auto-generated if empty)</span>
+              <span className={styles.span_1}>(auto-generated if empty)</span>
             </label>
             <input
               type="text"
               name="slug"
               value={formData.slug || ''}
               onChange={handleChange}
-              className="w-full px-5 py-3 bg-slate-950/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-300 placeholder-slate-600 font-mono transition-all"
+              className={styles.input_2}
               placeholder="post-url-slug"
             />
           </motion.div>
 
           {/* Category and Read Time Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className={styles.div_6}>
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-2xl"
+              className={styles.motion_2}
             >
-              <label className="block text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wide">
+              <label className={styles.label_1}>
                 Category *
               </label>
               <select
@@ -168,7 +169,7 @@ const BlogEditor = () => {
                 value={formData.category}
                 onChange={handleChange}
                 required
-                className="w-full px-5 py-3 bg-slate-950/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-white cursor-pointer transition-all"
+                className={styles.select_1}
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat} className="bg-slate-900">{cat}</option>
@@ -180,18 +181,18 @@ const BlogEditor = () => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-2xl"
+              className={styles.motion_2}
             >
-              <label className="block text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wide">
+              <label className={styles.label_1}>
                 Read Time
-                <span className="text-slate-400 text-xs ml-2 normal-case">(auto-calculated)</span>
+                <span className={styles.span_1}>(auto-calculated)</span>
               </label>
               <input
                 type="text"
                 name="read_time"
                 value={formData.read_time || ''}
                 onChange={handleChange}
-                className="w-full px-5 py-3 bg-slate-950/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-300 placeholder-slate-600 transition-all"
+                className={styles.input_3}
                 placeholder="5 phút đọc"
               />
             </motion.div>
@@ -202,9 +203,9 @@ const BlogEditor = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-2xl"
+            className={styles.motion_2}
           >
-            <label className="block text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wide">
+            <label className={styles.label_1}>
               Featured Image URL
             </label>
             <input
@@ -212,19 +213,19 @@ const BlogEditor = () => {
               name="featured_image"
               value={formData.featured_image}
               onChange={handleChange}
-              className="w-full px-5 py-3 bg-slate-950/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-300 placeholder-slate-600 transition-all"
+              className={styles.input_3}
               placeholder="https://example.com/image.jpg"
             />
             {formData.featured_image && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="mt-4 rounded-xl overflow-hidden border-2 border-blue-500/30 shadow-xl"
+                className={styles.motion_3}
               >
                 <img
                   src={formData.featured_image}
                   alt="Preview"
-                  className="w-full h-64 object-cover"
+                  className={styles.img_1}
                 />
               </motion.div>
             )}
@@ -235,9 +236,9 @@ const BlogEditor = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-2xl"
+            className={styles.motion_2}
           >
-            <label className="block text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wide">
+            <label className={styles.label_1}>
               Excerpt
             </label>
             <textarea
@@ -246,10 +247,10 @@ const BlogEditor = () => {
               onChange={handleChange}
               rows={3}
               maxLength={300}
-              className="w-full px-5 py-4 bg-slate-950/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-slate-300 placeholder-slate-600 leading-relaxed transition-all"
+              className={styles.textarea_1}
               placeholder="Write a compelling short description..."
             />
-            <div className="text-xs text-slate-400 mt-2 flex items-center gap-2">
+            <div className={styles.div_7}>
               <span className={`font-medium ${(formData.excerpt?.length || 0) > 280 ? 'text-orange-400' : 'text-blue-400'}`}>
                 {formData.excerpt?.length || 0}/300
               </span>
@@ -262,11 +263,11 @@ const BlogEditor = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35 }}
-            className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-2xl"
+            className={styles.motion_2}
           >
-            <label className="block text-sm font-semibold text-blue-300 mb-3 uppercase tracking-wide">
+            <label className={styles.label_1}>
               Content * 
-              <span className="text-slate-400 text-xs ml-2 normal-case">(HTML supported)</span>
+              <span className={styles.span_1}>(HTML supported)</span>
             </label>
             <textarea
               name="content"
@@ -274,16 +275,16 @@ const BlogEditor = () => {
               onChange={handleChange}
               required
               rows={20}
-              className="w-full px-5 py-4 bg-slate-950/80 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none font-mono text-sm text-slate-200 placeholder-slate-600 leading-relaxed transition-all"
+              className={styles.textarea_2}
               placeholder="<p>Write your amazing content here... HTML is supported.</p>"
             />
-            <div className="text-xs text-slate-400 mt-2 flex items-center gap-4">
-              <span className="flex items-center gap-2">
-                <span className="font-medium text-blue-400">{formData.content?.split(/\s+/).length || 0}</span>
+            <div className={styles.div_8}>
+              <span className={styles.span_2}>
+                <span className={styles.span_3}>{formData.content?.split(/\s+/).length || 0}</span>
                 <span>words</span>
               </span>
-              <span className="flex items-center gap-2">
-                <span className="font-medium text-purple-400">{formData.content?.length || 0}</span>
+              <span className={styles.span_2}>
+                <span className={styles.span_4}>{formData.content?.length || 0}</span>
                 <span>characters</span>
               </span>
             </div>
@@ -294,21 +295,21 @@ const BlogEditor = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 backdrop-blur-xl rounded-2xl p-6 border border-green-500/30 shadow-2xl"
+            className={styles.motion_4}
           >
-            <label className="flex items-center gap-4 cursor-pointer group">
+            <label className={`${styles.label_2} group`}>
               <input
                 type="checkbox"
                 name="published"
                 checked={formData.published}
                 onChange={handleChange}
-                className="w-6 h-6 text-green-500 border-green-400 rounded focus:ring-2 focus:ring-green-500 cursor-pointer transition-all"
+                className={styles.input_4}
               />
               <div>
-                <span className="text-base font-semibold text-green-300 group-hover:text-green-200 transition-colors">
+                <span className={styles.span_5}>
                   Publish this post
                 </span>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className={styles.p_2}>
                   {formData.published ? '🟢 Post will be visible to everyone' : '🟡 Post will be saved as draft'}
                 </p>
               </div>
@@ -320,23 +321,23 @@ const BlogEditor = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.45 }}
-            className="flex items-center justify-end gap-4 pt-8"
+            className={styles.motion_5}
           >
             <button
               type="button"
               onClick={() => navigate('/admin/blog')}
-              className="px-8 py-3 rounded-xl font-semibold text-slate-300 bg-slate-800/50 hover:bg-slate-700/50 border border-slate-600/50 transition-all hover:scale-105 active:scale-95"
+              className={styles.el_1}
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-8 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-lg shadow-blue-500/30 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className={styles.button_1}
             >
               {loading ? (
-                <span className="flex items-center gap-2">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <span className={styles.span_2}>
+                  <div className={styles.div_9} />
                   Saving...
                 </span>
               ) : (

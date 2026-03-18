@@ -1,0 +1,38 @@
+
+
+/* Auto-extracted Tailwind Classes */
+.div_1 {
+  @apply flex flex-col items-center justify-center min-h-screen bg-gray-100;
+}
+
+.div_2 {
+  @apply bg-white p-8 rounded-lg shadow-lg max-w-md text-center;
+}
+
+.svg_1 {
+  @apply mx-auto h-16 w-16 text-red-500;
+}
+
+.h1_1 {
+  @apply text-3xl font-bold text-gray-800 mb-4;
+}
+
+.p_1 {
+  @apply text-gray-600 mb-2;
+}
+
+.p_2 {
+  @apply text-sm text-gray-500 mb-6;
+}
+
+.span_1 {
+  @apply font-semibold text-gray-700;
+}
+
+.Link_1 {
+  @apply block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors;
+}
+
+.Link_2 {
+  @apply block w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded transition-colors;
+}

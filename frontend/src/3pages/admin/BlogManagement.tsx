@@ -2,6 +2,7 @@ import {useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { blogService, type BlogPost } from '../../1services/blog.service';
 import { toast } from 'react-toastify';
+import styles from './BlogManagement.module.css';
 
 const BlogManagement = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -61,7 +62,7 @@ const BlogManagement = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className={styles.div_1}>
         <div className="text-slate-600">Loading...</div>
       </div>
     );
@@ -70,16 +71,16 @@ const BlogManagement = () => {
   return (
     <div className="p-8">
       {/* Header */}
-      <div className="mb-8 flex items-center justify-between">
+      <div className={styles.div_2}>
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Blog Posts</h1>
+          <h1 className={styles.h1_1}>Blog Posts</h1>
           <p className="text-slate-600">Manage your blog content</p>
         </div>
         <Link
           to="/admin/blog/new"
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors flex items-center gap-2"
+          className={styles.Link_1}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className={styles.svg_1} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
           <span>New Post</span>
@@ -87,12 +88,12 @@ const BlogManagement = () => {
       </div>
 
       {/* Filters */}
-      <div className="mb-6 flex flex-wrap gap-4">
+      <div className={styles.div_3}>
         {/* Category Filter */}
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={styles.el_1}
         >
           {categories.map(cat => (
             <option key={cat} value={cat}>
@@ -108,7 +109,7 @@ const BlogManagement = () => {
             const val = e.target.value;
             setPublished(val === 'all' ? undefined : val === 'published');
           }}
-          className="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={styles.el_1}
         >
           <option value="all">All Status</option>
           <option value="published">Published</option>
@@ -116,54 +117,54 @@ const BlogManagement = () => {
         </select>
 
         {/* Search */}
-        <div className="flex-1 max-w-md">
+        <div className={styles.div_4}>
           <input
             type="text"
             placeholder="Search posts..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && fetchPosts()}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={styles.el_2}
           />
         </div>
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div className={styles.div_5}>
         <table className="w-full">
-          <thead className="bg-slate-50 border-b border-slate-200">
+          <thead className={styles.thead_1}>
             <tr>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Title</th>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Category</th>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Author</th>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Status</th>
-              <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Created</th>
-              <th className="px-6 py-4 text-right text-sm font-semibold text-slate-700">Actions</th>
+              <th className={styles.th_1}>Title</th>
+              <th className={styles.th_1}>Category</th>
+              <th className={styles.th_1}>Author</th>
+              <th className={styles.th_1}>Status</th>
+              <th className={styles.th_1}>Created</th>
+              <th className={styles.th_2}>Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200">
+          <tbody className={styles.tbody_1}>
             {posts.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
+                <td colSpan={6} className={styles.td_1}>
                   No blog posts found. Create your first post!
                 </td>
               </tr>
             ) : (
               posts.map((post) => (
-                <tr key={post.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="px-6 py-4">
-                    <div className="font-medium text-slate-900">{post.title}</div>
-                    <div className="text-sm text-slate-500 mt-1">{post.read_time}</div>
+                <tr key={post.id} className={styles.tr_1}>
+                  <td className={styles.td_2}>
+                    <div className={styles.div_6}>{post.title}</div>
+                    <div className={styles.div_7}>{post.read_time}</div>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">
+                  <td className={styles.td_2}>
+                    <span className={styles.span_1}>
                       {post.category}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-600">
+                  <td className={styles.td_3}>
                     {post.author?.username || 'Unknown'}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className={styles.td_2}>
                     <button
                       onClick={() => handleTogglePublish(post.id)}
                       className={`px-3 py-1 text-xs font-medium rounded-full transition-colors ${
@@ -175,20 +176,20 @@ const BlogManagement = () => {
                       {post.published ? 'Published' : 'Draft'}
                     </button>
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-600">
+                  <td className={styles.td_3}>
                     {formatDate(post.created_at)}
                   </td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
+                  <td className={styles.td_4}>
+                    <div className={styles.div_8}>
                       <Link
                         to={`/admin/blog/${post.id}/edit`}
-                        className="px-3 py-1.5 text-sm text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        className={styles.Link_2}
                       >
                         Edit
                       </Link>
                       <button
                         onClick={() => handleDelete(post.id, post.title)}
-                        className="px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        className={styles.el_3}
                       >
                         Delete
                       </button>

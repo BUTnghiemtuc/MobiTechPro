@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { blogService, type BlogPost } from '../../1services/blog.service';
+import styles from './BlogListPage.module.css';
 
 const BlogListPage = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
@@ -33,9 +34,9 @@ const BlogListPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center pt-24">
-        <div className="text-white text-lg flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+      <div className={styles.div_1}>
+        <div className={styles.div_2}>
+          <div className={styles.div_3} />
           <span>Loading posts...</span>
         </div>
       </div>
@@ -43,18 +44,18 @@ const BlogListPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-24 pb-20">
-      <div className="container mx-auto px-6">
+    <div className={styles.div_4}>
+      <div className={`${styles.div_5} container`}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-12 text-center"
+          className={styles.motion_1}
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className={styles.h1_1}>
             Góc công nghệ
           </h1>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+          <p className={styles.p_1}>
             Tin tức, đánh giá và hướng dẫn mới nhất về smartphone và công nghệ
           </p>
         </motion.div>
@@ -66,7 +67,7 @@ const BlogListPage = () => {
           transition={{ delay: 0.1 }}
           className="mb-12"
         >
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className={styles.div_6}>
             {categories.map((category, index) => (
               <button
                 key={index}
@@ -84,7 +85,7 @@ const BlogListPage = () => {
         </motion.div>
 
         {blogPosts.length === 0 ? (
-          <div className="text-center text-slate-400 py-20">
+          <div className={styles.div_7}>
             <p>Chưa có bài viết nào trong danh mục này.</p>
           </div>
         ) : (
@@ -98,43 +99,43 @@ const BlogListPage = () => {
             >
               <Link
                 to={`/blog/${blogPosts[0].id}`}
-                className="group grid md:grid-cols-2 gap-8 bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-3xl border border-slate-700/50 overflow-hidden transition-all duration-500 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10"
+                className={`${styles.Link_1} group`}
               >
                 {/* Image */}
-                <div className="relative aspect-video md:aspect-auto overflow-hidden">
+                <div className={styles.div_8}>
                   {blogPosts[0].featured_image ? (
                     <img
                       src={blogPosts[0].featured_image}
                       alt={blogPosts[0].title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      className={styles.img_1}
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center text-slate-500">
-                      <svg className="w-24 h-24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className={styles.div_9}>
+                      <svg className={styles.svg_1} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                       </svg>
                     </div>
                   )}
-                  <div className="absolute top-6 left-6 bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-full">
+                  <div className={styles.div_10}>
                     {blogPosts[0].category}
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-8 md:p-12 flex flex-col justify-center">
-                  <div className="inline-block text-orange-400 text-sm font-semibold mb-4 uppercase tracking-wider">
+                <div className={styles.div_11}>
+                  <div className={styles.div_12}>
                     Bài viết nổi bật
                   </div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors leading-tight">
+                  <h2 className={styles.h2_1}>
                     {blogPosts[0].title}
                   </h2>
-                  <p className="text-slate-400 mb-6 leading-relaxed">
+                  <p className={styles.p_2}>
                     {blogPosts[0].excerpt}
                   </p>
-                  <div className="flex items-center justify-between text-sm text-slate-500">
+                  <div className={styles.div_13}>
                     <span>{formatDate(blogPosts[0].created_at)}</span>
-                    <span className="flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <span className={styles.span_1}>
+                      <svg className={styles.svg_2} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       {blogPosts[0].read_time}
@@ -145,7 +146,7 @@ const BlogListPage = () => {
             </motion.article>
 
             {/* Blog Grid (Remaining Posts) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className={styles.div_14}>
               {blogPosts.slice(1).map((post, index) => (
                 <motion.article
                   key={post.id}
@@ -154,44 +155,44 @@ const BlogListPage = () => {
                   transition={{ delay: 0.3 + index * 0.1 }}
                 >
                   <Link
-                    to={`/blog/${post.id}`}
-                    className="group block h-full bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl border border-slate-700/50 overflow-hidden transition-all duration-500 hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/10"
+                    to={`/post/${post.id}`}
+                    className={`${styles.Link_2} group`}
                   >
                     {/* Thumbnail */}
-                    <div className="relative aspect-video overflow-hidden bg-slate-800">
+                    <div className={styles.div_15}>
                       {post.featured_image ? (
                         <img
                           src={post.featured_image}
                           alt={post.title}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          className={styles.img_1}
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center text-slate-500">
-                          <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className={styles.div_9}>
+                          <svg className={styles.svg_3} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                           </svg>
                         </div>
                       )}
                       {/* Category Badge */}
-                      <div className="absolute top-4 left-4 bg-blue-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full">
+                      <div className={styles.div_16}>
                         {post.category}
                       </div>
                     </div>
 
                     {/* Content */}
                     <div className="p-6">
-                      <h3 className="text-white font-bold text-xl mb-3 line-clamp-2 group-hover:text-blue-400 transition-colors leading-tight">
+                      <h3 className={styles.h3_1}>
                         {post.title}
                       </h3>
-                      <p className="text-slate-400 text-sm mb-4 line-clamp-2 leading-relaxed">
+                      <p className={styles.p_3}>
                         {post.excerpt}
                       </p>
 
                       {/* Meta Info */}
-                      <div className="flex items-center justify-between text-xs text-slate-500">
+                      <div className={styles.div_17}>
                         <span>{formatDate(post.created_at)}</span>
-                        <span className="flex items-center gap-1">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span className={styles.span_1}>
+                          <svg className={styles.svg_2} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
                           {post.read_time}
@@ -199,9 +200,9 @@ const BlogListPage = () => {
                       </div>
 
                       {/* Read More Link */}
-                      <div className="mt-4 flex items-center gap-2 text-blue-400 font-medium text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1">
+                      <div className={styles.div_18}>
                         <span>Đọc thêm</span>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className={styles.svg_2} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </div>
@@ -218,21 +219,21 @@ const BlogListPage = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="mt-16 text-center bg-gradient-to-br from-blue-900/20 to-slate-800/20 border border-blue-500/30 rounded-3xl p-12"
+          className={styles.motion_2}
         >
-          <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+          <h3 className={styles.h3_2}>
             Muốn cập nhật tin tức mới nhất?
           </h3>
-          <p className="text-slate-400 mb-8 max-w-md mx-auto">
+          <p className={styles.p_4}>
             Nhận thông báo về các bài viết, đánh giá và hướng dẫn mới nhất về công nghệ
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <div className={styles.div_19}>
             <input
               type="email"
               placeholder="Nhập email của bạn"
-              className="flex-1 px-6 py-3 bg-slate-800 border border-slate-700 rounded-full text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+              className={styles.input_1}
             />
-            <button className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-medium transition-all duration-300 hover:scale-105">
+            <button className={styles.button_1}>
               Đăng ký
             </button>
           </div>

@@ -43,7 +43,22 @@ export default {
       boxShadow: {
         'glass': '0 8px 32px 0 rgba( 31, 38, 135, 0.37 )',
       },
+      animation: {
+        'fade-in-up': 'fadeInUp 0.5s ease-out',
+        'fade-in': 'fadeIn 0.5s ease-out',
+      },
+      keyframes: {
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+      },
     },
   },
   plugins: [],
 }
+

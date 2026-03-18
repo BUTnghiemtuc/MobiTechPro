@@ -4,6 +4,7 @@ import { productService } from '../../1services/product.service';
 import { toast } from 'react-toastify';
 import api from '../../1services/api';
 import TagInput from '../../4components/TagInput/TagInput';
+import styles from './ProductEditor.module.css';
 
 const ProductEditor = () => {
   const { id } = useParams();
@@ -242,19 +243,19 @@ const ProductEditor = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className={styles.div_1}>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">
+        <h1 className={styles.h1_1}>
           {isEditMode ? 'Edit Product' : 'New Product'}
         </h1>
-        <p className="text-slate-500 text-sm">Add or update product information</p>
+        <p className={styles.p_1}>Add or update product information</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+      <form onSubmit={handleSubmit} className={styles.form_1}>
         <div className="space-y-6">
           {/* Title */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Product Title</label>
+            <label className={styles.label_1}>Product Title</label>
             <input
               type="text"
               name="title"
@@ -262,14 +263,14 @@ const ProductEditor = () => {
               placeholder="e.g. iPhone 15 Pro Max"
               value={formData.title}
               onChange={handleChange}
-              className="w-full rounded-lg border-slate-200 border p-2.5 text-sm text-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-shadow"
+              className={styles.input_1}
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className={styles.div_2}>
               {/* Price */}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Price ($)</label>
+                <label className={styles.label_1}>Price ($)</label>
                 <input
                   type="number"
                   name="price"
@@ -279,13 +280,13 @@ const ProductEditor = () => {
                   placeholder="0.00"
                   value={formData.price} 
                   onChange={handleChange}
-                  className="w-full rounded-lg border-slate-200 border p-2.5 text-sm text-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-shadow"
+                  className={styles.input_1}
                 />
               </div>
 
               {/* Quantity */}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Quantity (Stock)</label>
+                <label className={styles.label_1}>Quantity (Stock)</label>
                 <input
                   type="number"
                   name="quantity"
@@ -295,7 +296,7 @@ const ProductEditor = () => {
                   placeholder="0"
                   value={formData.quantity} 
                   onChange={handleChange}
-                  className="w-full rounded-lg border-slate-200 border p-2.5 text-sm text-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-shadow"
+                  className={styles.input_1}
                 />
               </div>
           </div>
@@ -311,12 +312,12 @@ const ProductEditor = () => {
 
           {/* Image Gallery Upload */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-3">
+            <label className={styles.label_2}>
               Ảnh sản phẩm ({imagePreviews.length}/5)
             </label>
             
-            <div className="p-4 border-2 border-dashed border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
-              <label className="cursor-pointer block text-center">
+            <div className={styles.div_3}>
+              <label className={styles.label_3}>
                 <input
                   type="file"
                   accept="image/*"
@@ -324,7 +325,7 @@ const ProductEditor = () => {
                   onChange={handleMultipleFiles}
                   className="hidden"
                 />
-                <div className="inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50">
+                <div className={styles.div_4}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                   Chọn ảnh (Tối đa 5, mỗi ảnh {'<'}5MB)
                 </div>
@@ -333,29 +334,29 @@ const ProductEditor = () => {
 
             {/* Image Gallery Grid */}
             {imagePreviews.length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+              <div className={styles.div_5}>
                 {imagePreviews.map((url, idx) => (
-                  <div key={idx} className="relative group rounded-lg border-2 border-slate-200 overflow-hidden">
+                  <div key={idx} className={`${styles.div_6} group`}>
                     <img 
                       src={url} 
                       alt={`Product ${idx + 1}`}
-                      className="w-full h-32 object-cover"
+                      className={styles.img_1}
                     />
                     
                     {/* Main badge */}
                     {idx === 0 && (
-                      <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs px-2 py-1 rounded font-semibold">
+                      <div className={styles.div_7}>
                         Chính
                       </div>
                     )}
                     
                     {/* Actions - show on hover */}
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <div className={styles.div_8}>
                       {idx > 0 && (
                         <button
                           type="button"
                           onClick={() => moveImageUp(idx)}
-                          className="p-2 bg-white rounded-full hover:bg-gray-100 transition-colors"
+                          className={styles.el_1}
                           title="Di chuyển lên"
                         >
                           ⬆️
@@ -365,7 +366,7 @@ const ProductEditor = () => {
                         <button
                           type="button"
                           onClick={() => moveImageDown(idx)}
-                          className="p-2 bg-white rounded-full hover:bg-gray-100 transition-colors"
+                          className={styles.el_1}
                           title="Di chuyển xuống"
                         >
                           ⬇️
@@ -374,7 +375,7 @@ const ProductEditor = () => {
                       <button
                         type="button"
                         onClick={() => removeImage(idx)}
-                        className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                        className={styles.el_2}
                         title="Xóa"
                       >
                         🗑️
@@ -388,30 +389,30 @@ const ProductEditor = () => {
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Description</label>
+            <label className={styles.label_1}>Description</label>
             <textarea
               name="description"
               rows={5}
               placeholder="Detailed product description..."
               value={formData.description}
               onChange={handleChange}
-              className="w-full rounded-lg border-slate-200 border p-2.5 text-sm text-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-shadow"
+              className={styles.input_1}
             />
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-end gap-3 pt-6 border-t border-slate-100">
+          <div className={styles.div_9}>
             <button
               type="button"
               onClick={() => navigate('/admin/products')}
-              className="px-5 py-2.5 border border-slate-300 rounded-lg text-slate-700 font-medium hover:bg-slate-50 transition-colors"
+              className={styles.el_3}
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2.5 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors shadow-lg shadow-primary-500/20"
+              className={styles.button_1}
             >
               {loading ? 'Saving...' : (isEditMode ? 'Update Product' : 'Create Product')}
             </button>

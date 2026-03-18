@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { blogService, type BlogPost } from '../../1services/blog.service';
+import './BlogDetailPage.module.css';
+import styles from './BlogDetailPage.module.css';
 
 const BlogDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -35,9 +37,9 @@ const BlogDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center pt-24">
-        <div className="text-white text-lg flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+      <div className={styles.div_1}>
+        <div className={styles.div_2}>
+          <div className={styles.div_3} />
           <span>Loading post...</span>
         </div>
       </div>
@@ -46,10 +48,10 @@ const BlogDetailPage = () => {
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center pt-24">
+      <div className={styles.div_1}>
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-white mb-4">Không tìm thấy bài viết</h1>
-          <Link to="/blog" className="text-blue-400 hover:text-blue-300">
+          <h1 className={styles.h1_1}>Không tìm thấy bài viết</h1>
+          <Link to="/blog" className={styles.Link_1}>
             ← Quay lại danh sách blog
           </Link>
         </div>
@@ -58,14 +60,14 @@ const BlogDetailPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-24 pb-20">
-      <article className="container mx-auto px-6 max-w-4xl">
+    <div className={styles.div_4}>
+      <article className={styles.article_1}>
         {/* Breadcrumb */}
         <nav className="mb-8">
-          <div className="flex items-center gap-2 text-sm text-slate-400">
-            <Link to="/" className="hover:text-white transition-colors">Trang chủ</Link>
+          <div className={styles.div_5}>
+            <Link to="/" className={styles.Link_2}>Trang chủ</Link>
             <span>/</span>
-            <Link to="/blog" className="hover:text-white transition-colors">Blog</Link>
+            <Link to="/blog" className={styles.Link_2}>Blog</Link>
             <span>/</span>
             <span className="text-slate-500">{post.category}</span>
           </div>
@@ -77,23 +79,23 @@ const BlogDetailPage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
         >
-          <div className="inline-block bg-blue-600 text-white text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
+          <div className={styles.div_6}>
             {post.category}
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+          <h1 className={styles.h1_2}>
             {post.title}
           </h1>
-          <div className="flex items-center gap-6 text-slate-400 text-sm">
+          <div className={styles.div_7}>
             <span>{formatDate(post.created_at)}</span>
-            <span className="flex items-center gap-1">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span className={styles.span_1}>
+              <svg className={styles.svg_1} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               {post.read_time}
             </span>
             {post.author && (
-              <span className="flex items-center gap-1">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span className={styles.span_1}>
+                <svg className={styles.svg_1} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
                 {post.author.username}
@@ -108,12 +110,12 @@ const BlogDetailPage = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="mb-12 rounded-3xl overflow-hidden"
+            className={styles.motion_1}
           >
             <img
               src={post.featured_image}
               alt={post.title}
-              className="w-full h-auto"
+              className={styles.img_1}
             />
           </motion.div>
         )}
@@ -126,7 +128,7 @@ const BlogDetailPage = () => {
             transition={{ delay: 0.3 }}
             className="mb-12"
           >
-            <p className="text-xl text-slate-300 leading-relaxed font-light italic border-l-4 border-blue-500 pl-6">
+            <p className={styles.p_1}>
               {post.excerpt}
             </p>
           </motion.div>
@@ -137,21 +139,21 @@ const BlogDetailPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="prose prose-invert prose-lg max-w-none"
+          className={styles.motion_2}
         >
           <div 
-            className="text-slate-300 leading-relaxed blog-content"
+            className={styles.div_8}
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
         </motion.div>
 
         {/* Navigation */}
-        <div className="mt-16 pt-8 border-t border-slate-800">
+        <div className={styles.div_9}>
           <button
             onClick={() => navigate('/blog')}
-            className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-medium transition-colors"
+            className={styles.el_1}
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className={styles.svg_2} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             <span>Quay lại danh sách blog</span>
@@ -159,75 +161,6 @@ const BlogDetailPage = () => {
         </div>
       </article>
 
-      <style>{`
-        .blog-content h1 {
-          font-size: 2rem;
-          font-weight: bold;
-          color: white;
-          margin-top: 2rem;
-          margin-bottom: 1rem;
-        }
-        .blog-content h2 {
-          font-size: 1.75rem;
-          font-weight: bold;
-          color: white;
-          margin-top: 2rem;
-          margin-bottom: 1rem;
-        }
-        .blog-content h3 {
-          font-size: 1.5rem;
-          font-weight: bold;
-          color: white;
-          margin-top: 1.5rem;
-          margin-bottom: 0.75rem;
-        }
-        .blog-content p {
-          margin-bottom: 1rem;
-          line-height: 1.8;
-        }
-        .blog-content ul, .blog-content ol {
-          margin: 1rem 0;
-          padding-left: 2rem;
-        }
-        .blog-content li {
-          margin-bottom: 0.5rem;
-        }
-        .blog-content a {
-          color: #60a5fa;
-          text-decoration: underline;
-        }
-        .blog-content a:hover {
-          color: #93c5fd;
-        }
-        .blog-content img {
-          border-radius: 1rem;
-          margin: 2rem 0;
-        }
-        .blog-content blockquote {
-          border-left: 4px solid #3b82f6;
-          padding-left: 1.5rem;
-          font-style: italic;
-          color: #cbd5e1;
-          margin: 1.5rem 0;
-        }
-        .blog-content code {
-          background: rgba(51, 65, 85, 0.5);
-          padding: 0.2rem 0.4rem;
-          border-radius: 0.25rem;
-          font-size: 0.9em;
-        }
-        .blog-content pre {
-          background: rgba(30, 41, 59, 0.8);
-          padding: 1rem;
-          border-radius: 0.5rem;
-          overflow-x: auto;
-          margin: 1rem 0;
-        }
-        .blog-content pre code {
-          background: none;
-          padding: 0;
-        }
-      `}</style>
     </div>
   );
 };
