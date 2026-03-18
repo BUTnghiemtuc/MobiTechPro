@@ -1,0 +1,212 @@
+.section {
+  padding: 4rem 0; /* py-16 */
+  background-color: #020617; /* bg-slate-950 */
+}
+
+@media (min-width: 768px) {
+  .section { padding: 6rem 0; } /* md:py-24 */
+}
+
+.container {
+  max-width: 80rem; /* max-w-7xl */
+  margin: 0 auto;
+  padding: 0 1.5rem; /* px-6 */
+}
+
+/* --- Loader --- */
+.loaderBox {
+  text-align: center;
+  color: #64748b; /* text-slate-500 */
+}
+
+/* --- Header --- */
+.headerBox {
+  margin-bottom: 3rem; /* mb-12 */
+  text-align: center;
+}
+
+.title {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .title { font-size: 2.25rem; } /* text-4xl */
+}
+
+.subtitle {
+  font-size: 1.125rem; /* text-lg */
+  color: #94a3b8; /* text-slate-400 */
+}
+
+/* --- Grid --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem; /* gap-6 */
+}
+
+@media (min-width: 640px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* --- Từng Card Sản phẩm --- */
+.cardWrapper {
+  cursor: pointer;
+}
+
+.glassCard {
+  position: relative;
+  height: 100%;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(24px); /* backdrop-blur-xl */
+  border-radius: 1.5rem; /* rounded-3xl */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+
+.cardWrapper:hover .glassCard {
+  border-color: rgba(59, 130, 246, 0.5); /* hover:border-blue-500/50 */
+  box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.1); /* hover:shadow-2xl hover:shadow-blue-500/10 */
+}
+
+/* Khung Hình Ảnh */
+.imageBox {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  padding: 2rem; /* p-8 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.productImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.7s ease;
+}
+
+.cardWrapper:hover .productImg {
+  transform: scale(1.1);
+}
+
+.noImageText {
+  color: #475569; /* text-slate-600 */
+  font-size: 0.875rem; /* text-sm */
+}
+
+.gradientOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(2, 6, 23, 0.8), transparent, transparent);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.cardWrapper:hover .gradientOverlay {
+  opacity: 1;
+}
+
+/* Khung Thông Tin */
+.infoBox {
+  padding: 1.5rem; /* p-6 */
+  padding-top: 0;
+}
+
+.productTitle {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.125rem; /* text-lg */
+  margin-bottom: 0.75rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+
+.cardWrapper:hover .productTitle {
+  color: #60a5fa; /* hover:text-blue-400 */
+}
+
+/* Giá cả */
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* gap-3 */
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.salePrice {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.originalPrice {
+  font-size: 0.875rem; /* text-sm */
+  color: #64748b; /* text-slate-500 */
+  text-decoration: line-through;
+}
+
+/* Nút Thêm vào giỏ */
+.addBtn {
+  width: 100%;
+  padding: 0.75rem 0; /* py-3 */
+  background: linear-gradient(to right, #2563eb, #3b82f6); /* from-blue-600 to-blue-500 */
+  color: #ffffff;
+  border-radius: 0.75rem; /* rounded-xl */
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition: all 0.3s ease;
+}
+
+.cardWrapper:hover .addBtn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.addBtn:hover {
+  background: linear-gradient(to right, #3b82f6, #60a5fa); /* hover:from-blue-500 hover:to-blue-400 */
+}
+
+.addBtn:active {
+  transform: scale(0.95);
+}
+
+/* Hiệu ứng Shine (Tia sáng xẹt qua) */
+.shineEffect {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.cardWrapper:hover .shineEffect {
+  opacity: 1;
+}
+
+.shineGradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transform: translateX(-100%);
+  transition: transform 1s ease;
+}
+
+.cardWrapper:hover .shineGradient {
+  transform: translateX(100%);
+}

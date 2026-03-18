@@ -1,3 +1,5 @@
+import styles from './PolicyPage.module.css';
+
 interface PolicyProps {
   title: string;
   lastUpdated: string;
@@ -5,34 +7,35 @@ interface PolicyProps {
 
 const PolicyPage = ({ title, lastUpdated }: PolicyProps) => {
   return (
-    <div className="container mx-auto px-4 pt-28 pb-12">
-      <div className="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-slate-100">
-        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">{title}</h1>
-        <p className="text-slate-500 mb-8 text-sm">Last Updated: {lastUpdated}</p>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>{title}</h1>
+        <p className={styles.date}>Cập nhật lần cuối: {lastUpdated}</p>
         
-        <div className="prose prose-slate prose-blue max-w-none">
+        {/* Khối content chứa Typography tự dựng */}
+        <div className={styles.content}>
           <p>
-            This is a placeholder content for the <strong>{title}</strong>. In a real application, this page would contain the full legal text and details regarding our {title.toLowerCase()}.
+            Đây là nội dung mẫu cho trang <strong>{title}</strong>. Trong ứng dụng thực tế, trang này sẽ chứa toàn bộ văn bản pháp lý và các chi tiết liên quan đến {title.toLowerCase()} của chúng tôi.
           </p>
           
-          <h3>1. Introduction</h3>
+          <h3>1. Giới thiệu</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Chào mừng bạn đến với MobiTechPro. Bằng việc truy cập và sử dụng website này, bạn đồng ý tuân thủ các điều khoản và điều kiện được quy định dưới đây. Vui lòng đọc kỹ các quy định trước khi thực hiện giao dịch.
           </p>
 
-          <h3>2. Information Collection</h3>
+          <h3>2. Thu thập thông tin</h3>
           <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            Chúng tôi có thể thu thập thông tin cá nhân của bạn bao gồm: Họ tên, số điện thoại, email và địa chỉ giao hàng nhằm mục đích xử lý đơn hàng và cung cấp dịch vụ hỗ trợ khách hàng tốt nhất. Mọi thông tin đều được bảo mật tuyệt đối.
           </p>
 
-          <h3>3. Use of Information</h3>
+          <h3>3. Sử dụng thông tin</h3>
           <p>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+            Thông tin của bạn chỉ được sử dụng nội bộ trong quá trình xử lý đơn hàng, thông báo các chương trình khuyến mãi (nếu bạn đồng ý) và giải quyết các khiếu nại phát sinh. Chúng tôi cam kết không bán hay trao đổi dữ liệu với bên thứ ba.
           </p>
           
-          <h3>4. Contact Us</h3>
+          <h3>4. Liên hệ với chúng tôi</h3>
           <p>
-            If you have any questions about this {title}, please contact us at support@mobitechpro.com.
+            Nếu bạn có bất kỳ câu hỏi nào về {title} này, vui lòng liên hệ với chúng tôi qua email: <a href="mailto:support@mobitechpro.com">support@mobitechpro.com</a> hoặc gọi đến hotline: <strong>1900 1234</strong>.
           </p>
         </div>
       </div>

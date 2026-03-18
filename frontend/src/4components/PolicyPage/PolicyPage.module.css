@@ -1,0 +1,73 @@
+.container {
+  max-width: 80rem; /* max-w-7xl */
+  margin: 0 auto;
+  padding: 7rem 1.5rem 3rem 1.5rem; /* pt-28 (chừa chỗ cho Header) pb-12 px-6 */
+}
+
+.card {
+  max-width: 48rem; /* max-w-3xl */
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 2rem; /* p-8 */
+  border-radius: 1rem; /* rounded-2xl */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+  border: 1px solid #f1f5f9; /* border-slate-100 */
+}
+
+@media (min-width: 768px) {
+  .card { padding: 3rem; } /* md:p-12 */
+}
+
+.title {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700;
+  color: #0f172a; /* text-slate-900 */
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .title { font-size: 2.25rem; } /* md:text-4xl */
+}
+
+.date {
+  color: #64748b; /* text-slate-500 */
+  font-size: 0.875rem; /* text-sm */
+  margin-bottom: 2rem; /* mb-8 */
+}
+
+/* --- Typographic Styles (Thay thế cho Tailwind 'prose') --- */
+.content {
+  color: #334155; /* text-slate-700 */
+  line-height: 1.75;
+  font-size: 1rem;
+}
+
+.content p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+.content strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.content h3 {
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 1.25em;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+  line-height: 1.5;
+}
+
+.content a {
+  color: #2563eb; /* text-blue-600 */
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.content a:hover {
+  color: #1d4ed8;
+}

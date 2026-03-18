@@ -1,0 +1,169 @@
+.section {
+  padding: 2rem 0;
+  background-color: #020617; /* bg-slate-950 */
+}
+
+@media (min-width: 768px) {
+  .section { padding: 3rem 0; }
+}
+
+.container {
+  max-width: 80rem; /* max-w-7xl */
+  margin: 0 auto;
+  padding: 0 1.5rem; /* px-6 */
+}
+
+.bannerCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem; /* rounded-3xl */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* shadow-2xl */
+}
+
+/* Các biến thể Gradient theo tên Campaign */
+.gradientGaming {
+  background: linear-gradient(to right, #581c87, #4c1d95, #6b21a8); /* from-purple-900 via-violet-900 to-purple-800 */
+}
+
+.gradientEcosystem {
+  background: linear-gradient(to right, #1e3a8a, #164e63, #1e40af); /* from-blue-900 via-cyan-900 to-blue-800 */
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+  align-items: center;
+  min-height: 400px;
+}
+
+@media (min-width: 768px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* --- Left: Content --- */
+.contentArea {
+  padding: 3rem; /* p-12 */
+  z-index: 10;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .contentArea { padding: 4rem; } /* md:p-16 */
+}
+
+.subtitleBadge {
+  display: inline-block;
+  color: #93c5fd; /* text-blue-300 */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em; /* tracking-wider */
+  margin-bottom: 1rem;
+  background-color: rgba(59, 130, 246, 0.2); /* bg-blue-500/20 */
+  padding: 0.375rem 1rem;
+  border-radius: 9999px;
+}
+
+.title {
+  font-size: 2.25rem; /* text-4xl */
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+  .title { font-size: 3.75rem; } /* text-6xl */
+}
+
+.description {
+  color: #cbd5e1; /* text-slate-300 */
+  font-size: 1.125rem; /* text-lg */
+  margin-bottom: 2rem;
+  line-height: 1.625;
+  max-width: 28rem; /* max-w-md */
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #ffffff;
+  color: #0f172a; /* text-slate-900 */
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 1.125rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.ctaBtn:hover {
+  background-color: #f1f5f9; /* hover:bg-slate-100 */
+  transform: scale(1.05);
+}
+
+.arrowIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.ctaBtn:hover .arrowIcon {
+  transform: translateX(4px);
+}
+
+/* --- Right: Image Area --- */
+.imageArea {
+  position: relative;
+  height: 100%;
+  min-height: 400px;
+  overflow: hidden;
+}
+
+.heroImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  transition: transform 0.7s ease;
+}
+
+.bannerCard:hover .heroImage {
+  transform: scale(1.1);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+}
+
+/* --- Decorative Elements --- */
+.decorTopRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24rem;
+  height: 24rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  filter: blur(64px); /* blur-3xl */
+  transform: translate(50%, -50%);
+}
+
+.decorBottomLeft {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 18rem;
+  height: 18rem;
+  background-color: rgba(59, 130, 246, 0.1);
+  border-radius: 50%;
+  filter: blur(64px);
+  transform: translate(-50%, 50%);
+}

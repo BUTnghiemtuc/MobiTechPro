@@ -1,0 +1,109 @@
+.container {
+  width: 100%;
+  padding: 2rem 0 3rem 0; /* py-8 plus extra padding bottom for labels */
+}
+
+.wrapper {
+  max-width: 48rem; /* max-w-3xl */
+  margin: 0 auto;
+  position: relative;
+}
+
+.progressContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Đường thẳng chạy nền (Background Line) --- */
+.backgroundLine {
+  position: absolute;
+  top: 1.25rem; /* Canh giữa vòng tròn 40px (10 + 20/2) */
+  left: 0;
+  right: 0;
+  height: 0.25rem;
+  background-color: #e5e7eb; /* bg-gray-200 */
+  z-index: -1;
+  border-radius: 9999px;
+}
+
+/* --- Đường thẳng chạy màu xanh (Active Line) --- */
+.activeLine {
+  position: absolute;
+  top: 1.25rem;
+  left: 0;
+  height: 0.25rem;
+  background-color: #22c55e; /* bg-green-500 */
+  z-index: -1;
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+/* --- Từng bước (Step Item) --- */
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+}
+
+.stepItem:first-child { align-items: flex-start; }
+.stepItem:last-child { align-items: flex-end; }
+
+/* Vòng tròn */
+.circle {
+  width: 2.5rem; /* w-10 */
+  height: 2.5rem; /* h-10 */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem; /* text-sm */
+  transition: all 0.3s ease;
+  background-color: #e5e7eb;
+  color: #6b7280;
+}
+
+.circleActive {
+  background-color: #2563eb; /* bg-blue-600 */
+  color: #ffffff;
+  box-shadow: 0 0 0 4px #dbeafe; /* ring-4 ring-blue-100 */
+}
+
+.circleCompleted {
+  background-color: #22c55e; /* bg-green-500 */
+  color: #ffffff;
+}
+
+/* Label text ở dưới */
+.label {
+  position: absolute;
+  top: 3rem; /* bottom-7 tương đương cách đỉnh 48px */
+  font-size: 0.75rem; /* text-xs */
+  font-weight: 500;
+  white-space: nowrap;
+  color: #6b7280;
+  transition: color 0.3s ease;
+}
+
+.labelActive {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+/* Căn chỉnh label cho đúng vị trí */
+.stepItem:first-child .label { left: 0; }
+.stepItem:last-child .label { right: 0; }
+.stepItem:not(:first-child):not(:last-child) .label {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.checkIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
