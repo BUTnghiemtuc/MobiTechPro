@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
     // // 1. Đổi DB_NAME thành DB_DATABASE cho khớp với file .env
     // database: process.env.DB_DATABASE,
     
-    synchronize: true, 
+    synchronize: false, 
     logging: false,
     
     // làm local thì bật cmt 2 dòng này
