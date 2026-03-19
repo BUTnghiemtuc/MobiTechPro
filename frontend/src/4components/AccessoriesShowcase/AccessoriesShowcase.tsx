@@ -6,6 +6,7 @@ import { productService, type Product } from '../../1services/product.service';
 import { cartService } from '../../1services/cart.service';
 import { useAuth } from '../../2context/AuthContext';
 import { useCart } from '../../2context/CartContext'; // Cập nhật số lượng giỏ hàng trên Header
+import { formatPrice } from '../../2utils/format';
 import { toast } from 'react-toastify';
 import styles from './AccessoriesShowcase.module.css';
 
@@ -36,16 +37,12 @@ const AccessoriesShowcase = () => {
     }
   };
 
-  const getImageUrl = (url?: string) => {
-    if (!url) return '';
+  const getImageUrl = (url?: string): string | undefined => {
+    if (!url) return undefined;
     if (url.startsWith('http')) return url;
     return `${API_BASE_URL}${url}`;
   };
 
-  // Format tiền tệ VNĐ
-  const formatCurrency = (amount: number) => {
-    return amount.toLocaleString('vi-VN') + 'đ';
-  };
 
   const handleAddToCart = async (e: React.MouseEvent, product: Product) => {
     e.stopPropagation(); // Chặn sự kiện click nhầm vào Card để chuyển trang
@@ -129,7 +126,7 @@ const AccessoriesShowcase = () => {
                     
                     <div className={styles.priceRow}>
                       <span className={styles.priceText}>
-                        {formatCurrency(price)}
+                        {formatPrice(price)}
                       </span>
                       
                       {/* Nút Thêm Nhanh (Hiện khi hover) */}

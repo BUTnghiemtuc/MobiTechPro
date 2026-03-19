@@ -6,7 +6,7 @@
 }
 
 .div_2 {
-  @apply container mx-auto p-4 max-w-5xl;
+  @apply container mx-auto px-4 pt-28 pb-20 max-w-5xl;
 }
 
 .h1_1 {
@@ -171,4 +171,39 @@
 
 .div_19 {
   @apply flex justify-center items-center gap-3 flex-wrap;
+}
+
+/* Mới: Style cho Checkbox */
+.checkbox_cell {
+  @apply px-4 py-4 w-10;
+}
+
+.checkbox_input {
+  @apply w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed;
+}
+
+/* Mới: Trạng thái hết hàng */
+.out_of_stock_row {
+  @apply opacity-75 bg-gray-50/50;
+}
+
+.stock_badge {
+  @apply inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider mt-1;
+}
+
+.in_stock {
+  @apply bg-green-100 text-green-700;
+}
+
+.out_of_stock {
+  @apply bg-red-100 text-red-700;
+}
+
+.stock_warning {
+  @apply text-red-500 text-[11px] font-medium mt-1 animate-pulse;
+}
+
+/* Fix nút Thanh Toán nếu nó bị trắng */
+.button_2:disabled {
+  @apply bg-gray-300 cursor-not-allowed opacity-70 transform-none shadow-none;
 }

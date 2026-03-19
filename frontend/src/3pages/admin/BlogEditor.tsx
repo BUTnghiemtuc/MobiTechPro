@@ -216,7 +216,7 @@ const BlogEditor = () => {
               className={styles.input_3}
               placeholder="https://example.com/image.jpg"
             />
-            {formData.featured_image && (
+            {formData.featured_image && formData.featured_image !== "" && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}

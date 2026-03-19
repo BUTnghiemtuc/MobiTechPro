@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { productService, type Product } from '../../1services/product.service';
+import { formatPrice } from '../../2utils/format';
 import { reviewService, type Review } from '../../1services/review.service';
 import { cartService } from '../../1services/cart.service';
 import { useAuth } from '../../2context/AuthContext';
@@ -79,8 +80,8 @@ const ProductDetailPage = () => {
         }
     };
 
-    const getImageUrl = (url?: string) => {
-        if (!url) return 'https://via.placeholder.com/600?text=No+Image';
+    const getImageUrl = (url?: string): string | undefined => {
+        if (!url) return undefined;
         if (url.startsWith('http')) return url;
         return `${API_BASE_URL}${url}`;
     };
@@ -191,10 +192,10 @@ const ProductDetailPage = () => {
                                 {/* Price */}
                                 <div className="mb-8">
                                     <div className={styles.div_14}>
-                                        ${getCurrentPrice().toFixed(2)}
+                                        {formatPrice(getCurrentPrice())}
                                     </div>
                                     <p className={styles.span_2}>
-                                        or ${(getCurrentPrice() / 12).toFixed(2)}/month for 12 months
+                                        hoặc {formatPrice(getCurrentPrice() / 12)}/tháng trong 12 tháng
                                     </p>
                                 </div>
 
@@ -242,7 +243,7 @@ const ProductDetailPage = () => {
                                             >
                                                 {option.capacity}
                                                 {option.price > 0 && (
-                                                    <div className={styles.div_17}>+${option.price}</div>
+                                                     <div className={styles.div_17}>+{formatPrice(option.price)}</div>
                                                 )}
                                             </button>
                                         ))}

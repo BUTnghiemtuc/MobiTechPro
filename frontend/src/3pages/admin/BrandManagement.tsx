@@ -267,7 +267,7 @@ const BrandManagement = () => {
                       )}
                     </div>
                   )}
-                  {editingBrand?.logoUrl && !logoFile && (
+                  {editingBrand?.logoUrl && editingBrand.logoUrl !== "" && !logoFile && (
                     <div className={styles.div_5}>
                       <p className={styles.p_1}>Current logo:</p>
                       <img src={editingBrand.logoUrl} alt="Current logo" className={styles.img_1} />
@@ -303,7 +303,7 @@ const BrandManagement = () => {
                       )}
                     </div>
                   )}
-                  {editingBrand?.imageUrl && !imageFile && (
+                  {editingBrand?.imageUrl && editingBrand.imageUrl !== "" && !imageFile && (
                     <div className={styles.div_5}>
                       <p className={styles.p_1}>Current flagship image:</p>
                       <img src={editingBrand.imageUrl} alt="Current flagship" className={styles.img_2} />
@@ -361,7 +361,7 @@ const BrandManagement = () => {
                 <tr key={brand.id}>
                   <td className={styles.td_1}>
                     <div className={styles.div_3}>
-                      {brand.logoUrl && (
+                      {brand.logoUrl && brand.logoUrl !== "" && (
                         <img
                           src={brand.logoUrl}
                           alt={brand.name}

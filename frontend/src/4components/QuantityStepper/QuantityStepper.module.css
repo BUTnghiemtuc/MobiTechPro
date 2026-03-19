@@ -50,3 +50,40 @@
   border-left: 1px solid #e5e7eb; /* border-x border-gray-200 */
   border-right: 1px solid #e5e7eb;
 }
+
+.stepperWrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 120px;
+}
+
+.actionBtn {
+  width: 32px;
+  height: 32px;
+  background: #f3f4f6;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionBtn:hover {
+  background: #e5e7eb;
+}
+
+.actionBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.input {
+  width: 50px;
+  text-align: center;
+  border: none;
+  outline: none;
+}

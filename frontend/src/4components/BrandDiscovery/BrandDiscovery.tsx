@@ -29,8 +29,8 @@ const BrandDiscovery = () => {
     }
   };
 
-  const getImageUrl = (url?: string) => {
-    if (!url) return '';
+  const getImageUrl = (url?: string): string | undefined => {
+    if (!url) return undefined;
     if (url.startsWith('http')) return url;
     return `${API_BASE_URL}${url}`;
   };
@@ -122,8 +122,8 @@ const BrandDiscovery = () => {
           <div ref={scrollContainerRef} className={styles.scrollTrack}>
             {brands.map((brand, index) => {
               // Xử lý an toàn cái màu nền
-              const bgStyle = brand.bgGradient 
-                ? { background: brand.bgGradient } // Nếu backend trả về mã hex hoặc css
+              const bgStyle = brand.bg_gradient 
+                ? { background: brand.bg_gradient } // Nếu backend trả về mã hex hoặc css
                 : { background: fallbackGradients[index % fallbackGradients.length] }; // Fallback an toàn
                 
               return (
@@ -154,7 +154,7 @@ const BrandDiscovery = () => {
                       >
                          {/* Chỗ này bạn dev dùng logoUrl thay cho ảnh sản phẩm, nên mình lấy brand.logoUrl hoặc imageUrl đều được */}
                         <img 
-                          src={getImageUrl(brand.imageUrl || brand.logoUrl)} 
+                          src={getImageUrl(brand.image_url || brand.logo_url)} 
                           alt={brand.name}
                           className={styles.mainImage}
                         />

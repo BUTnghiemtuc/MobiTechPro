@@ -5,6 +5,7 @@ import { productService, type Product } from '../../1services/product.service';
 import { cartService } from '../../1services/cart.service';
 import { useAuth } from '../../2context/AuthContext';
 import { useCart } from '../../2context/CartContext';
+import { formatPrice } from '../../2utils/format';
 import { toast } from 'react-toastify';
 import styles from './BestSellers.module.css';
 
@@ -35,16 +36,12 @@ const BestSellers = () => {
     }
   };
 
-  const getImageUrl = (url?: string) => {
-    if (!url) return '';
+  const getImageUrl = (url?: string): string | undefined => {
+    if (!url) return undefined;
     if (url.startsWith('http')) return url;
     return `${API_BASE_URL}${url}`;
   };
 
-  // Format tiền tệ VNĐ
-  const formatCurrency = (amount: number) => {
-    return amount.toLocaleString('vi-VN') + 'đ';
-  };
 
   const handleAddToCart = async (e: React.MouseEvent, product: Product) => {
     e.stopPropagation(); // Ngăn click nhầm vào div cha
@@ -139,10 +136,10 @@ const BestSellers = () => {
                     {/* Giá tiền */}
                     <div className={styles.priceRow}>
                       <span className={styles.salePrice}>
-                        {formatCurrency(currentPrice)}
+                        {formatPrice(currentPrice)}
                       </span>
                       <span className={styles.originalPrice}>
-                        {formatCurrency(originalPrice)}
+                        {formatPrice(originalPrice)}
                       </span>
                     </div>
 

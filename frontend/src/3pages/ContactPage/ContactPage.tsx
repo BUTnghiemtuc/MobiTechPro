@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { contactService } from '../../1services/contact.service';
 import styles from './ContactPage.module.css';
 
 const ContactPage = () => {
@@ -9,15 +10,19 @@ const ContactPage = () => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    toast.success('Thank you for your message! We will get back to you soon.');
-    setFormData({ name: '', email: '', message: '' });
+    try {
+      await contactService.submitContact(formData);
+      toast.success('Thank you for your message! We will get back to you soon.');
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      toast.error('Failed to send message. Please try again later.');
+    }
   };
 
   return (
-    <div className={`${styles.container} container`}>
+    <div className={`${styles.contactContainer} container`}>
       <div className={styles.formGrid}>
         <div>
           <h1 className={styles.title}>Contact Us</h1>

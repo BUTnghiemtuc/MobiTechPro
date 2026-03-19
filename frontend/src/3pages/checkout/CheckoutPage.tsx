@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ProgressIndicator from '../../4components/checkout/ProgressIndicator';
 import ShippingForm from '../../4components/checkout/ShippingForm';
@@ -22,6 +22,9 @@ interface ShippingData {
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const selectedIds = location.state?.selectedIds as number[] | undefined;
+
   const [currentStep, setCurrentStep] = useState(0);
   const [isGuest, setIsGuest] = useState(false);
   const [shippingData, setShippingData] = useState<ShippingData | null>(null);
@@ -55,9 +58,8 @@ const CheckoutPage = () => {
       // Format address for backend
       const fullAddress = `${shippingData.fullName} | ${shippingData.phone} | ${shippingData.address}, ${shippingData.ward ? shippingData.ward + ', ' : ''}${shippingData.district}, ${shippingData.city}`;
       
-      // Create order (backend currently only accepts address)
-      // TODO: Update backend to accept payment method and shipping details
-      await orderService.createOrder(fullAddress);
+      // Create order with selected items
+      await orderService.createOrder(fullAddress, selectedIds);
 
       toast.success('Đặt hàng thành công!');
       
@@ -108,6 +110,7 @@ const CheckoutPage = () => {
               onEditShipping={() => setCurrentStep(0)}
               onEditPayment={() => setCurrentStep(1)}
               onPlaceOrder={handlePlaceOrder}
+              selectedIds={selectedIds}
             />
           )}
 

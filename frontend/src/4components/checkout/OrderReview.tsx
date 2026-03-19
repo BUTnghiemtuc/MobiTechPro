@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { cartService, type CartItem } from '../../1services/cart.service';
 import type { PaymentMethod } from './PaymentSelector';
+import { formatPrice } from '../../2utils/format';
 import styles from './OrderReview.module.css';
 
 interface OrderReviewProps {
@@ -21,6 +22,7 @@ interface OrderReviewProps {
   onEditPayment: () => void;
   onPlaceOrder: () => void;
   discount?: number;
+  selectedIds?: number[];
 }
 
 const OrderReview = ({
@@ -31,6 +33,7 @@ const OrderReview = ({
   onEditPayment,
   onPlaceOrder,
   discount = 0,
+  selectedIds,
 }: OrderReviewProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -42,7 +45,10 @@ const OrderReview = ({
   const fetchCart = async () => {
     try {
       const items = await cartService.getCart();
-      setCartItems(items);
+      const filteredItems = selectedIds && selectedIds.length > 0
+        ? items.filter(item => selectedIds.includes(item.id))
+        : items;
+      setCartItems(filteredItems);
     } catch (error) {
       console.error('Lỗi khi tải giỏ hàng', error);
     } finally {
@@ -58,10 +64,6 @@ const OrderReview = ({
     return `${API_BASE_URL}${url}`;
   };
 
-  // Format tiền tệ VNĐ
-  const formatCurrency = (amount: number) => {
-    return amount.toLocaleString('vi-VN') + 'đ';
-  };
 
   const calculateSubtotal = () => {
     return cartItems.reduce((total, item) => {
@@ -160,10 +162,10 @@ const OrderReview = ({
                     </div>
                     <div className={styles.itemPriceBox}>
                       <p className={styles.itemTotal}>
-                        {formatCurrency(itemPrice * item.quantity)}
+                        {formatPrice(itemPrice * item.quantity)}
                       </p>
                       <p className={styles.itemUnit}>
-                        {formatCurrency(itemPrice)} x {item.quantity}
+                        {formatPrice(itemPrice)} x {item.quantity}
                       </p>
                     </div>
                   </div>
@@ -181,13 +183,13 @@ const OrderReview = ({
             <div>
               <div className={styles.summaryRow}>
                 <span>Tạm tính:</span>
-                <span>{formatCurrency(subtotal)}</span>
+                <span>{formatPrice(subtotal)}</span>
               </div>
 
               {discount > 0 && (
                 <div className={styles.discountRow}>
                   <span>Giảm giá:</span>
-                  <span>-{formatCurrency(discount)}</span>
+                  <span>-{formatPrice(discount)}</span>
                 </div>
               )}
 
@@ -199,7 +201,7 @@ const OrderReview = ({
 
             <div className={styles.totalRow}>
               <span>Tổng cộng:</span>
-              <span>{formatCurrency(total)}</span>
+              <span>{formatPrice(total)}</span>
             </div>
 
             <button onClick={onPlaceOrder} className={styles.placeOrderBtn}>

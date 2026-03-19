@@ -270,14 +270,14 @@ const ProductEditor = () => {
           <div className={styles.div_2}>
               {/* Price */}
               <div>
-                <label className={styles.label_1}>Price ($)</label>
+                <label className={styles.label_1}>Giá bán (VNĐ)</label>
                 <input
                   type="number"
                   name="price"
                   required
                   min="0"
-                  step="0.01"
-                  placeholder="0.00"
+                  step="10000"
+                  placeholder="100000"
                   value={formData.price} 
                   onChange={handleChange}
                   className={styles.input_1}
@@ -407,14 +407,14 @@ const ProductEditor = () => {
               onClick={() => navigate('/admin/products')}
               className={styles.el_3}
             >
-              Cancel
+              Hủy
             </button>
             <button
               type="submit"
               disabled={loading}
               className={styles.button_1}
             >
-              {loading ? 'Saving...' : (isEditMode ? 'Update Product' : 'Create Product')}
+              {loading ? 'Đang lưu...' : (isEditMode ? 'Cập nhật Sản phẩm' : 'Tạo Sản phẩm')}
             </button>
           </div>
         </div>

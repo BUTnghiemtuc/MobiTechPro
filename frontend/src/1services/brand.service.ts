@@ -5,13 +5,20 @@ export interface Brand {
   name: string;
   color?: string;
   bgGradient?: string;
+  bg_gradient?: string;
   logoUrl?: string;
+  logo_url?: string;
   imageUrl?: string;
+  image_url?: string;
   link?: string;
   displayOrder: number;
+  display_order?: number;
   isActive: boolean;
+  is_active?: boolean;
   createdAt: string;
+  created_at?: string;
   updatedAt: string;
+  updated_at?: string;
 }
 
 export const brandService = {

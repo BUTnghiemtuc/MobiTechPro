@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { productService } from '../../1services/product.service';
 import type { Product } from '../../1services/product.service';
+import { formatPrice } from '../../2utils/format';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../2context/AuthContext';
 import styles from './ProductManagement.module.css';
@@ -56,15 +57,15 @@ const ProductManagement = () => {
     <div className="space-y-6">
       <div className={styles.div_3}>
         <div>
-           <h1 className={styles.h1_1}>Products</h1>
-           <p className={styles.p_1}>Manage your product catalog</p>
+           <h1 className={styles.h1_1}>Sản Phẩm</h1>
+           <p className={styles.p_1}>Quản lý sản phẩm</p>
         </div>
         <Link
           to="/admin/products/new"
           className={styles.Link_1}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-          Add Product
+          Thêm Sản Phẩm
         </Link>
       </div>
 
@@ -74,10 +75,13 @@ const ProductManagement = () => {
           <thead className="bg-slate-50/50">
             <tr>
               <th className={styles.th_1}>
-                Product Info
+                Thông Tin Sản Phẩm
               </th>
               <th className={styles.th_1}>
-                Price
+                Giá
+              </th>
+              <th className={styles.th_1}>
+                Số lượng
               </th>
               <th className={styles.th_1}>
                 ID
@@ -90,7 +94,7 @@ const ProductManagement = () => {
           <tbody className={styles.tbody_1}>
             {products.length === 0 ? (
               <tr>
-                <td colSpan={4} className={styles.td_1}>
+                <td colSpan={5} className={styles.td_1}>
                   <div className={styles.div_5}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className={styles.svg_1}><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                     <p className={styles.p_2}>No products found</p>
@@ -104,7 +108,7 @@ const ProductManagement = () => {
                   <td className={styles.td_2}>
                     <div className={styles.div_6}>
                       <div className={styles.div_7}>
-                          {product.image_url ? (
+                          {product.image_url && product.image_url !== "" ? (
                             <img
                                 src={product.image_url.startsWith('http') ? product.image_url : `http://localhost:3000${product.image_url}`}
                                 alt={product.title}
@@ -123,7 +127,12 @@ const ProductManagement = () => {
                     </div>
                   </td>
                   <td className={styles.td_3}>
-                    <div className={styles.div_11}>${product.price.toLocaleString()}</div>
+                    <div className={styles.div_11}>{formatPrice(product.price)}</div>
+                  </td>
+                  <td className={styles.td_4}>
+                    <span className={`font-medium ${product.quantity < 10 ? 'text-red-500' : 'text-slate-700'}`}>
+                      {product.quantity}
+                    </span>
                   </td>
                   <td className={styles.td_4}>
                     #{product.id}

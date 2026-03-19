@@ -1,3 +1,4 @@
+import { In } from "typeorm";
 import { AppDataSource } from "../../../config/data-source";
 import { Order, OrderStatus } from "../1models/orders.entity";
 import { OrderItem } from "../1models/order-items.entity";
@@ -6,17 +7,26 @@ import { Product } from "../../products/1models/products.entity";
 import { User } from "../../users/1models/users.entity";
 
 export class OrdersService {
-  static async createOrder(userId: number, address: string) {
+  static async createOrder(userId: number, address: string, cartItemIds?: number[]) {
     const queryRunner = AppDataSource.createQueryRunner();
 
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
     try {
-      const cartItems = await queryRunner.manager.find(Cart, {
+      const findOptions: any = {
         where: { user: { id: userId } },
         relations: ["product"],
-      });
+      };
+
+      if (cartItemIds && cartItemIds.length > 0) {
+        findOptions.where = {
+          ...findOptions.where,
+          id: In(cartItemIds)
+        };
+      }
+
+      const cartItems = await queryRunner.manager.find(Cart, findOptions);
 
       if (cartItems.length === 0) {
         throw new Error("Giỏ hàng đang trống");
@@ -59,7 +69,11 @@ export class OrdersService {
         await queryRunner.manager.save(orderItem);
       }
 
-      await queryRunner.manager.delete(Cart, { user: { id: userId } });
+      if (cartItemIds && cartItemIds.length > 0) {
+        await queryRunner.manager.delete(Cart, { id: In(cartItemIds) });
+      } else {
+        await queryRunner.manager.delete(Cart, { user: { id: userId } });
+      }
 
       await queryRunner.commitTransaction();
       return savedOrder;

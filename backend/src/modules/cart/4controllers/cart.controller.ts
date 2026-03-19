@@ -40,14 +40,29 @@ export class CartController {
     }
   }
 
-  static async updateQuantity(req:any, res: Response) {
+  static async updateQuantity(req: any, res: Response) {
     try {
       const userId = req.user.id;
-      const { id, quantity } = req.body;
+      const { id } = req.params;
+      const { quantity } = req.body;
 
-      await CartService.updateQuantity(userId, Number(id), Number(quantity));
+      if (!id || quantity === undefined) {
+        return res.status(400).json({ message: "Thiếu ID sản phẩm hoặc số lượng" });
+      }
+
+      const cartId = Number(id);
+      const newQuantity = Number(quantity);
+
+      if (isNaN(cartId) || isNaN(newQuantity) || newQuantity < 1) {
+        return res.status(400).json({ message: "Dữ liệu không hợp lệ" });
+      }
+
+      await CartService.updateQuantity(userId, cartId, newQuantity);
       return res.status(200).json({ message: "Đã cập nhật số lượng sản phẩm" });
     } catch (error: any) {
+      if (error.message === "Không tìm thấy sản phẩm trong giỏ hàng") {
+        return res.status(404).json({ message: error.message });
+      }
       return res.status(500).json({ message: error.message });
     }
   }

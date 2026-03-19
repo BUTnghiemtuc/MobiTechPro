@@ -34,8 +34,8 @@ export interface Order {
 }
 
 export const orderService = {
-  createOrder: async (address: string) => {
-    return api.post<Order>('/orders', { address }).then(res => res.data);
+  createOrder: async (address: string, cartItemIds?: number[]) => {
+    return api.post<Order>('/orders', { address, cartItemIds }).then(res => res.data);
   },
 
   getMyOrders: async () => {

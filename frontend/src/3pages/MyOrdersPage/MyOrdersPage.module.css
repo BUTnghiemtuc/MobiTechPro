@@ -6,7 +6,7 @@
 }
 
 .div_2 {
-  @apply container mx-auto px-4 py-8 max-w-5xl;
+  @apply container mx-auto px-4 pt-28 pb-20 max-w-5xl;
 }
 
 .h1_1 {

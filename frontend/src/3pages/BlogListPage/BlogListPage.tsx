@@ -103,7 +103,7 @@ const BlogListPage = () => {
               >
                 {/* Image */}
                 <div className={styles.div_8}>
-                  {blogPosts[0].featured_image ? (
+                  {blogPosts[0].featured_image && blogPosts[0].featured_image !== "" ? (
                     <img
                       src={blogPosts[0].featured_image}
                       alt={blogPosts[0].title}
@@ -160,7 +160,7 @@ const BlogListPage = () => {
                   >
                     {/* Thumbnail */}
                     <div className={styles.div_15}>
-                      {post.featured_image ? (
+                      {post.featured_image && post.featured_image !== "" ? (
                         <img
                           src={post.featured_image}
                           alt={post.title}

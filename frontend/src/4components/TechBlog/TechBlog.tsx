@@ -27,8 +27,8 @@ const TechBlog = () => {
     }
   };
 
-  const getImageUrl = (url?: string) => {
-    if (!url) return '';
+  const getImageUrl = (url?: string): string | undefined => {
+    if (!url) return undefined;
     if (url.startsWith('http')) return url;
     return `${API_BASE_URL}${url}`;
   };

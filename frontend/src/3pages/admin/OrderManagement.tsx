@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { orderService, type Order, OrderStatus } from '../../1services/order.service';
+import { formatPrice } from '../../2utils/format';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../2context/AuthContext';
 import styles from './OrderManagement.module.css';
@@ -107,7 +108,7 @@ const OrderManagement = () => {
                     {new Date(order.created_at).toLocaleDateString()}
                     </td>
                     <td className={styles.td_5}>
-                    ${Number(order.total_price).toFixed(2)}
+                      {formatPrice(order.total_price)}
                     </td>
                     <td className={styles.td_6}>
                     <span className={`px-2.5 py-0.5 inline-flex text-xs font-medium rounded-full ${getStatusColor(order.status)}`}>

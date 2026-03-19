@@ -105,7 +105,7 @@ const BlogDetailPage = () => {
         </motion.div>
 
         {/* Featured Image */}
-        {post.featured_image && (
+        {post.featured_image && post.featured_image !== "" && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}

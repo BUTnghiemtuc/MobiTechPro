@@ -14,6 +14,7 @@ import userRoutes from "./modules/users/5routes/users.routes";
 import brandRoutes from "./modules/brands/5routes/brands.routes";
 import { blogRoutes, blogAdminRoutes } from "./modules/blog/5routes/blog.routes";
 import addressRoutes from "./modules/addresses/5routes/addresses.routes";
+import contactRoutes from "./modules/contacts/5routes/contacts.routes";
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use("/api/brands", brandRoutes);
 app.use("/api/blog", blogRoutes);
 app.use("/api/admin/blog", blogAdminRoutes);
 app.use("/api/addresses", addressRoutes);
+app.use("/api/contacts", contactRoutes);
 
 // Route kiểm tra server
 app.get("/", (req, res) => {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { orderService, type Order } from '../../1services/order.service';
+import { formatPrice } from '../../2utils/format';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styles from './MyOrdersPage.module.css';
@@ -63,7 +64,7 @@ const MyOrdersPage = () => {
                         {order.status}
                     </span>
                     <span className={styles.span_2}>
-                        ${Number(order.total_price).toFixed(2)}
+                        {formatPrice(order.total_price)}
                     </span>
                 </div>
               </div>
@@ -84,11 +85,11 @@ const MyOrdersPage = () => {
                             {item.product.title}
                         </Link>
                         <div className={styles.div_6}>
-                           Price: ${Number(item.price_at_purchase).toFixed(2)} x {item.quantity}
+                            Price: {formatPrice(item.price_at_purchase)} x {item.quantity}
                         </div>
                       </div>
                       <div className={styles.div_9}>
-                        ${(Number(item.price_at_purchase) * item.quantity).toFixed(2)}
+                        {formatPrice(Number(item.price_at_purchase) * item.quantity)}
                       </div>
                     </div>
                   ))}
